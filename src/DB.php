@@ -14,13 +14,21 @@ class DB {
 		return $db;
 	}
 	
-	public static function getRes() {
-		$result = array();
+	public static function getUserByMail($mail) {
+		$result = null;
 		$db = self::getDB();
-		$stm = $db->prepare('select * from proba2');
+		$stm = $db->prepare('
+			select * from user 
+			where email = :mail
+		');
+		$stm->bindParam(':mail', $mail);
+		
 		if ($stm->execute()) {
-			$result = $stm->fetchAll();
+			$result = $stm->fetch();
+			if ($result == false) return null;
 		}
 		return $result;
 	}
+	
+	
 }
