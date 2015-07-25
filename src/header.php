@@ -10,6 +10,7 @@
 <head>
 	<link type = "text/css" href="css/bootstrap.css" rel="stylesheet"/>
 	<link type = "text/css" href="css/bootstrap-theme.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
 	<div>
@@ -35,6 +36,7 @@
 						<?php if ($role == 2) {?>
 							<li class=<?php if($page=='search.php') echo 'active'?>><a href="search.php">Pretraga</a></li>
 							<li class=<?php if($page=='myAssignments.php') echo 'active'?>><a href="myAssignments.php">Moji zadaci</a></li>
+							<li class=<?php if($page=='createAssignment.php') echo 'active'?>><a href="createAssignment.php">Napravi novi zadatak</a></li>
 						<?php }?>
 						
 						<?php if ($role == 3) {?>
