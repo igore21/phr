@@ -18,7 +18,7 @@ PRIMARY KEY (`id`),
 UNIQUE INDEX `name_UNIQUE` (`name` ASC));
 
 
-CREATE TABLE `phr`.`assignment` (
+CREATE TABLE assignment (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`pacient_id` INT NOT NULL,
 	`doctor_id` INT NOT NULL,
@@ -26,10 +26,10 @@ CREATE TABLE `phr`.`assignment` (
 	`end_time` DATETIME NULL,
 	`name` VARCHAR(45) NOT NULL,
 	`description` TEXT NULL,
-	'actions' TEXT,
-	'frequency' INT,
-	'max_delay' INT,
-	'comment' TEXT
+    `actions` TEXT,
+    `frequency` INT,
+    `max_delay` INT,
+    `comment` TEXT,
 PRIMARY KEY (`id`),
 INDEX `fk_pacient_id_idx` (`pacient_id` ASC),
 INDEX `fk_doctor_id_idx` (`doctor_id` ASC),
