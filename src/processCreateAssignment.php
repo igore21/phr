@@ -2,9 +2,11 @@
 
 require_once 'DB.php';
 require_once 'common.php';
+require_once 'constants.php';
 
 $role = getUserRole();
 $userId = $_SESSION['user']['id'];
+
 
 if ($role!=2) {
 	redirect('login.php');
@@ -37,11 +39,9 @@ $doctor_id = $userId;
 $period = $_POST['period'];
 $frequency = null;
 
-	if ($_POST['period']==PERIOD_HOURS) {$frequency = $_POST['time_between'];}
-	if ($_POST['period']==PERIOD_DAYS) {$frequency = $_POST['time_between']*24;}
-	if ($_POST['period']==PERIOD_WEEKS) {$frequency = $_POST['time_between']*7*24;}
-
-
+if ($_POST['period']==PERIOD_HOURS) {$frequency = $_POST['time_between'];}
+if ($_POST['period']==PERIOD_DAYS) {$frequency = $_POST['time_between']*24;}
+if ($_POST['period']==PERIOD_WEEKS) {$frequency = $_POST['time_between']*7*24;}
 
 
 $_SESSION['new_assignment'] = $assignment;
@@ -49,15 +49,37 @@ $assignment['frequency'] = $frequency;
 $assignment['doctor_id'] = $doctor_id;
 $assignment['pacient_id'] = $pacient_id;
 
-
 try {
 	$success = DB::createAssignment($assignment);
-	var_dump($success);
+	//var_dump($success);
 }
+
 catch (Exception $e) {
 	echo 'pukla baza';
 	//TODO uradi...
 }
+
+
+
+$b = DB::getAssignmentId($assignment);
+$sid = ($b[count($b)-1]);
+	
+$parameters = $_POST['param'];
+var_dump($parameters);
+var_dump($sid['id']);
+$paramet['assignment_id'] = $sid['id'];
+$paramet['parameter_id'] = $parameters;
+try {
+	$succ = DB::addParameter($paramet);
+	var_dump($succ);
+}
+
+catch (Exception $e) {
+	echo 'pukla baza';
+	//TODO uradi...
+}
+
+//var_dump($pacient);
 $r = $pacient['role'];
 if ($r!=1) {
 	$_SESSION['createAssignmentError'] = 'email ne pripada osobi koja je pacijent';
@@ -68,6 +90,23 @@ if (!$nadjen_mail) {
 	redirect('createAssignment.php');
 	
 }
+
+// $_POST[] = array(
+// 		'tree' => array(
+// 				'tree1'=>array(
+// 						'fruit'=>'value',
+// 						'height'=>'value'
+// 				),
+// 				'tree2'=>array(
+// 						'fruit'=>'value',
+// 						'height'=>'value'
+// 				),
+// 				'tree3'=>array(
+// 						'fruit'=>'value',
+// 						'height'=>'value'
+// 				)
+// 		)
+// )
 
 if ($success) {
 	echo 'ok';

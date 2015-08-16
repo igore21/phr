@@ -1,6 +1,7 @@
 <?php
 require_once 'common.php';
 require 'header.php';
+require_once 'constants.php';
 
 $assignment = getEmptyAssignment();
 
@@ -11,11 +12,17 @@ if (isset($_SESSION['createAssignmentError'])) {
 	echo $_SESSION['createAssignmentError'];
 }
 
-
 $assignment['all_periods'] = array(
 		PERIOD_HOURS => 'sati',
 		PERIOD_DAYS => 'dani',
 		PERIOD_WEEKS =>	'nedelje',
+);
+
+$parameters['all_params'] = array(
+		blood_pressure => 'krvni pritisak',
+		height => 'visina',
+		weight => 'tezina',
+		temperature => 'telesna temperatura',
 );
 
 //var_dump($assignment);
@@ -75,12 +82,39 @@ $assignment['all_periods'] = array(
 			<li><label for="comment">Komentar</label>
 			<input type="text" name="comment" value="<?php echo $assignment['comment']?>"></li>
 		</div>
+<?php 
+//$parameters = DB::getParameters();
+//var_dump($parameters);
+?>
+
+<div class="form-group">
+	<li><label>Izaberite parametre</label>
+	<option value="0" selected></option>
+	<select id="parameterList" name='param'>
+	<?php foreach ($parameters['all_params'] as $pak => $pav) {?>
+		<option value="<?php echo $pak;?>" ><?php echo $pav;?> 
+		</option>
+	<?php }?>
+	</select><a class="btn btn-default" id="addParameter" href="#">Dodaj parametar</a></li>
+	
+</div>
+<div id="parameters">
+	<div id="templateParameter" class="parameterElem" style="display: none;">
+		<input type="hidden" name="paramIds[]"></input>
+		<a class="btn btn-default removeParameter" href="#">x</a>
+		<span class="parameterName"></span>
+	</div>
+</div>
+</form>
 		<div class="form-group">
-			<li><input type="submit" value="Napravi"></li>
+			<li><input type="submit" class="create" value="Napravi"></li>
 		</div>
 	</ul>
 </form>
 </div>
+
+
+
 
 <?php 
 require 'footer.php';

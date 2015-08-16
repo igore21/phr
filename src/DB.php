@@ -109,6 +109,22 @@ class DB {
 		return $result;
 	}
 	
+	public static function getAssignmentId($assignment) {
+		$result = null;
+		$db = self::getDB();
+	
+		$stm = $db->prepare('
+				 select id
+				 from assignment
+		');
+		
+		if ($stm->execute()){
+			$result = $stm->fetchAll();
+		}
+		return $result;
+	}
+	
+	
 // 	insert into assignment (pacient_id, doctor_id, name, description, actions, start_time, end_time, frequency, max_delay, comment)
 // 	values (3, 2, 'bi', 'jb k', 'jhb', '2015-7-16', '2015-7-26', 8, 1, 'bjhbj');
 	
@@ -150,11 +166,40 @@ class DB {
 		}
 	}
 	
-	public static function par() {
+	public static function getParameters() {
 		$result = null;
 		$db = self::getDB();
 		$stm = $db->prepare('select * from parameter');
 		$stm->execute();
 		return $stm->fetchAll();
 	}
+	
+	public static function addParameter($parameter) {
+		$result = null;
+		$db = self::getDB();
+		$stm = $db->prepare('
+			insert into assignment_parameter (assignment_id, parameter_id)
+			values (:assignment_id, :parameter_id)
+		');
+		$stm->bindValue(':parameter_id', $parameter['parameter_id']);
+		$stm->bindValue(':assignment_id', $parameter['assignment_id']);
+		
+	try {
+			echo '123';
+			if (!$stm->execute()) {
+				print_r($stm->errorInfo());
+				echo 'majmun';
+			}
+			echo '46';
+			return $stm->errorInfo();
+		} catch(PDOException $Exception ) {
+			echo 'sldkjf';
+		} catch (Exception $e) {
+			echo 'pukla baza';
+			//TODO uradi...
+		}
+	}
+	
+	//insert into assignment_parameter (assignment_id, parameter_id) values (1, 1),
+	//(1, 3), (3, 2), (3, 4);
 }
