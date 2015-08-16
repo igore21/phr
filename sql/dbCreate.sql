@@ -13,6 +13,7 @@ UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 CREATE TABLE `parameter` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(45) NOT NULL,
+	'data_type' INT,
 PRIMARY KEY (`id`),
 UNIQUE INDEX `name_UNIQUE` (`name` ASC));
 
@@ -60,8 +61,6 @@ REFERENCES `phr`.`parameter` (`id`)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION);
 
-insert into assignment_parameter (assignment_id, parameter_id) values (1, 1),
-(1, 3), (3, 2), (3, 4);
 
 
 
@@ -70,7 +69,6 @@ insert into parameter (name) values
 	('height'),
 	('weight'),
 	('temperature');
-alter table parameter add column data_type int;
 update parameter set data_type = 2 where name = 'blood_pressure';
 update parameter set data_type = 1 where name = 'height' or name = 'weight' or name = 'temperature';
 
