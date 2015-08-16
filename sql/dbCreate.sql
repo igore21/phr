@@ -64,13 +64,12 @@ ON UPDATE NO ACTION);
 
 
 
-insert into parameter (name) values
-	('blood_pressure'),
-	('height'),
-	('weight'),
-	('temperature');
-update parameter set data_type = 2 where name = 'blood_pressure';
-update parameter set data_type = 1 where name = 'height' or name = 'weight' or name = 'temperature';
+insert into parameter
+values  (1, 'blood_pressure', 2),
+		(2, 'height', 1),
+		(3, 'weight', 1),
+		(4, 'temperature', 1);
+
 
 
 
