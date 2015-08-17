@@ -1,5 +1,7 @@
 <?php
 require_once 'constants.php';
+require_once 'DB.php';
+
 
 function redirect($script, $params = null) {
 	$command = 'Location: ' . $script;
@@ -20,6 +22,26 @@ function getUserRole () {
 	}
 	return $role;
 }
+
+function getEmptyAssignment () {
+	$ass = null;
+	$ass = array(
+	'email' => '',
+	'name' => '',
+	'description' => '',
+	'actions' => '',
+	'start_time' => '',
+	'end_time' => '',
+	'period' => PERIOD_DAYS,
+	'time_between' => '',
+	'frequency' => '',
+	'max_delay' => '',
+	'comment' => ''
+	);
+	return $ass;
+}
+
+
 
 ?>
 
