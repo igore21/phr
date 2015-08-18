@@ -18,7 +18,11 @@ $user = DB::getUserByMail($mail);
 
 if ($user != null && $user['password'] == $password) {
 	$_SESSION['user'] = $user;
-	redirect('index.php');
+	$r = getUserRole();
+	var_dump($r);
+	if ($r == 1) redirect('index.php');
+	if ($r == 2) redirect('index.php');
+	var_dump($r);
 }
 else {
 	redirect('login.php');
