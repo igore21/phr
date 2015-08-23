@@ -30,7 +30,7 @@ $parameters['all_params'] = array(
 
 <div>
 <form method = "POST" action = "processCreateAssignment.php">
-	<ul>
+	<ul class='list-unstyled'>
 		<div class="form-group">
 			<h2 class="form-signin-heading"><div class="login">Napravite zadatak</div></h2>
 		</div>
@@ -82,15 +82,12 @@ $parameters['all_params'] = array(
 			<li><label for="comment">Komentar</label>
 			<input type="text" name="comment" value="<?php echo $assignment['comment']?>"></li>
 		</div>
-<?php 
-//$parameters = DB::getParameters();
-//var_dump($parameters);
-?>
+
 
 <div class="form-group">
 	<li><label>Izaberite parametre</label>
 	<option value="0" selected></option>
-	<select id="parameterList" name='param'>
+	<select id="parameterList">
 	<?php foreach ($parameters['all_params'] as $pak => $pav) {?>
 		<option value="<?php echo $pak;?>" ><?php echo $pav;?> 
 		</option>
@@ -100,7 +97,7 @@ $parameters['all_params'] = array(
 </div>
 <div id="parameters">
 	<div id="templateParameter" class="parameterElem" style="display: none;">
-		<input type="hidden" name="paramIds[]"></input>
+		<input type="hidden" id="paramId" name="paramIds[]"></input>
 		<a class="btn btn-default removeParameter" href="#">x</a>
 		<span class="parameterName"></span>
 	</div>

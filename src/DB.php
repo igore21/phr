@@ -174,15 +174,17 @@ class DB {
 		return $stm->fetchAll();
 	}
 	
-	public static function addParameter($parameter) {
+	public static function addParameter($parameters, $assignmentId) {
 		$result = null;
 		$db = self::getDB();
-		$stm = $db->prepare('
-			insert into assignment_parameter (assignment_id, parameter_id)
-			values (:assignment_id, :parameter_id)
-		');
-		$stm->bindValue(':parameter_id', $parameter['parameter_id']);
-		$stm->bindValue(':assignment_id', $parameter['assignment_id']);
+		$paramPlaceholders = implode(', ', array_fill(0, count($parameters), '(?, ?)'));
+		var_dump($paramPlaceholders);
+		$stm = $db->prepare('INSERT INTO assignment_parameter (assignment_id, parameter_id) VALUES ' . $paramPlaceholders);
+		foreach ($parameters as $pak => $pav) {
+			var_dump($pak);
+			$stm->bindValue(2 * ($pak-1) + 1, $assignmentId);
+			$stm->bindValue(2 * ($pak-1) + 2, $pav);
+		}
 		
 	try {
 			echo '123';

@@ -4,7 +4,9 @@ $(function() {
 		var newRow = templateRow.clone();
 		var parameterList = $('#parameterList');
 		var selectedParameterText = parameterList.find(':selected').text();
-		console.log(selectedParameterText);
+		var selectedParameterValue = parameterList.find(':selected').val();
+		newRow.find('.paramId').val(selectedParameterValue);
+		console.log(selectedParameterValue);
 		
 		newRow.removeAttr('id');
 		newRow.find('.parameterName').text(selectedParameterText);

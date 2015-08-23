@@ -7,6 +7,7 @@ require_once 'constants.php';
 $role = getUserRole();
 $userId = $_SESSION['user']['id'];
 
+ 
 
 if ($role!=2) {
 	redirect('login.php');
@@ -63,14 +64,21 @@ catch (Exception $e) {
 
 $b = DB::getAssignmentId($assignment);
 $sid = ($b[count($b)-1]);
-	
-$parameters = $_POST['param'];
+unset($_POST['paramIds'][0]);
+$parameters = $_POST['paramIds'];
+var_dump(count($parameters));
 var_dump($parameters);
-var_dump($sid['id']);
-$paramet['assignment_id'] = $sid['id'];
-$paramet['parameter_id'] = $parameters;
+ //var_dump($_POST['paramIds']);
+// return;
+
+// $parameters = $_POST['param'];
+// var_dump($parameters);
+$assignmentId = $sid['id'];
+ var_dump($sid['id']);
+// $paramet['assignment_id'] = $sid['id'];
+// $paramet['parameter_id'] = $parameters;
 try {
-	$succ = DB::addParameter($paramet);
+	$succ = DB::addParameter($parameters, $assignmentId);
 	var_dump($succ);
 }
 

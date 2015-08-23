@@ -24,3 +24,7 @@
 	width: 400px;
 	display: block;
 }
+
+.list-unstyled {
+	padding-left: 30px;
+}

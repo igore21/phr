@@ -28,15 +28,15 @@
 						<li class="brand"><a href="#">PHR</a></li>
 						<?php if($page!='login.php') {
 						if ($role == 1) {?>
-							<li class=<?php if($page=='homePage.php') echo 'active'?>><a href="homePage.php">Pocetna</a></li>
-							<li class=<?php if($page=='assignments.php') echo 'active'?>><a href="assignments.php">Zadaci</a></li>
-							<li class=<?php if($page=='podaci.php') echo 'active'?>><a href="index.php">Podaci</a></li>
+							<li class='nav nav-pills<?php if($page=='homePage.php') echo 'active'?>'><a href="homePage.php">Pocetna</a></li>
+							<li class='nav nav-tabs<?php if($page=='assignments.php') echo 'active'?>><a href="assignments.php">Zadaci</a></li>
+							<li class='nav nav-tabs<?php if($page=='podaci.php') echo 'active'?>><a href="index.php">Podaci</a></li>
 						<?php }?>
 						
 						<?php if ($role == 2) {?>
-							<li class=<?php if($page=='search.php') echo 'active'?>><a href="search.php">Pretraga</a></li>
-							<li class=<?php if($page=='myAssignments.php') echo 'active'?>><a href="myAssignments.php">Moji zadaci</a></li>
-							<li class=<?php if($page=='createAssignment.php') echo 'active'?>><a href="createAssignment.php">Napravi novi zadatak</a></li>
+							<li class='<?php if($page=='homePage.php') echo 'active'?> nav nav-pills'><a href="homePage.php">Pretraga</a></li>
+							<li class='<?php if($page=='myAssignments.php') echo 'active'?> nav nav-pills'><a href="assignments.php">Moji zadaci</a></li>
+							<li class='<?php if($page=='createAssignment.php') echo 'active'?> nav nav-pills'><a href="createAssignment.php">Napravi novi zadatak</a></li>
 						<?php }?>
 						
 						<?php if ($role == 3) {?>
@@ -55,7 +55,7 @@
 							<li><a href="#">Profil</a></li>
 							<li><a href="#"><a href="logout.php">logout</a></a></li>
 						</ul>
-		        	</li>
+		        	</li>	
 		      	</ul>
 		      	<?php }?>
 			</div>
