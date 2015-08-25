@@ -28,3 +28,20 @@
 .list-unstyled {
 	padding-left: 30px;
 }
+
+.search {
+	padding-top: 15px;
+}
+
+.pacient_data {
+	padding-left: 20px;
+	margin-left: 20px;
+}
+
+.searchResult {
+	padding-top: 30px;
+}
+
+.searchField {
+	width: 130px;
+}

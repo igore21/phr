@@ -81,7 +81,7 @@ class DB {
 		//select assignment.*, user.first_name, user.last_name from assignment inner join user on assignment.doctor_id = user.id;
 	}
 	
-	public static function getAssignmentsTable($userId, $active) {
+	public static function getDoctorAssignmentsTable($userId, $active) {
 		$result = null;
 		$db = self::getDB();
 		$currentTime = date('y-m-d h:i:s a', time());
@@ -103,6 +103,36 @@ class DB {
 			');
 		}
 		$stm->bindParam(':currentTime', $currentTime);
+		if ($stm->execute()){
+			$result = $stm->fetchAll();
+		}
+		return $result;
+	}
+	
+	public static function getPacientAssignmentsTable($userId, $active) {
+		$result = null;
+		$db = self::getDB();
+		$currentTime = date('y-m-d h:i:s a', time());
+	
+		if ($active) {
+			$stm = $db->prepare('
+					select assignment.*, user.first_name as doctor_first_name, user.last_name as doctor_last_name 
+					from assignment
+				 	inner join user on assignment.doctor_id = user.id 
+					where start_time > :currentTime and pacient_id = :userId
+			');
+		}
+		else {
+			$stm = $db->prepare('
+					select assignment.*, user.first_name as doctor_first_name, user.last_name as doctor_last_name 
+				 	from assignment
+				 	inner join user on assignment.doctor_id = user.id 
+					where start_time < :currentTime and pacient_id = :userId
+			');
+		}
+		$stm->bindParam(':currentTime', $currentTime);
+		$stm->bindParam(':userId', $userId);
+		
 		if ($stm->execute()){
 			$result = $stm->fetchAll();
 		}
@@ -181,7 +211,6 @@ class DB {
 		var_dump($paramPlaceholders);
 		$stm = $db->prepare('INSERT INTO assignment_parameter (assignment_id, parameter_id) VALUES ' . $paramPlaceholders);
 		foreach ($parameters as $pak => $pav) {
-			var_dump($pak);
 			$stm->bindValue(2 * ($pak-1) + 1, $assignmentId);
 			$stm->bindValue(2 * ($pak-1) + 2, $pav);
 		}
@@ -204,4 +233,39 @@ class DB {
 	
 	//insert into assignment_parameter (assignment_id, parameter_id) values (1, 1),
 	//(1, 3), (3, 2), (3, 4);
+	
+	public static function getUser($search) {
+		$result = array();
+		$condition = '';
+		$conds = array();
+		
+		if (!empty($search['id'])) {
+			$conds [] = 'file_id =' .$search['id'];
+		}
+		if (!empty($search['email'])) {
+			$conds [] = 'email =' . '\''.$search['email'].'\'';
+		}
+		if (!empty($search['first_name'])) {
+			$conds [] = 'first_name =' .'\''.$search['first_name'].'\'';
+		}
+		if (!empty($search['last_name'])) {
+			$conds [] = 'last_name =' .'\''.$search['last_name'].'\'';
+		}
+		if (!empty($search['role'])) {
+			$conds [] = 'role =' . $search['role'];
+		}
+		
+		$condition = implode(' AND ', $conds);
+		$db = self::getDB();
+		$stm = $db->prepare('
+			select * from user
+			where ' .$condition
+		);
+		if ($stm->execute()) {
+			$result = $stm->fetchAll();
+		}
+		
+		return $result;
+	}
+	
 }
