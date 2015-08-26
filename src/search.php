@@ -4,20 +4,22 @@ require_once 'common.php';
 require_once 'DB.php';
 
 
-$params = array();
+$params = array(
+	'file_id' => '',
+	'email' => '',
+	'first_name' => '',
+	'last_name' => '',
+);
 
 if (!empty($_GET['file_id'])) {
 	$params['file_id'] = $_GET['file_id'];
 }
-
 if (!empty($_GET['email'])) {
 	$params['email'] = $_GET['email'];
 }
-
 if (!empty($_GET['first_name'])) {
 	$params['first_name'] = $_GET['first_name'];
 }
-
 if (!empty($_GET['last_name'])) {
 	$params['last_name'] = $_GET['last_name'];
 }
@@ -31,19 +33,10 @@ foreach ($params as $param) {
 	}
 }
 
-$user = array();
-
-
+$patients = array();
 if ($search) {
-	$params = array(
-		'file_id' => '',
-		'email' => '',
-		'first_name' => '',
-		'last_name' => '',
-		'role' => PACIENT_ROLE,
-	);
-	var_dump($params);
-	$user = DB::getUser($params);
+	$params['role'] = PACIENT_ROLE;
+	$patients = DB::getUser($params);
 }
 
 
@@ -78,7 +71,7 @@ if ($search) {
 	<div class="col-md-8">
 	<h3 class="searchResult table_name">Rezultati pretrage</h3>
 	<?php
-		if (empty($user)) echo 'Ne postoje korisnici za zadatu pretragu';
+		if (empty($patients)) echo 'Ne postoje korisnici za zadatu pretragu';
 		else {
 	?>
 	<table class = "table table-bordered">
@@ -89,7 +82,7 @@ if ($search) {
 			<th class="ass_description">E-mail</th>
 			<th class="ass_description">Akcije</th>
 		</thead>
-			<?php foreach ($user as $v) {?>
+			<?php foreach ($patients as $v) {?>
 			<tr class='list-unstyled'>
 				<td><?php echo $v['file_id'];?></td>
 				<td><?php echo $v['first_name'];?></td>
