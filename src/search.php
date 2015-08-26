@@ -3,31 +3,27 @@ require 'header.php';
 require_once 'common.php';
 require_once 'DB.php';
 
-$params = array(
-	'file_id' => '',
-	'email' => '',
-	'first_name' => '',
-	'last_name' => '',
-	'role' => PACIENT_ROLE,
-);
 
-if (isset($_GET['file_id'])) {
+$params = array();
+
+if (!empty($_GET['file_id'])) {
 	$params['file_id'] = $_GET['file_id'];
 }
 
-if (isset($_GET['email'])) {
+if (!empty($_GET['email'])) {
 	$params['email'] = $_GET['email'];
 }
 
-if (isset($_GET['first_name'])) {
+if (!empty($_GET['first_name'])) {
 	$params['first_name'] = $_GET['first_name'];
 }
 
-if (isset($_GET['last_name'])) {
+if (!empty($_GET['last_name'])) {
 	$params['last_name'] = $_GET['last_name'];
 }
 
 $search = false;
+
 foreach ($params as $param) {
 	if (!empty($param)) {
 		$search = true;
@@ -36,9 +32,20 @@ foreach ($params as $param) {
 }
 
 $user = array();
+
+
 if ($search) {
+	$params = array(
+		'file_id' => '',
+		'email' => '',
+		'first_name' => '',
+		'last_name' => '',
+		'role' => PACIENT_ROLE,
+	);
+	var_dump($params);
 	$user = DB::getUser($params);
 }
+
 
 ?>
 

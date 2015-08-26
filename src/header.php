@@ -34,9 +34,9 @@
 						<?php }?>
 						
 						<?php if ($role == 2) {?>
-							<li class='<?php if($page=='homePage.php') echo 'active'?> nav nav-pills'><a href="homePage.php">Pretraga</a></li>
-							<li class='<?php if($page=='myAssignments.php') echo 'active'?> nav nav-pills'><a href="assignments.php">Moji zadaci</a></li>
-							<li class='<?php if($page=='createAssignment.php') echo 'active'?> nav nav-pills'><a href="createAssignment.php">Napravi novi zadatak</a></li>
+							<li class='<?php if($page=='search.php') echo 'active'?> nav nav-pills'><a href="search.php">Pacijent</a></li>
+							<li class='<?php if($page=='createAssignment.php') echo 'active'?> nav nav-pills'><a href="createAssignment.php">Dodavanje pacijenta</a></li>
+							<li class='<?php if($page=='assignments.php') echo 'active'?> nav nav-pills'><a href="assignments.php">Zadati zadaci</a></li>
 						<?php }?>
 						
 						<?php if ($role == 3) {?>
