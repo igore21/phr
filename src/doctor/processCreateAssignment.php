@@ -1,8 +1,8 @@
 <?php
 
-require_once 'DB.php';
-require_once 'common.php';
-require_once 'constants.php';
+require_once '../DB.php';
+require_once '../common.php';
+require_once '../constants.php';
 
 $role = getUserRole();
 $userId = $_SESSION['user']['id'];
@@ -99,22 +99,6 @@ if (!$nadjen_mail) {
 	
 }
 
-// $_POST[] = array(
-// 		'tree' => array(
-// 				'tree1'=>array(
-// 						'fruit'=>'value',
-// 						'height'=>'value'
-// 				),
-// 				'tree2'=>array(
-// 						'fruit'=>'value',
-// 						'height'=>'value'
-// 				),
-// 				'tree3'=>array(
-// 						'fruit'=>'value',
-// 						'height'=>'value'
-// 				)
-// 		)
-// )
 
 if ($success) {
 	echo 'ok';

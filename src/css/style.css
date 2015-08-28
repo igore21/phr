@@ -20,12 +20,21 @@
 .table_name {
 	margin-left: 30px;
 }
-.login {
+.login-login {
 	width: 400px;
 	display: block;
+	margin: 0 auto;
+	padding-top: 20px;
+	padding-botom: 20px;
 }
 
-.list-unstyled {
+.distance {
+	padding-top: 10px;
+	padding-bottom: 5px;
+	text-align: center;
+}
+
+.create-assignment {
 	padding-left: 30px;
 }
 
@@ -44,4 +53,12 @@
 
 .searchField {
 	width: 130px;
+}
+
+.form-signin-heading {
+	padding-top: 20px;
+}
+
+.assignmentTable {
+	padding-left: 100px;
 }

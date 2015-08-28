@@ -1,7 +1,7 @@
 <?php
-require_once 'common.php';
-require 'header.php';
-require_once 'constants.php';
+require_once '../common.php';
+require '../header.php';
+require_once '../constants.php';
 
 $assignment = getEmptyAssignment();
 
@@ -30,9 +30,9 @@ $parameters['all_params'] = array(
 
 <div>
 <form method = "POST" action = "processCreateAssignment.php">
-	<ul class='list-unstyled'>
+	<ul class='list-unstyled create-assignment'>
 		<div class="form-group">
-			<h2 class="form-signin-heading"><div class="login">Napravite zadatak</div></h2>
+			<h2 class="form-signin-heading"><div>Napravite zadatak</div></h2>
 		</div>
 		<div class="form-group">
 			<li><label for="email">Pacijent</label>
@@ -114,5 +114,5 @@ $parameters['all_params'] = array(
 
 
 <?php 
-require 'footer.php';
+require '../footer.php';
 ?>

@@ -21,7 +21,7 @@ if ($user != null && $user['password'] == $password) {
 	$r = getUserRole();
 	var_dump($r);
 	if ($r == 1) redirect('index.php');
-	if ($r == 2) redirect('index.php');
+	if ($r == 2) redirect('search.php');
 	var_dump($r);
 }
 else {

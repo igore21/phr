@@ -268,4 +268,20 @@ class DB {
 		return $result;
 	}
 	
+	public static function getUserById($ID) {
+		$result = null;
+		$db = self::getDB();
+		$stm = $db->prepare('
+			select * from user
+			where id = :id
+		');
+		$stm->bindParam(':id', $ID);
+	
+		if ($stm->execute()) {
+			$result = $stm->fetch();
+			if ($result == false) return null;
+		}
+		return $result;
+	}
+	
 }

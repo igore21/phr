@@ -1,7 +1,64 @@
 insert into user (first_name, file_id, last_name, email, password, role, active) values
 ('Igor', null, 'Eric', 'ie@gmail.com', '123', 2, 1),
 ('Uros', null, 'Eric', 'ue@gmail.com', '456', 2, 1),
-('Nikola', 12345, 'Sutic', 'nik@gmail.com', '789', 1, 1);
+('Nikola', 1234, 'Sutic', 'nik@gmail.com', '789', 1, 1),
+('Nikola', 1212, 'Nikolic', 'nn@gmail.com', '111', 1, 1),
+('Nikola', 1313, 'Petrovic', 'np@gmail.com', '111', 1, 1),
+('Petar', 1112, 'Petrovic', 'pp@gmail.com', '111', 1, 1),
+('Petar', 1414, 'Markovic', 'pm@gmail.com', '111', 1, 1),
+('Stevan', 1515, 'Simic', 'ss@gmail.com', '111', 1, 1),
+('Stevan', 1616, 'Sremac', 'ss2@gmail.com', '111', 1, 1),
+('Goran', 1717, 'Petrovic', 'gp@gmail.com', '111', 1, 1),
+('Mihajlo', 1818, 'Pantic', 'mp@gmail.com', '111', 1, 1),
+('Dragan', 2020, 'Jovanovic', 'dj@gmail.com', '111', 1, 1),
+('Jovan', 2121, 'Jovanovic', 'jj@gmail.com', '111', 1, 1),
+('Ivan', 2222, 'Kokeric', 'ik@gmail.com', '111', 1, 1),
+('Ivan', 2323, 'Petronijevic', 'ip@gmail.com', '111', 1, 1),
+('Nikola', 2424, 'Ratkovic', 'nr@gmail.com', '111', 1, 1),
+('Milos', 2525, 'Kaljevic', 'mk@gmail.com', '111', 1, 1),
+('Jovan', 2626, 'Kaurin', 'jk@gmail.com', '111', 1, 1),
+('Goran', 2727, 'Jakovljevic', 'gj@gmail.com', '111', 1, 1),
+('Milena', 2828, 'Milenkovic', 'mm@gmail.com', '111', 1, 1),
+('Milena', 2929, 'Milovanovic', 'mm2@gmail.com', '111', 1, 1),
+('Milka', 3030, 'Jakovljevic', 'mj@gmail.com', '111', 1, 1),
+('Katarina', 3131, 'Misovic', 'km@gmail.com', '111', 1, 1),
+('Sonja', 3232, 'Radic', 'sr@gmail.com', '111', 1, 1),
+('Maja', 3333, 'Djuric', 'mdj@gmail.com', '111', 1, 1),
+('Marija', 3434, 'Nikitovic', 'mn@gmail.com', '111', 1, 1),
+('Anita', 3535, 'Andric', 'aa@gmail.com', '111', 1, 1),
+('Ana', 3636, 'Djordjevic', 'adj@gmail.com', '111', 1, 1),
+('Dragica', 3737, 'Djordjevic', 'ddj@gmail.com', '111', 1, 1);
 
 insert into assignment (pacient_id, doctor_id, start_time, end_time, name, description)
-values (3, 2, '2015-07-12', '2015-07-19', 'plasticna operacija', 'ugradjivanje silikona');
+values (8, 2, '2015-09-12', '2015-09-19', 'lecenje gripa', 'terapija antibioticima'),
+values (9, 2, '2015-09-12', '2015-09-29', 'lecenje gnojeve angine', 'terapija inekcijama'),
+values (10, 2, '2015-08-12', '2015-08-28', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+values (11, 2, '2015-07-12', '2015-07-19', 'lecenje gnojeve angine', 'terapija inekcijama'),
+values (12, 2, '2015-07-12', '2015-07-21', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+values (13, 2, '2015-09-12', '2015-09-30', 'lecenje upale uva', 'terapija inekcijama'),
+values (14, 2, '2015-09-01', '2015-09-22', 'lecenje gripa', 'terapija antibioticima'),
+values (15, 2, '2015-10-12', '2015-10-19', 'lecenje gnojeve angine', 'terapija inekcijama'),
+values (16, 2, '2015-08-12', '2015-09-19', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+values (17, 2, '2015-09-07', '2015-09-21', 'lecenje upale uva', 'terapija inekcijama'),
+values (18, 2, '2015-11-12', '2015-11-19', 'plasticna operacija', 'ugradjivanje silikona'),
+values (19, 2, '2015-11-01', '2015-11-21', 'lecenje gnojeve angine', 'terapija inekcijama'),
+values (20, 2, '2015-11-01', '2015-11-15', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+values (21, 2, '2015-11-10', '2015-11-24', 'lecenje upale uva', 'terapija inekcijama'),
+values (22, 2, '2015-11-09', '2015-11-30', 'lecenje gripa', 'terapija antibioticima'),
+values (23, 2, '2015-11-25', '2015-12-19', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+values (24, 2, '2015-12-12', '2015-12-19', 'lecenje upale uva', 'terapija inekcijama'),
+values (25, 2, '2015-12-01', '2015-12-11', 'lecenje gripa', 'terapija antibioticima'),
+values (26, 2, '2015-12-01', '2015-12-22', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+values (27, 2, '2015-12-14', '2015-12-21', 'lecenje gripa', 'terapija antibioticima'),
+values (28, 2, '2015-12-14', '2015-12-28', 'lecenje upale uva', 'terapija inekcijama'),
+values (29, 2, '2015-12-21', '2015-12-31', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+values (30, 2, '2015-12-12', '2015-12-19', 'lecenje upale uva', 'terapija inekcijama'),
+values (31, 2, '2015-12-16', '2015-12-30', 'lecenje gripa', 'terapija antibioticima'),),
+values (32, 2, '2015-14-28', '2015-12-30', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+values (33, 2, '2015-12-01', '2015-12-31', 'lecenje gripa', 'terapija antibioticima'),
+;
+
+
+
+
+

@@ -1,6 +1,6 @@
 <?php
-require_once 'DB.php';
-require_once 'common.php';
+require_once '../DB.php';
+require_once '../common.php';
 
 if (empty($_POST['first_name']) || empty($_POST['last_name']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['role'])) {
 	redirect('createAccount.php');

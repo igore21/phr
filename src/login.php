@@ -34,14 +34,14 @@ if (getUserRole() != ANONYMOUS_ROLE) {
 	<body>
 		<div>
 			<form method = "POST" action = "processLogin.php">
-				<ul>
+				<ol class="list-unstyled">
 				<div class="container">
-				<div class="login">
+				<div class="login-login">
 				<form class="form-signin">
-				<h2 class="form-signin-heading"><div class="login">Moilmo vas ulogujte se</div></h2>
-					<li><label for="usermail" class="sr-only">Email</label>
+				<h2 class="form-signin-heading"><div class="login">Ulogujte se</div></h2>
+					<li><label for="usermail" class="distance">Email</label>
 					<input type="email" name="usermail" class="form-control" placeholder="yourname@email.com" required autofocus></li>
-					<li><label for="password" class="sr-only">Sifra</label>
+					<li><label for="password" class="distance">Sifra</label>
 					<input type="password" name="password" class="form-control" placeholder="password" required></li>
 					<div class="checkbox">
           				<label><input type="checkbox" value="remember-me">Zapamti me</label>
@@ -50,7 +50,7 @@ if (getUserRole() != ANONYMOUS_ROLE) {
           		</form>
 					</div>
 				</div>
-				</ul>
+				</ol>
 			</form>
 		</div>
 	</body>

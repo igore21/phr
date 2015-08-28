@@ -1,7 +1,7 @@
 <?php
-require 'header.php';
-require_once 'common.php';
-require_once 'DB.php';
+require '../header.php';
+require_once '../common.php';
+require_once '../DB.php';
 
 
 $params = array(
@@ -90,9 +90,9 @@ if ($search) {
 				<td><?php echo $v['email'];?></td>
 				<td>
 					<ul class="list-unstyled akcije">
-						<li><a id="zadaci" href="assignments2.php?id=3">Zadaci</a></li>
-						<li><a id="noviZadatak" href="#">Novi Zadatak</a></li>
-						<li><a id="podaci" href="#">Zadaci</a></li>
+						<li><a id="zadaci" href="assignmentsPacient.php?user_id=<?php echo $v['id']?>">Zadaci</a></li>
+						<li><a id="noviZadatak" href="createAssignment.php">Novi Zadatak</a></li>
+						<li><a id="podaci" href="#">Podaci</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -104,5 +104,5 @@ if ($search) {
 <?php } ?>
 
 <?php 
-require 'footer.php';
+require '../footer.php';
 ?>

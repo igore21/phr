@@ -1,8 +1,8 @@
 
 <?php
-require 'header.php';
-require_once 'common.php';
-require_once 'DB.php';
+require '../header.php';
+require_once '../common.php';
+require_once '../DB.php';
 
 
 $role = getUserRole();
@@ -21,10 +21,10 @@ if ($role == ANONYMOUS_ROLE) redirect('login.php');
 </div>
 
 <?php 
-	$ass1 = DB::getAssignmentsTable($userId, true);
-	$ass2 = DB::getAssignmentsTable($userId, false);
+	$ass1 = DB::getDoctorAssignmentsTable($userId, true);
+	$ass2 = DB::getDoctorAssignmentsTable($userId, false);
 	$zadaci = array($ass1, $ass2);
-	$ass3 = DB::getAssignmentsTable($userId, false);
+	$ass3 = DB::getDoctorAssignmentsTable($userId, false);
 	$k = count($ass1);
 	$l = count($ass2);
 	if ($zadaci[0]==$ass1) {?>
@@ -92,6 +92,6 @@ if ($role == ANONYMOUS_ROLE) redirect('login.php');
 				
 		
 <?php 
-	require 'footer.php';
+	require '../footer.php';
 
 ?>

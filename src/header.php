@@ -3,7 +3,7 @@
 	require_once 'common.php';
 	$role = getUserRole();
 	$page = basename($_SERVER["SCRIPT_FILENAME"]);
-	if(isset($_SESSION['user'])) $userEmail = $_SESSION['user']['email'];
+	if(isset($_SESSION['user'])) $userName = $_SESSION['user']['first_name'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,7 +25,6 @@
 				<div class="navbar-header">
 					<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li class="brand"><a href="#">PHR</a></li>
 						<?php if($page!='login.php') {
 						if ($role == 1) {?>
 							<li class='nav nav-pills<?php if($page=='homePage.php') echo 'active'?>'><a href="homePage.php">Pocetna</a></li>
@@ -35,7 +34,7 @@
 						
 						<?php if ($role == 2) {?>
 							<li class='<?php if($page=='search.php') echo 'active'?> nav nav-pills'><a href="search.php">Pacijent</a></li>
-							<li class='<?php if($page=='createAssignment.php') echo 'active'?> nav nav-pills'><a href="createAssignment.php">Dodavanje pacijenta</a></li>
+							<li class='<?php if($page=='createAccount.php') echo 'active'?> nav nav-pills'><a href="createAccount.php">Dodavanje pacijenta</a></li>
 							<li class='<?php if($page=='assignments.php') echo 'active'?> nav nav-pills'><a href="assignments.php">Zadati zadaci</a></li>
 						<?php }?>
 						
@@ -50,10 +49,10 @@
 				<ul class="nav navbar-nav navbar-right">
 		        	<li role="presentation" class="dropdown">
 			        	<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-				        <?php echo $userEmail;?> <span class="caret"></span></a>
+				        <?php echo $userName;?> <span class="caret"></span></a>
 			        	<ul class="dropdown-menu">
 							<li><a href="#">Profil</a></li>
-							<li><a href="#"><a href="logout.php">logout</a></a></li>
+							<li><a href="#"><a href="logout.php">Izlogujte se</a></a></li>
 						</ul>
 		        	</li>	
 		      	</ul>

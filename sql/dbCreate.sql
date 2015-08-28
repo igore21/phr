@@ -45,6 +45,9 @@ REFERENCES `phr`.`user` (`id`)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION);
 
+alter table assignment
+drop column actions;
+
 
 CREATE TABLE `assignment_parameter` (
 `assignment_id` INT NOT NULL,
