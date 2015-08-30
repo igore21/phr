@@ -8,9 +8,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link type = "text/css" href="css/bootstrap.css" rel="stylesheet"/>
-	<link type = "text/css" href="css/bootstrap-theme.css" rel="stylesheet"/>
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<link type = "text/css" href="/css/bootstrap.css" rel="stylesheet"/>
+	<link type = "text/css" href="/css/bootstrap-theme.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href= "/css/style.css" />
 </head>
 <body>
 	<div>
@@ -33,9 +33,9 @@
 						<?php }?>
 						
 						<?php if ($role == 2) {?>
-							<li class='<?php if($page=='search.php') echo 'active'?> nav nav-pills'><a href="search.php">Pacijent</a></li>
-							<li class='<?php if($page=='createAccount.php') echo 'active'?> nav nav-pills'><a href="createAccount.php">Dodavanje pacijenta</a></li>
-							<li class='<?php if($page=='assignments.php') echo 'active'?> nav nav-pills'><a href="assignments.php">Zadati zadaci</a></li>
+							<li class='<?php if($page=='doctor/search.php') echo 'active'?> nav nav-pills'><a href="/doctor/search.php">Pacijent</a></li>
+							<li class='<?php if($page=='doctor/createAccount.php') echo 'active'?> nav nav-pills'><a href="/doctor/createAccount.php">Dodavanje pacijenta</a></li>
+							<li class='<?php if($page=='doctor/assignments.php') echo 'active'?> nav nav-pills'><a href="/doctor/assignments.php">Zadati zadaci</a></li>
 						<?php }?>
 						
 						<?php if ($role == 3) {?>

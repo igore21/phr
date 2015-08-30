@@ -1,5 +1,5 @@
 <?php
-require '../header.php';
+require __DIR__ . '/../header.php';
 require_once '../common.php';
 require_once '../DB.php';
 
@@ -90,8 +90,8 @@ if ($search) {
 				<td><?php echo $v['email'];?></td>
 				<td>
 					<ul class="list-unstyled akcije">
-						<li><a id="zadaci" href="assignmentsPacient.php?user_id=<?php echo $v['id']?>">Zadaci</a></li>
-						<li><a id="noviZadatak" href="createAssignment.php">Novi Zadatak</a></li>
+						<li><a id="zadaci" href="../assignmentsPacient.php?user_id=<?php echo $v['id']?>">Zadaci</a></li>
+						<li><a id="noviZadatak" href="/doctor/createAssignment.php">Novi Zadatak</a></li>
 						<li><a id="podaci" href="#">Podaci</a></li>
 					</ul>
 				</td>

@@ -36,7 +36,6 @@ if ($role == ANONYMOUS_ROLE) redirect('login.php');
 					<th class="ass_name">Naziv zadatka</th>
 					<th class="ass_durration">Trajanje</th>
 					<th class="ass_description">Opis zadatka</th>
-					<th class="ass_description">Akcije</th>
 					<th class="ass_description">Uzimati na svakih</th>
 					<th class="ass_description">Komentari</th>
 					<th class="ass_gave">Zadao</th>
@@ -47,7 +46,6 @@ if ($role == ANONYMOUS_ROLE) redirect('login.php');
 			 			<td><?php echo $ass['name']; ?></td>
 			 			<td><?php echo $ass['start_time']; ?> do <?php echo $ass['end_time']; ?></td>
 			 			<td><?php echo $ass['description']; ?></td>
-			 			<td><?php echo $ass['actions']; ?></td>
 			 			<td><?php echo $ass['frequency']; ?></td>
 			 			<td><?php echo $ass['comment']; ?></td>
 			 			<td><?php echo $ass['doctor_first_name'].' '; echo $ass['doctor_last_name']?></td>
@@ -68,7 +66,6 @@ if ($role == ANONYMOUS_ROLE) redirect('login.php');
 				<th class="ass_name">Naziv zadatka</th>
 				<th class="ass_durration">Trajanje</th>
 				<th class="ass_description">Opis zadatka</th>
-				<th class="ass_description">Akcije</th>
 				<th class="ass_description">Uzimati na svakih</th>
 				<th class="ass_description">Komentari</th>
 				<th class="ass_gave">Zadao</th>
@@ -79,7 +76,6 @@ if ($role == ANONYMOUS_ROLE) redirect('login.php');
 		 			<td><?php echo $ass['name']; ?></td>
 		 			<td><?php echo $ass['start_time']; ?> do <?php echo $ass['end_time']; ?></td>
 		 			<td><?php echo $ass['description']; ?></td>
-		 			<td><?php echo $ass['actions']; ?></td>
 		 			<td><?php echo $ass['frequency']; ?></td>
 		 			<td><?php echo $ass['comment']; ?></td>
 		 			<td><?php echo $ass['doctor_first_name'].' '; echo $ass['doctor_last_name']?></td>

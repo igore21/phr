@@ -27,7 +27,6 @@ CREATE TABLE assignment (
 	`end_time` DATETIME NULL,
 	`name` VARCHAR(45) NOT NULL,
 	`description` TEXT NULL,
-    `actions` TEXT,
     `frequency` INT,
     `max_delay` INT,
     `comment` TEXT,
@@ -45,8 +44,6 @@ REFERENCES `phr`.`user` (`id`)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION);
 
-alter table assignment
-drop column actions;
 
 
 CREATE TABLE `assignment_parameter` (

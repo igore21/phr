@@ -82,13 +82,13 @@ class DB {
 	}
 	
 	public static function getDoctorAssignmentsTable($userId, $active) {
-		$result = null;
+		$result = array();
 		$db = self::getDB();
 		$currentTime = date('y-m-d h:i:s a', time());
 		
 		if ($active) {
 			$stm = $db->prepare('
-					 select assignment.start_time, end_time, name, description, actions, frequency, max_delay, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
+					 select assignment.start_time, end_time, name, description, frequency, max_delay, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
 					 from assignment
 					 inner join user on assignment.doctor_id = user.id
 					 where start_time > :currentTime
@@ -96,7 +96,7 @@ class DB {
 		}
 		else {
 			$stm = $db->prepare('
-					 select assignment.start_time, end_time, name, description, actions, frequency, max_delay, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
+					 select assignment.start_time, end_time, name, description, frequency, max_delay, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
 					 from assignment
 					 inner join user on assignment.doctor_id = user.id
 					 where start_time < :currentTime
