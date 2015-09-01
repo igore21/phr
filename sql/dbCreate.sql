@@ -7,6 +7,7 @@ CREATE TABLE `user` (
 	`password` VARCHAR(45) NOT NULL,
 	`role` SMALLINT NULL,
 	`active` BIT NULL DEFAULT 1,
+	`gender` SMALLINT NULL,
 PRIMARY KEY (`id`),
 UNIQUE INDEX `email_UNIQUE` (`email` ASC));
   
@@ -14,7 +15,7 @@ UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 CREATE TABLE `parameter` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(45) NOT NULL,
-	'data_type' INT,
+	`data_type` INT,
 PRIMARY KEY (`id`),
 UNIQUE INDEX `name_UNIQUE` (`name` ASC));
 

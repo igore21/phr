@@ -9,8 +9,8 @@ $userId = $_SESSION['user']['id'];
 if ($role == ANONYMOUS_ROLE) redirect('login.php');
 $ID = $_GET['user_id'];
 //var_dump($ID);
-$ass1 = DB::getPacientAssignmentsTable($ID, true);
-$ass2 = DB::getPacientAssignmentsTable($ID, false);
+$ass1 = DB::getPatientAssignmentsTable($ID, true);
+$ass2 = DB::getPatientAssignmentsTable($ID, false);
 //var_dump($ass1);
 ?>
 

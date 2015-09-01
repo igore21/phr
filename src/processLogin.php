@@ -19,9 +19,9 @@ $user = DB::getUserByMail($mail);
 if ($user != null && $user['password'] == $password) {
 	$_SESSION['user'] = $user;
 	$r = getUserRole();
-	var_dump($r);
-	if ($r == 1) redirect('index.php');
-	if ($r == 2) redirect('search.php');
+	//var_dump($r);
+	if ($r == 1) redirect('../doctor/search.php');
+	if ($r == 2) redirect('../doctor/search.php');
 	var_dump($r);
 }
 else {

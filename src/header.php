@@ -1,9 +1,10 @@
 <?php 
 	require_once 'DB.php';
-	require_once 'common.php';
+	require_once '/common.php';
 	$role = getUserRole();
 	$page = basename($_SERVER["SCRIPT_FILENAME"]);
 	if(isset($_SESSION['user'])) $userName = $_SESSION['user']['first_name'];
+	//$id = $_SESSION['user']['id'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,10 +50,10 @@
 				<ul class="nav navbar-nav navbar-right">
 		        	<li role="presentation" class="dropdown">
 			        	<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-				        <?php echo $userName;?> <span class="caret"></span></a>
+				        <?php echo $userName; $id = $_SESSION['user']['id'];//echo $id;?> <span class="caret"></span></a>
 			        	<ul class="dropdown-menu">
-							<li><a href="#">Profil</a></li>
-							<li><a href="#"><a href="logout.php">Izlogujte se</a></a></li>
+							<li><a href="#"><a href="../common/profile.php?user_id=<?php echo $id;?>">Profil</a></a></li>
+							<li><a href="#"><a href="../logout.php">Izlogujte se</a></a></li>
 						</ul>
 		        	</li>	
 		      	</ul>

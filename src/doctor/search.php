@@ -47,7 +47,7 @@ if ($search) {
 		<div class="container searchResult">
 			<div class="form-group">
 				<li><label for="id" class="searchField">Broj kartona</label>
-				<input type="text" name="id" value=<?php  echo $params['file_id'];?>></li>
+				<input type="text" name="id" value=<?php echo $params['file_id'];?>></li>
 			</div>
 			<div class="form-group">
 				<li><label for="email" class="searchField">E-mail</label>
@@ -90,8 +90,8 @@ if ($search) {
 				<td><?php echo $v['email'];?></td>
 				<td>
 					<ul class="list-unstyled akcije">
-						<li><a id="zadaci" href="../assignmentsPacient.php?user_id=<?php echo $v['id']?>">Zadaci</a></li>
-						<li><a id="noviZadatak" href="/doctor/createAssignment.php">Novi Zadatak</a></li>
+						<li><a id="zadaci" href="../assignmentsPatient.php?user_id=<?php echo $v['id']?>">Zadaci</a></li>
+						<li><a id="noviZadatak" href="/doctor/createAssignment.php?user_id=<?php echo $v['id']?>">Novi Zadatak</a></li>
 						<li><a id="podaci" href="#">Podaci</a></li>
 					</ul>
 				</td>

@@ -62,3 +62,73 @@
 .assignmentTable {
 	padding-left: 100px;
 }
+
+.edit-btn {
+	width: 260px;
+	display: block;
+	padding-botom: 20px;
+	margin-left: 80px
+}
+
+.user-info-h2 {
+	padding-botom: 10px;
+	margin-left: 80px
+}
+
+.account-info {
+	width: 160px;
+	padding-left: 80px;
+	padding-top: 10px;
+}
+
+.edit-user {
+	
+}
+
+.save-change-edit-btn {
+	width: 128px;
+	display: inline-block;
+	margin-top: 5px;
+	margin-left: 80px;
+}
+
+.save-change-pass-btn {
+	width: 260px;
+	display: inline-block;
+	margin-top: 5px;
+	margin-left: 80px;
+}
+
+.cancel-change-edit-btn {
+	width: 128px;
+	display: inline-block;
+	margin-top: 5px;
+	margin-left: 0px
+}
+
+.assField {
+	width: 220px;
+}
+
+.add-param {
+	width: 128px;
+	display: inline-block;
+	margin-left: 100px;
+	
+}
+
+.paramField {
+	width: 180px;
+	margin-top: 5px;
+	display: inline-block;
+	margin-left: 250px;
+}
+
+.param-choose {
+	padding-left: 100px;
+	margin-left: 220px;
+}
+
+.assField-btn {
+	
+}

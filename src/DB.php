@@ -109,7 +109,7 @@ class DB {
 		return $result;
 	}
 	
-	public static function getPacientAssignmentsTable($userId, $active) {
+	public static function getPatientAssignmentsTable($userId, $active) {
 		$result = null;
 		$db = self::getDB();
 		$currentTime = date('y-m-d h:i:s a', time());
@@ -165,14 +165,13 @@ class DB {
 		$result = null;
 		$db = self::getDB();
 		$stm = $db->prepare('
-			insert into assignment (pacient_id, doctor_id, name, description, actions, start_time, end_time, frequency, max_delay, comment)
-			values (:pacient_id, :doctor_id, :name, :description, :actions, :start_time, :end_time, :frequency, :max_delay, :comment)
+			insert into assignment (pacient_id, doctor_id, name, description,  start_time, end_time, frequency, max_delay, comment)
+			values (:pacient_id, :doctor_id, :name, :description, :start_time, :end_time, :frequency, :max_delay, :comment)
 		');
 		$stm->bindParam(':pacient_id', $assignment['pacient_id']);
 		$stm->bindParam(':doctor_id', $assignment['doctor_id']);
 		$stm->bindParam(':name', $assignment['name']);
 		$stm->bindParam(':description', $assignment['description']);
-		$stm->bindParam(':actions', $assignment['actions']);
 		$stm->bindValue(':start_time', date('Y-m-d H:i:s', strtotime($assignment['start_time'])));
  		$stm->bindValue(':end_time', date('Y-m-d H:i:s', strtotime($assignment['end_time'])));
 		$stm->bindParam(':frequency', $assignment['frequency']);
@@ -282,6 +281,60 @@ class DB {
 			if ($result == false) return null;
 		}
 		return $result;
+	}
+	
+	public static function editUser($user, $userID) {
+		$result = null;
+		$db = self::getDB();
+		$stm = $db->prepare('
+			update user 
+			set	first_name = :first_name, last_name = :last_name, email = :email
+			where id = :id
+		');
+		
+		$stm->bindParam(':first_name', $user['first_name']);
+		$stm->bindParam(':last_name', $user['last_name']);
+		$stm->bindParam(':email', $user['email']);
+		$stm->bindParam(':id', $userID);
+		
+	
+	try {
+			echo '123';
+			$res = $stm->execute();
+			echo '46';
+			return $res;
+		} catch(PDOException $Exception ) {
+			echo 'sldkjf';
+		} catch (Exception $e) {
+			echo 'pukla baza';
+			//TODO uradi...
+		}
+	}
+	
+	public static function changePassword($password, $userID) {
+		$result = null;
+		$db = self::getDB();
+		$stm = $db->prepare('
+			update user
+			set	password = :password
+			where id = :id
+		');
+	
+		$stm->bindParam(':password', $password);
+		$stm->bindParam(':id', $userID);
+	
+	
+		try {
+			echo '123';
+			$res = $stm->execute();
+			echo '46';
+			return $res;
+		} catch(PDOException $Exception ) {
+			echo 'sldkjf';
+		} catch (Exception $e) {
+			echo 'pukla baza';
+			//TODO uradi...
+		}
 	}
 	
 }

@@ -5,5 +5,5 @@ if(!isset($_SESSION)){
 	session_start();
 }
 session_unset();
-redirect('login.php');
+redirect('/login.php');
 

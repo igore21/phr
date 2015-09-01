@@ -13,16 +13,13 @@ if ($role!=2) {
 	redirect('login.php');
 }
 
-if (empty($_POST['email']) || empty($_POST['name']) || empty($_POST['description']) || empty($_POST['actions']) || empty($_POST['start_time'])
-		 || empty($_POST['end_time']) || empty($_POST['max_delay']) || empty($_POST['comment'])) {
+if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['start_time']) || empty($_POST['end_time']) || empty($_POST['max_delay']) || empty($_POST['comment'])) {
 	redirect('createAccount.php');
 }
 
 $assignment = array(
-		'email' => $_POST['email'],
 		'name' => $_POST['name'],
 		'description' => $_POST['description'],
-		'actions' => $_POST['actions'],
 		'start_time' => $_POST['start_time'],
 		'end_time' => $_POST['end_time'],
 		'time_between' => $_POST['time_between'],
