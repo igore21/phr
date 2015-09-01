@@ -1,88 +1,102 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`file_id` INT UNIQUE,
 	`first_name` VARCHAR(45) NOT NULL,
 	`last_name` VARCHAR(45) NOT NULL,
-	`email` VARCHAR(45) NOT NULL,
+	`email` VARCHAR(45) UNIQUE NOT NULL,
 	`password` VARCHAR(45) NOT NULL,
-	`role` SMALLINT NULL,
-	`active` BIT NULL DEFAULT 1,
+	`role` SMALLINT NOT NULL,
+	`active` BIT NOT NULL DEFAULT 1,
 	`gender` SMALLINT NULL,
-PRIMARY KEY (`id`),
-UNIQUE INDEX `email_UNIQUE` (`email` ASC));
-  
-  
+PRIMARY KEY (`id`));
+
+DROP TABLE IF EXISTS `parameter`;
 CREATE TABLE `parameter` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(45) NOT NULL,
-	`data_type` INT,
-PRIMARY KEY (`id`),
-UNIQUE INDEX `name_UNIQUE` (`name` ASC));
+	`data_type` INT NOT NULL,
+PRIMARY KEY (`id`));
 
-
+DROP TABLE IF EXISTS `assignment`;
 CREATE TABLE assignment (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`pacient_id` INT NOT NULL,
+	`patient_id` INT NOT NULL,
 	`doctor_id` INT NOT NULL,
 	`start_time` DATETIME NULL,
 	`end_time` DATETIME NULL,
 	`name` VARCHAR(45) NOT NULL,
 	`description` TEXT NULL,
-    `frequency` INT,
-    `max_delay` INT,
-    `comment` TEXT,
+	`frequency` INT,
+	`max_delay` INT,
+	`comment` TEXT,
 PRIMARY KEY (`id`),
-INDEX `fk_pacient_id_idx` (`pacient_id` ASC),
+INDEX `fk_patient_id_idx` (`patient_id` ASC),
+CONSTRAINT `fk_patient_id`
+	FOREIGN KEY (`patient_id`)
+	REFERENCES `user` (`id`)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION,
 INDEX `fk_doctor_id_idx` (`doctor_id` ASC),
-CONSTRAINT `fk_pacient_id`
-FOREIGN KEY (`pacient_id`)
-REFERENCES `phr`.`user` (`id`)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION,
 CONSTRAINT `fk_doctor_id`
-FOREIGN KEY (`doctor_id`)
-REFERENCES `phr`.`user` (`id`)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION);
+	FOREIGN KEY (`doctor_id`)
+	REFERENCES `user` (`id`)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
+);
 
-
-
+DROP TABLE IF EXISTS `assignment_parameter`;
 CREATE TABLE `assignment_parameter` (
-`assignment_id` INT NOT NULL,
-`parameter_id` INT NOT NULL,
+	`assignment_id` INT NOT NULL,
+	`parameter_id` INT NOT NULL,
 PRIMARY KEY (`assignment_id`, `parameter_id`),
-INDEX `fk_parameter_idx` (`parameter_id` ASC),
-CONSTRAINT `fk_assignment`
-FOREIGN KEY (`assignment_id`)
-REFERENCES `phr`.`assignment` (`id`)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION,
-CONSTRAINT `fk_parameter`
-FOREIGN KEY (`parameter_id`)
-REFERENCES `phr`.`parameter` (`id`)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION);
+INDEX `fk_assignmentd_id_idx` (`assignment_id` ASC),
+CONSTRAINT `fk_assignmentd_id`
+	FOREIGN KEY (`assignment_id`)
+	REFERENCES `assignment` (`id`)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION,
+CONSTRAINT `fk_parameter_id`
+	FOREIGN KEY (`parameter_id`)
+	REFERENCES `parameter` (`id`)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
+);
 
-
-
-
-insert into parameter
-values  (1, 'blood_pressure', 2),
-		(2, 'height', 1),
-		(3, 'weight', 1),
-		(4, 'temperature', 1);
-
-
-
-
-
+DROP TABLE IF EXISTS `data`;
 CREATE TABLE `data` (
-	`id` INT NOT NULL,
-	`userID` INT NULL,
-	`assignment` VARCHAR(45) NULL,
-	`blood_pressure` VARCHAR(45) NULL,
-	`height` VARCHAR(45) NULL,
-	`weight` VARCHAR(45) NULL,
-	`temperature` VARCHAR(45) NULL,
-	`time` TIMESTAMP NULL,
-PRIMARY KEY (`id`));
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`patient_id` INT NOT NULL,
+	`assignment_id` INT NOT NULL,
+	`time` TIMESTAMP NOT NULL,
+	`data_type` SMALLINT NOT NULL,	-- int=1; double=2; string=3
+	`integer_value` INT NULL,
+	`double_value` DOUBLE NULL,
+	`string_value` TEXT NULL,
+PRIMARY KEY (`id`),
+INDEX `fk_data_patient_id_idx` (`patient_id` ASC),
+CONSTRAINT `fk_data_patient_id`
+	FOREIGN KEY (`patient_id`)
+	REFERENCES `user` (`id`)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION,
+INDEX `fk_data_assignment_id_idx` (`assignment_id` ASC),
+CONSTRAINT `fk_data_assignment_id`
+	FOREIGN KEY (`patient_id`)
+	REFERENCES `user` (`id`)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
+);
+
+-- data_type: int=1; double=2; string=3
+insert into parameter (id, name, data_type) values
+	(1, 'blood_pressure', 3),
+	(2, 'height', 2),
+	(3, 'weight', 2),
+	(4, 'temperature', 2);
+
+
+-- It must be at the end of the file
+SET FOREIGN_KEY_CHECKS=0;

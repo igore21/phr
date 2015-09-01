@@ -45,7 +45,7 @@ if ($_POST['period']==PERIOD_WEEKS) {$frequency = $_POST['time_between']*7*24;}
 $_SESSION['new_assignment'] = $assignment;
 $assignment['frequency'] = $frequency;
 $assignment['doctor_id'] = $doctor_id;
-$assignment['pacient_id'] = $pacient_id;
+$assignment['patient_id'] = $pacient_id;
 
 try {
 	$success = DB::createAssignment($assignment);

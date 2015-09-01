@@ -71,9 +71,9 @@ class DB {
 				 select assignment.*, user.first_name as doctor_first_name, user.last_name as doctor_last_name 
 				 from assignment
 				 inner join user on assignment.doctor_id = user.id 
-				 where pacient_id = :pacient_id
+				 where patient_id = :patient_id
 		');
-		$stm->bindParam(':pacient_id', $userId);
+		$stm->bindParam(':patient_id', $userId);
 		if ($stm->execute()){
 			$result = $stm->fetchAll();
 		}
@@ -119,7 +119,7 @@ class DB {
 					select assignment.*, user.first_name as doctor_first_name, user.last_name as doctor_last_name 
 					from assignment
 				 	inner join user on assignment.doctor_id = user.id 
-					where start_time > :currentTime and pacient_id = :userId
+					where start_time > :currentTime and patient_id = :userId
 			');
 		}
 		else {
@@ -127,7 +127,7 @@ class DB {
 					select assignment.*, user.first_name as doctor_first_name, user.last_name as doctor_last_name 
 				 	from assignment
 				 	inner join user on assignment.doctor_id = user.id 
-					where start_time < :currentTime and pacient_id = :userId
+					where start_time < :currentTime and patient_id = :userId
 			');
 		}
 		$stm->bindParam(':currentTime', $currentTime);
@@ -155,7 +155,7 @@ class DB {
 	}
 	
 	
-// 	insert into assignment (pacient_id, doctor_id, name, description, actions, start_time, end_time, frequency, max_delay, comment)
+// 	insert into assignment (patient_id, doctor_id, name, description, actions, start_time, end_time, frequency, max_delay, comment)
 // 	values (3, 2, 'bi', 'jb k', 'jhb', '2015-7-16', '2015-7-26', 8, 1, 'bjhbj');
 	
 	//$stm->bindValue(':valid_from', date('Y-m-d H:i:s', strtotime($campaign['valid_from'])));
@@ -165,10 +165,10 @@ class DB {
 		$result = null;
 		$db = self::getDB();
 		$stm = $db->prepare('
-			insert into assignment (pacient_id, doctor_id, name, description,  start_time, end_time, frequency, max_delay, comment)
-			values (:pacient_id, :doctor_id, :name, :description, :start_time, :end_time, :frequency, :max_delay, :comment)
+			insert into assignment (patient_id, doctor_id, name, description,  start_time, end_time, frequency, max_delay, comment)
+			values (:patient_id, :doctor_id, :name, :description, :start_time, :end_time, :frequency, :max_delay, :comment)
 		');
-		$stm->bindParam(':pacient_id', $assignment['pacient_id']);
+		$stm->bindParam(':patient_id', $assignment['patient_id']);
 		$stm->bindParam(':doctor_id', $assignment['doctor_id']);
 		$stm->bindParam(':name', $assignment['name']);
 		$stm->bindParam(':description', $assignment['description']);
