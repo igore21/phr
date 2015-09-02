@@ -2,18 +2,12 @@
 require '../header.php';
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-<!-- <title>Log-In</title> -->
-</head>
-<body>
 <div>
 <form method = "POST" action = "processCreateAccount.php">
 	<ul class="list-unstyled create-assignment">
 		<div class="container">
 			<div class="form-group">
-				<h2 class="form-signin-heading"><div class="login">Unesite podaatke</div></h2>
+				<h2 class="form-signin-heading"><div class="login">Unesite podatke</div></h2>
 			</div>
 			<div class="form-group">
 				<li><label for="first_name" class="assField">Ime</label>
@@ -24,15 +18,19 @@ require '../header.php';
 				<input type="text" name="last_name" required></li>
 			</div>
 			<div class="form-group">
-				<li><label for="email" class="assField">Email</label>
-				<input type="email" name="email" placeholder="email@email.com" required></li>
+				<li><label for="file_id" class="assField">Broj kartona</label>
+				<input type="text" name="file_id" required></li>
+			</div>
+			<div class="form-group" autocomplete="off">
+				<li><label for="email" class="assField" autocomplete="off">Email</label>
+				<input type="email" name="email" placeholder="email@email.com" required autocomplete="off"></li>
 			</div>
 			<div class="form-group">
 				<li><label for="password" class="assField">Sifra</label>
 				<input type="password" name="password" placeholder="password" required></li>
 			</div>
 			<div class="form-group">
-				<li><input type="submit" value="Napravi"></li>
+				<button class="btn btn-md btn-primary save-change-pass-btn" id="saveChangedPassword" type="submit">Sacuvaj</button>
 			</div>
 		</div>
 	</ul>

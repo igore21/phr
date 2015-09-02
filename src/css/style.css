@@ -132,3 +132,17 @@
 .assField-btn {
 	
 }
+
+.ass-text-area {
+	width: 400px;
+}
+
+.ass-choose-area {
+	width: 180px;
+}
+
+.patient-heading {
+	text-align: center;
+	margin: 0 auto;
+	padding-top: 20px;
+}

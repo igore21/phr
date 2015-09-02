@@ -44,7 +44,13 @@ $(function() {
 		var last_name = $('#ln');
 		var email = $('#em');
 		var edit = $('#editProfileInfo');
+		var first_name_val = $('#fn').data('value');
+		var last_name_val = $('#ln').data('value');
+		var email_val = $('#em').data('value');
 		var saveOrCancel = $('.saveOrCancel');
+		first_name.val(first_name_val);
+		last_name.val(last_name_val);
+		email.val(email_val);
 		first_name.attr('disabled', true);
 		last_name.attr('disabled', true);
 		email.attr('disabled', true);
@@ -77,3 +83,5 @@ $(function() {
 
 
 
+
+}

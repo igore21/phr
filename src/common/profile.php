@@ -29,20 +29,20 @@ if (!empty($_GET)) {
 		</div>
 		<div class="form-group">
 			<li><label for="first_name" class="account-info">Ime</label>
-			<input type="text" name="first_name" id="fn" required value="<?php echo $user['first_name']?>" disabled="true"></li>
+			<input type="text" data-value="<?php echo $user['first_name']?>" name="first_name" id="fn" required value="<?php echo $user['first_name']?>" disabled="true"></li>
 		</div>
 		<div class="form-group">
 			<li><label for="last_name" class="account-info">Prezime</label>
-			<input type="text" name="last_name" id="ln" required value="<?php echo $user['last_name']?>" disabled="true"></li>
+			<input type="text" data-value="<?php echo $user['last_name']?>" name="last_name" id="ln" required value="<?php echo $user['last_name']?>" disabled="true"></li>
 		</div>
 		<div class="form-group">
 			<li><label for="email" class="account-info">Email</label>
-			<input type="email" name="email" placeholder="email@email.com" id="em" required value="<?php echo $user['email']?>" disabled="true"></li>
+			<input type="email" data-value="<?php echo $user['email']?>" name="email" placeholder="email@email.com" id="em" required value="<?php echo $user['email']?>" disabled="true"></li>
 		</div>
 		<button class="btn btn-md btn-primary btn-block edit-btn" id="editProfileInfo" type="submit">Promeni</button>
 		<div class="form-group saveOrCancel" style="display: none">
-			<button class="btn btn-sm btn-primary save-change-edit-btn" id="changeProfileInfo" type="submit">Sacuvaj</button>
-			<button class="btn btn-sm btn-primary cancel-change-edit-btn" id="cancelChangeProfileInfo" type="submit">Otkazi</button>
+			<button class="btn btn-sm btn-primary btn-primary save-change-edit-btn" id="changeProfileInfo" type="submit">Sacuvaj</button>
+			<button class="btn btn-sm btn-primary btn-danger cancel-change-edit-btn" id="cancelChangeProfileInfo" type="submit">Otkazi</button>
 		</div>
 	</ul>
 </div>
