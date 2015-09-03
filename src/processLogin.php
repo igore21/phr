@@ -16,14 +16,13 @@ $password = $_POST['password'];
 $user = DB::getUserByMail($mail);
 
 
-if ($user != null && $user['password'] == $password) {
+if (!empty($user) && $user['password'] == $password) {
 	$_SESSION['user'] = $user;
 	$r = getUserRole();
-	//var_dump($r);
-	if ($r == 1) redirect('../doctor/search.php');
-	if ($r == 2) redirect('../doctor/search.php');
-	var_dump($r);
+	if ($r == PACIENT_ROLE) redirect('/doctor/search.php');
+	if ($r == DOCTOR_ROLE) redirect('/doctor/search.php');
 }
 else {
+	$_SESSION['loginError'] = 'Pogresan Email ili sifra';
 	redirect('login.php');
 }
