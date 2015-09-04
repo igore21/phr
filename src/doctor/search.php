@@ -47,7 +47,7 @@ if ($search) {
 		<div class="container searchResult">
 			<div class="form-group">
 				<li><label for="id" class="searchField">Broj kartona</label>
-				<input type="text" name="id" value=<?php echo $params['file_id'];?>></li>
+				<input type="text" name="id" value=<?php  echo $params['file_id'];?>></li>
 			</div>
 			<div class="form-group">
 				<li><label for="email" class="searchField">E-mail</label>

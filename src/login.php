@@ -29,7 +29,7 @@ if (isset($_SESSION['loginError'])) {
 						<input type="password" name="password" class="form-control" placeholder="password" required>
 					</li>
 					<?php if (!empty($errorMessage)) {?>
-					<div class="btn btn-md btn-block alert btn-danger error-login" role="alert"><?php echo $errorMessage;?></div>
+					<div class="alert alert-danger error-login" role="alert"><?php echo $errorMessage;?></div>
 					<?php }?>
 					<button class="btn btn-lg btn-primary btn-block try-login" type="submit">Ulogujte se</button>				
 				</form>

@@ -3,7 +3,7 @@ require '../header.php';
 ?>
 
 <div>
-<form method = "POST" action = "processCreateAccount.php">
+<form method = "POST" action = "processCreateAccount.php" autocomplete="off">
 	<ul class="list-unstyled create-assignment">
 		<div class="container">
 			<div class="form-group">
@@ -11,7 +11,7 @@ require '../header.php';
 			</div>
 			<div class="form-group">
 				<li><label for="first_name" class="assField">Ime</label>
-				<input type="text" name="first_name" placeholder="first name" required></li>
+				<input type="text" name="first_name" required></li>
 			</div>
 			<div class="form-group">
 				<li><label for="last_name" class="assField">Prezime</label>
@@ -21,12 +21,13 @@ require '../header.php';
 				<li><label for="file_id" class="assField">Broj kartona</label>
 				<input type="text" name="file_id" required></li>
 			</div>
-			<div class="form-group" autocomplete="off">
-				<li><label for="email" class="assField" autocomplete="off">Email</label>
+			<div class="form-group">
+				<li><label for="email" class="assField">Email</label>
 				<input type="email" name="email" placeholder="email@email.com" required autocomplete="off"></li>
 			</div>
 			<div class="form-group">
 				<li><label for="password" class="assField">Sifra</label>
+				<input style="display:none" type="password" name="fakepasswordremembered"/>
 				<input type="password" name="password" placeholder="password" required></li>
 			</div>
 			<div class="form-group">

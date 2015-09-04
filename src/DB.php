@@ -33,23 +33,23 @@ class DB {
 		
 		if ($stm->execute()) {
 			$result = $stm->fetch();
-			if ($result == false) return null;
 		}
 		return $result;
 	}
 	
-	public static function createUser($first_name, $last_name, $email, $password, $role) {
+	public static function createUser($user) {
 		$result = null;
 		$db = self::getDB();
 		$stm = $db->prepare('
-			insert into user (first_name, last_name, email, password, role)
-			values (:first_name, :last_name, :email, :password, :role)
+			insert into user (first_name, last_name, file_id, email, password, role)
+			values (:first_name, :last_name, :file_id, :email, :password, :role)
 		');
-		$stm->bindParam(':first_name', $first_name);
-		$stm->bindParam(':last_name', $last_name);
-		$stm->bindParam(':email', $email);
-		$stm->bindParam(':password', $password);
-		$stm->bindParam(':role', $role);
+		$stm->bindParam(':first_name', $user['first_name']);
+		$stm->bindParam(':last_name', $user['last_name']);
+		$stm->bindParam(':file_id', $user['file_id']);
+		$stm->bindParam(':email', $user['email']);
+		$stm->bindParam(':password', $user['password']);
+		$stm->bindParam(':role', $user['role']);
 	
 		try {
 			echo '123';
@@ -299,14 +299,11 @@ class DB {
 		
 	
 	try {
-			echo '123';
 			$res = $stm->execute();
-			echo '46';
 			return $res;
 		} catch(PDOException $Exception ) {
-			echo 'sldkjf';
 		} catch (Exception $e) {
-			echo 'pukla baza';
+// 			echo 'pukla baza';
 			//TODO uradi...
 		}
 	}
@@ -325,14 +322,14 @@ class DB {
 	
 	
 		try {
-			echo '123';
+// 			echo '123';
 			$res = $stm->execute();
-			echo '46';
+//			echo '46';
 			return $res;
 		} catch(PDOException $Exception ) {
-			echo 'sldkjf';
+	//		echo 'sldkjf';
 		} catch (Exception $e) {
-			echo 'pukla baza';
+		//	echo 'pukla baza';
 			//TODO uradi...
 		}
 	}
