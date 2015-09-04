@@ -4,37 +4,30 @@ require_once '../common.php';
 require_once '../constants.php';
 getUserRole();
 $sesion = $_SESSION;
-var_dump($sesion['user']['id']);
-
-
-//var_dump($_POST);
-
-$newUser = $_POST;
 $ID = $sesion['user']['id'];
-//var_dump($ID);
 
+if (empty($_POST['fn']) || empty($_POST['ln']) || empty($_POST['em'])) {
+	$output = array('error' => 'doslo je do greske');
+	echo json_encode($output);
+	return;
+}
+
+$newUser = array(
+	'first_name' => $_POST['fn'],
+	'last_name' => $_POST['ln'],
+	'email' => $_POST['em'],
+);
+
+$output = array('success' => 's');
 try {
 	$success = DB::editUser($newUser, $ID);
-	var_dump($success);
-	//redirect('profile.php');
+	if (empty($success)) {
+		$output = array('error' => 'doslo je do greske');
+	}
 }
 
 catch (Exception $e) {
-	echo 'pukla baza';
-	//TODO uradi...
+	$output = array('error' => 'doslo je do greske');
 }
 
-if ($success) {
-	//redirect('profile.php');
-	//TODO redirektovanje na novu stranicu, kad je napravim
-}
-else {
-	echo 'nije';
-}
-
-
-
-
-
-
-?>
+echo json_encode($output);

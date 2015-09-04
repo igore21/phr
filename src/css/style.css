@@ -150,3 +150,15 @@
 .error-login, .try-login {
 	margin-top: 20px;
 }
+
+.error-login {
+	text-align: center;
+}
+
+.change-success-alert {
+	width: 260px;
+	display: block;
+	padding-botom: 20px;
+	margin-left: 80px;
+	text-align: center;
+}

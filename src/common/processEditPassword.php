@@ -4,44 +4,30 @@ require_once '../common.php';
 require_once '../constants.php';
 getUserRole();
 $sesion = $_SESSION;
-var_dump($sesion['user']['id']);
-
-$oldPassword = $sesion['user']['password'];
-$newPassword = $_POST['newPassword'];
-var_dump($oldPassword);
-var_dump($_POST);
-
-$newUser = $_POST;
 $ID = $sesion['user']['id'];
+$oldPassword = $_POST['op'];
+$newPassword = $_POST['np'];
 
-var_dump($ID);
+$output = array();
 
-if ($oldPassword == $_POST['password'] && $_POST['newPassword'] == $_POST['repeatNewPassword']) {
+$user = DB::getUserById($ID);
+$password = $user['password'];
 
-	try {
-		$success = DB::changePassword($newPassword, $ID);
-		var_dump($success);
-		redirect('profile.php');
-		//redirect('profile.php');
-	}
-	
-	catch (Exception $e) {
-		echo 'pukla baza';
-		//TODO uradi...
-	}
-	
-	if ($success) {
-		//$_SESSION.destroy();
-		redirect('profile.php');
-		//TODO redirektovanje na novu stranicu, kad je napravim
-	}
-	else {
-		echo 'nije';
+if (!($password === $oldPassword) || empty($_POST['op']) || empty($_POST['np'])) {
+	$output = array('error' => 'doslo je do greske');
+	echo json_encode($output);
+	return;
+}
+
+try {
+	$success = DB::changePassword($newPassword, $ID);
+	if (empty($success)) {
+		$output = array('error' => 'doslo je do greske');
 	}
 }
 
+catch (Exception $e) {
+	$output = array('error' => 'doslo je do greske');
+}
 
-
-
-
-?>
+echo json_encode($output);

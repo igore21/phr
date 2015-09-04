@@ -3,30 +3,25 @@ require_once '../DB.php';
 require_once '../common.php';
 require '../header.php';
 require_once '../constants.php';
+
 $sesion = $_SESSION;
 if (!empty($_GET)) {
-	$id = $_GET['user_id'];
-	$user = DB::getUserById($id);
-	$first_name = $user['first_name'];
-	$last_name = $user['last_name'];
-	$email = $user['email'];
+		$id = $_GET['user_id'];
+		$user = DB::getUserById($id);
+		$first_name = $user['first_name'];
+		$last_name = $user['last_name'];
+		$email = $user['email'];
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-	<link type = "text/css" href="css/bootstrap.css" rel="stylesheet"/>
-	<link type = "text/css" href="css/bootstrap-theme.css" rel="stylesheet"/>
-	<link type = "text/css" href="css/style.css" rel="stylesheet"/>
-</head>
-	
-<body>
+
 <form method = "POST" action = "processEditProfile.php">
 <div class="edit-user">
 	<ul class="list-unstyled search">
 		<div class="form-group">
 			<h2 class="form-signin-heading"><div class="user-info-h2">Podaci o korisniku</div></h2>
 		</div>
+		<div class="alert alert-danger change-success-alert" role="alert" id="profileChangeError" style="display: none"><p>Doslo je do greske</p></div>
+		<div class="alert alert-info change-success-alert" role="alert" id="profileChangeSuccess" style="display: none"><p>Uspesno izvrsena promena</p></div>
 		<div class="form-group">
 			<li><label for="first_name" class="account-info">Ime</label>
 			<input type="text" data-value="<?php echo $user['first_name']?>" name="first_name" id="fn" required value="<?php echo $user['first_name']?>" disabled="true"></li>
@@ -48,12 +43,14 @@ if (!empty($_GET)) {
 </div>
 </form>
 
-<form method = "POST" action = "processEditPassword.php">
+<form method = "POST" action = "#">
 <div class="edit-user">
 	<ul class="list-unstyled search">
 		<div class="form-group">
 			<h2 class="form-signin-heading"><div class="user-info-h2">Promena sifre</div></h2>
 		</div>
+		<div class="alert alert-danger change-success-alert" role="alert" id="passwordChangeError" style="display: none"><p>Doslo je do greske</p></div>
+		<div class="alert alert-info change-success-alert" role="alert" id="passwordChangeSuccess" style="display: none"><p>Uspesno izvrsena promena</p></div>
 		<div class="form-group">
 			<li><label for="password" class="account-info">Sifra</label>
 			<input type="password" name="password" placeholder="password" id="op" required></li>
@@ -66,9 +63,6 @@ if (!empty($_GET)) {
 			<li><label for="repeatNewPassword" class="account-info">Nova sifra</label>
 			<input type="password" name="repeatNewPassword" placeholder="password" id="rnp" required></li>
 		</div>
-		
-		
-		
 		<div class="form-group">
 			<button class="btn btn-md btn-primary save-change-pass-btn" id="saveChangedPassword" type="submit">Sacuvaj</button>
 		</div>
@@ -78,47 +72,7 @@ if (!empty($_GET)) {
 <?php }?>
 
 
-
-
-
-
-
-
-
-	</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
 <?php 
 require '../footer.php';
 ?>
