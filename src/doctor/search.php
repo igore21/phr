@@ -1,8 +1,6 @@
 <?php
-require __DIR__ . '/../header.php';
-require_once '../common.php';
+require_once '../header.php';
 require_once '../DB.php';
-
 
 $params = array(
 	'file_id' => '',
@@ -25,7 +23,6 @@ if (!empty($_GET['last_name'])) {
 }
 
 $search = false;
-
 foreach ($params as $param) {
 	if (!empty($param)) {
 		$search = true;
@@ -39,15 +36,14 @@ if ($search) {
 	$patients = DB::getUser($params);
 }
 
-
 ?>
 
 <form method = "GET" action = "search.php">
 	<ul class="list-unstyled search">
 		<div class="container searchResult">
 			<div class="form-group">
-				<li><label for="id" class="searchField">Broj kartona</label>
-				<input type="text" name="id" value=<?php  echo $params['file_id'];?>></li>
+				<li><label for="file_id" class="searchField">Broj kartona</label>
+				<input type="text" name="file_id" value=<?php  echo $params['file_id'];?>></li>
 			</div>
 			<div class="form-group">
 				<li><label for="email" class="searchField">E-mail</label>
@@ -82,16 +78,16 @@ if ($search) {
 			<th class="ass_description">E-mail</th>
 			<th class="ass_description">Akcije</th>
 		</thead>
-			<?php foreach ($patients as $v) {?>
+			<?php foreach ($patients as $patient) {?>
 			<tr class='list-unstyled'>
-				<td><?php echo $v['file_id'];?></td>
-				<td><?php echo $v['first_name'];?></td>
-				<td><?php echo $v['last_name'];?></td>
-				<td><?php echo $v['email'];?></td>
+				<td><?php echo $patient['file_id'];?></td>
+				<td><?php echo $patient['first_name'];?></td>
+				<td><?php echo $patient['last_name'];?></td>
+				<td><?php echo $patient['email'];?></td>
 				<td>
 					<ul class="list-unstyled akcije">
-						<li><a id="zadaci" href="../assignmentsPatient.php?user_id=<?php echo $v['id']?>">Zadaci</a></li>
-						<li><a id="noviZadatak" href="/doctor/createAssignment.php?user_id=<?php echo $v['id']?>">Novi Zadatak</a></li>
+						<li><a id="zadaci" href="/doctor/assignmentsPatient.php?user_id=<?php echo $patient['id']?>">Zadaci</a></li>
+						<li><a id="noviZadatak" href="/doctor/createAssignment.php?user_id=<?php echo $patient['id']?>">Novi Zadatak</a></li>
 						<li><a id="podaci" href="#">Podaci</a></li>
 					</ul>
 				</td>

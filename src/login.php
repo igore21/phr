@@ -31,7 +31,7 @@ if (isset($_SESSION['loginError'])) {
 					<?php if (!empty($errorMessage)) {?>
 					<div class="alert alert-danger error-login" role="alert"><?php echo $errorMessage;?></div>
 					<?php }?>
-					<button class="btn btn-lg btn-primary btn-block try-login" type="submit">Ulogujte se</button>				
+					<button class="btn btn-lg btn-primary btn-block try-login" type="submit">Ulogujte se</button>
 				</form>
 			</div>
 		</div>

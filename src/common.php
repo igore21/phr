@@ -1,7 +1,5 @@
 <?php
 require_once 'constants.php';
-require_once 'DB.php';
-
 
 function redirect($script, $params = null) {
 	$command = 'Location: ' . $script;

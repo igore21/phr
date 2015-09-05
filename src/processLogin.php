@@ -10,17 +10,14 @@ if (empty($_POST['usermail']) || empty($_POST['password'])) {
 	redirect('login.php');
 }
 
-$mail = $_POST['usermail'];
+$email = $_POST['usermail'];
 $password = $_POST['password'];
 
-$user = DB::getUserByMail($mail);
+$users = DB::getUser(array('email' => $email));
 
-
-if (!empty($user) && $user['password'] == $password) {
-	$_SESSION['user'] = $user;
-	$r = getUserRole();
-	if ($r == PACIENT_ROLE) redirect('/doctor/search.php');
-	if ($r == DOCTOR_ROLE) redirect('/doctor/search.php');
+if (!empty($users) && $users[0]['password'] == $password) {
+	$_SESSION['user'] = $users[0];
+	redirect('/index.php');
 }
 else {
 	$_SESSION['loginError'] = 'Pogresan Email ili sifra';
