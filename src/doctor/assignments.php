@@ -1,23 +1,19 @@
 
 <?php
-require '../header.php';
+require_once '../header.php';
 require_once '../common.php';
 require_once '../DB.php';
 
-
-$role = getUserRole();
 $userId = $_SESSION['user']['id'];
-if ($role == ANONYMOUS_ROLE) redirect('login.php');
+
 ?>
 
-
-
 <div class='page-header'>
-  <div class='btn-toolbar pull-right'>
-    <div class='btn-group'>
-      <button type='button' class='btn btn-primary'><a href="createAccount.php">Napravite novi zadatak</a></button>
-    </div>
-  </div>
+	<div class='btn-toolbar pull-right'>
+		<div class='btn-group'>
+			<button type='button' class='btn btn-primary'><a href="createAccount.php">Napravite novi zadatak</a></button>
+		</div>
+	</div>
 </div>
 
 <?php 

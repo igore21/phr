@@ -30,7 +30,6 @@ CREATE TABLE assignment (
 	`name` VARCHAR(45) NOT NULL,
 	`description` TEXT NULL,
 	`frequency` INT,
-	`max_delay` INT,
 	`comment` TEXT,
 PRIMARY KEY (`id`),
 INDEX `fk_patient_id_idx` (`patient_id` ASC),
@@ -99,4 +98,4 @@ insert into parameter (id, name, data_type) values
 
 
 -- It must be at the end of the file
-SET FOREIGN_KEY_CHECKS=0;
+SET FOREIGN_KEY_CHECKS=1;

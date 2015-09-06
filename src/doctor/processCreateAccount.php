@@ -20,15 +20,15 @@ try {
 		'file_id' => $_POST['file_id'],
 		'email' => $_POST['email'],
 		'password' => $_POST['password'],
-		'role' => PACIENT_ROLE,
+		'role' => PATIENT_ROLE,
 	);
 	$_SESSION['createAccountData'] = $account;
 	
-	$users = DB::getUser(array('email' => $account['email']));
-	if (!empty($users)) throw new Exception('Korisinik sa zadatim email-om vec postoji u bazi.');
+	$user = DB::getUser(array('email' => $account['email']));
+	if (!empty($user)) throw new Exception('Korisinik sa zadatim email-om vec postoji u bazi.');
 	
-	$users = DB::getUser(array('file_id' => $account['file_id']));
-	if (!empty($users)) throw new Exception('Korisinik sa zadatim brojem kartona vec postoji u bazi.');
+	$user = DB::getUser(array('file_id' => $account['file_id']));
+	if (!empty($user)) throw new Exception('Korisinik sa zadatim brojem kartona vec postoji u bazi.');
 	
 	$success = DB::createUser($account);
 	if (empty($success)) {

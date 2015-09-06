@@ -8,11 +8,10 @@ $role = getUserRole();
 if ($role != DOCTOR_ROLE) redirect('login.php');
 
 $patientId = $_GET['user_id'];
-$users = DB::getUser(array('user_id' => $patientId));
-if (empty($users)) {
+$patient = DB::getUser(array('user_id' => $patientId));
+if (empty($patient)) {
 	redirect('/doctor/search.php');
 }
-$patient = $users[0];
 
 $ass1 = DB::getPatientAssignmentsTable($patientId, true);
 $ass2 = DB::getPatientAssignmentsTable($patientId, false);

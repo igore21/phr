@@ -7,21 +7,19 @@ if (empty($_GET['user_id'])) {
 	redirect('/doctor/search.php');
 }
 $patientId = $_GET['user_id'];
-$users = DB::getUser(array('user_id' => $patientId));
-if (empty($users)) {
+$patient = DB::getUser(array('user_id' => $patientId));
+if (empty($patient)) {
 	redirect('/doctor/search.php');
 }
-$patient = $users[0];
 
 $assignment = array(
 	'patient_id' => $patientId,
-	'name' => 'a',
-	'description' => 'abc',
-	'start_time' => '2015-01-01',
-	'end_time' => '2015-01-05',
-	'time_between' => '1',
-	'period' => PERIOD_DAYS,
-	'max_delay' => '1',
+	'name' => '',
+	'description' => '',
+	'start_time' => '',
+	'end_time' => '',
+	'time_between' => '8',
+	'period' => PERIOD_HOURS,
 	'comment' => '',
 	'paramIds' => array(),
 );
@@ -44,12 +42,16 @@ if (isset($_SESSION['createAssignmentError'])) {
 }
 
 $assignment['all_periods'] = array(
-	PERIOD_HOURS => 'sati',
-	PERIOD_DAYS => 'dani',
-	PERIOD_WEEKS =>	'nedelje',
+	PERIOD_HOURS => 'sat/sati',
+	PERIOD_DAYS => 'dan/dana',
+	PERIOD_WEEKS =>	'nedelje/nedelja',
 );
 
 ?>
+
+<?php if (!empty($errorMsg)) { ?>
+	<div class="alert alert-danger change-success-alert" role="alert"><?php echo $errorMsg; ?></div>
+<?php } ?>
 
 <form method="POST" action="processCreateAssignment.php">
 	<ul class="list-unstyled create-assignment">
@@ -58,28 +60,39 @@ $assignment['all_periods'] = array(
 				<h2 class="form-signin-heading">Napravite zadatak</h2>
 			</div>
 			<div class="form-group">
-				<li><label for="patientId"></label>
-				<input style="display: none" name="patient_id" value="<?php echo $assignment['patient_id']; ?>"></li>
-			</div>
-			<div class="form-group">
-				<li><label for="name" class="assField">Naziv zadatka</label>
-				<input class="assField" type="text" name="name" required value="<?php echo $assignment['name']; ?>"></li>
-			</div>
-			<div class="form-group">
-				<li><label for="description" class="assField">Opis zadatka</label>
-				<textarea class="ass-text-area" type="text" name="description" required><?php echo $assignment['description']; ?></textarea></li>
-			</div>
-			<div class="form-group">
-				<li><label for="start_time" class="assField">Datum pocetka</label>
-				<input class="ass-choose-area" type="date" name="start_time" required value="<?php echo $assignment['start_time']?>"></li>
-			</div>
-			<div class="form-group">
-				<li><label for="end_time" class="assField">Datum zavrsetka</label>
-				<input class="ass-choose-area" type="date" name="end_time" required value="<?php echo $assignment['end_time']?>"></li>
+				<li>
+					<label for="patientId"></label>
+					<input style="display: none" name="patient_id" value="<?php echo $assignment['patient_id']; ?>">
+				</li>
 			</div>
 			<div class="form-group">
 				<li>
-					<label class="assField">Primenjivati na</label>
+					<label for="name" class="assField">Naziv zadatka</label>
+					<input class="assField" type="text" name="name" required value="<?php echo $assignment['name']; ?>">
+				</li>
+			</div>
+			<div class="form-group">
+				<li>
+					<label for="description" class="assField">Opis zadatka</label>
+					<textarea class="ass-text-area" type="text" name="description"><?php echo $assignment['description']; ?></textarea>
+				</li>
+			</div>
+			<div class="form-group">
+				<li>
+					<label for="start_time" class="assField">Datum pocetka</label>
+					<input class="ass-choose-area" type="date" name="start_time" required value="<?php echo $assignment['start_time']?>">
+				</li>
+			</div>
+			<div class="form-group">
+				<li>
+					<label for="end_time" class="assField">Datum zavrsetka</label>
+					<input class="ass-choose-area" type="date" name="end_time" required value="<?php echo $assignment['end_time']?>">
+				</li>
+			</div>
+			<div class="form-group">
+				<div><h3 class="form-signin-heading">Nacin primene</h3></div>
+				<li>
+					<label class="assField">Primenjuje se 1 na svaka/svakih</label>
 					<input class="ass-choose-area" type="int" name="time_between" required value="<?php echo $assignment['time_between']?>"/>
 					<select name="period" class="ass-choose-area">
 						<?php foreach ($assignment['all_periods'] as $periodId => $periodName) {?>
@@ -92,13 +105,9 @@ $assignment['all_periods'] = array(
 			</div>
 			<div class="form-group">
 				<li>
-					<label for="max_delay" class="assField">Maksimalno kasnjenje</label>
-					<input class="ass-choose-area" type="number" name="max_delay" required value="<?php echo $assignment['max_delay']?>"/>
+					<label for="comment" class="assField">Komentar</label>
+					<textarea class="ass-text-area" type="text" name="comment" value="<?php echo $assignment['comment']?>"></textarea>
 				</li>
-			</div>
-			<div class="form-group">
-				<li><label for="comment" class="assField">Komentar</label>
-				<textarea class="ass-text-area" type="text" name="comment" value="<?php echo $assignment['comment']?>"></textarea></li>
 			</div>
 			
 			<div class="form-group">

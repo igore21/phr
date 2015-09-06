@@ -19,7 +19,7 @@ class DB {
 	// User
 	//=============================
 	
-	public static function getUser($search) {
+	public static function getUsers($search) {
 		$result = array();
 		$condition = '';
 		$conds = array();
@@ -55,6 +55,12 @@ class DB {
 		}
 		
 		return $result;
+	}
+	
+	public static function getUser($search) {
+		$users = DB::getUsers($search);
+		if (!empty($users)) return $users[0];
+		return null;
 	}
 	
 	public static function editUser($user, $userId) {
@@ -144,7 +150,7 @@ class DB {
 		
 		if ($active) {
 			$stm = $db->prepare('
-				select assignment.start_time, end_time, name, description, frequency, max_delay, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
+				select assignment.start_time, end_time, name, description, frequency, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
 				from assignment
 				inner join user on assignment.doctor_id = user.id
 				where start_time > :currentTime
@@ -152,7 +158,7 @@ class DB {
 		}
 		else {
 			$stm = $db->prepare('
-				select assignment.start_time, end_time, name, description, frequency, max_delay, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
+				select assignment.start_time, end_time, name, description, frequency, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
 				from assignment
 				inner join user on assignment.doctor_id = user.id
 				where start_time < :currentTime
@@ -198,8 +204,8 @@ class DB {
 	public static function createAssignment($assignment) {
 		$db = self::getDB();
 		$stm = $db->prepare('
-			insert into assignment (patient_id, doctor_id, name, description,  start_time, end_time, frequency, max_delay, comment)
-			values (:patient_id, :doctor_id, :name, :description, :start_time, :end_time, :frequency, :max_delay, :comment)
+			insert into assignment (patient_id, doctor_id, name, description,  start_time, end_time, frequency, comment)
+			values (:patient_id, :doctor_id, :name, :description, :start_time, :end_time, :frequency, :comment)
 		');
 		$stm->bindParam(':patient_id', $assignment['patient_id']);
 		$stm->bindParam(':doctor_id', $assignment['doctor_id']);
@@ -208,7 +214,6 @@ class DB {
 		$stm->bindValue(':start_time', date('Y-m-d H:i:s', strtotime($assignment['start_time'])));
  		$stm->bindValue(':end_time', date('Y-m-d H:i:s', strtotime($assignment['end_time'])));
 		$stm->bindParam(':frequency', $assignment['frequency']);
-		$stm->bindParam(':max_delay', $assignment['max_delay']);
 		$stm->bindParam(':comment', $assignment['comment']);
 		
 		if (!$stm->execute()) { throw new Exception($stm->errorInfo()); }

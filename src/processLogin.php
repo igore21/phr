@@ -13,10 +13,10 @@ if (empty($_POST['usermail']) || empty($_POST['password'])) {
 $email = $_POST['usermail'];
 $password = $_POST['password'];
 
-$users = DB::getUser(array('email' => $email));
+$user = DB::getUser(array('email' => $email));
 
-if (!empty($users) && $users[0]['password'] == $password) {
-	$_SESSION['user'] = $users[0];
+if (!empty($user) && $user['password'] == $password) {
+	$_SESSION['user'] = $user;
 	redirect('/index.php');
 }
 else {

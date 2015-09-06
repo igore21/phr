@@ -32,8 +32,8 @@ foreach ($params as $param) {
 
 $patients = array();
 if ($search) {
-	$params['role'] = PACIENT_ROLE;
-	$patients = DB::getUser($params);
+	$params['role'] = PATIENT_ROLE;
+	$patients = DB::getUsers($params);
 }
 
 ?>
