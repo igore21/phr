@@ -18,16 +18,6 @@ $ass1 = DB::getPatientAssignmentsTable($patientId, true);
 $ass2 = DB::getPatientAssignmentsTable($patientId, false);
 
 ?>
-<nav class="navbar navbar-inverse" id="submenu">
-	<div class="container">
-		<div>
-			<p class="navbar-text"><a href="#">Zadaci</a></p>
-			<p class="navbar-text"><a href="#">Novi zadatak</a></p>
-			<p class="navbar-text"><a href="#">Podaci</a></p>
-		</div>
-	</div>
-</nav>
-
 <?php if (isset($_SESSION['createAssignmentSuccess'])) {
 	unset($_SESSION['createAssignmentSuccess']);
 ?>
