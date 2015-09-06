@@ -1,7 +1,7 @@
 <?php
-require '../header.php';
-require_once '../common.php';
-require_once '../DB.php';
+require '../../header.php';
+require_once '../../common.php';
+require_once '../../DB.php';
 
 
 $role = getUserRole();
@@ -27,6 +27,12 @@ $ass2 = DB::getPatientAssignmentsTable($patientId, false);
 		</div>
 	</div>
 </nav>
+
+<?php if (isset($_SESSION['createAssignmentSuccess'])) {
+	unset($_SESSION['createAssignmentSuccess']);
+?>
+	<div class="alert alert-info change-success-alert" role="alert">Uspesno napravljen zadatak</div>
+<?php } ?>
 
 <div>
 	<div class="col-md-11 assignmentTable">
@@ -97,8 +103,6 @@ $ass2 = DB::getPatientAssignmentsTable($patientId, false);
 	</div>
 </div>
 
-
-	
 <?php 
-require '../footer.php';
+require '../../footer.php';
 ?>

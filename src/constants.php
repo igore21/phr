@@ -7,7 +7,9 @@ define('PERIOD_HOURS', 1);
 define('PERIOD_DAYS', 2);
 define('PERIOD_WEEKS', 3);
 
-define('blood_pressure', 1);
-define('height', 2);
-define('weight', 3);
-define('temperature', 4);
+$TANSLATED_PARAMETERS_RS = array(
+	'blood_pressure' => 'krvni pritisak',
+	'height' => 'visina',
+	'weight' => 'tezina',
+	'temperature' => 'telesna temperatura',
+);

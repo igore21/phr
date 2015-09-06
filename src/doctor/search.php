@@ -86,8 +86,8 @@ if ($search) {
 				<td><?php echo $patient['email'];?></td>
 				<td>
 					<ul class="list-unstyled akcije">
-						<li><a id="zadaci" href="/doctor/assignmentsPatient.php?user_id=<?php echo $patient['id']?>">Zadaci</a></li>
-						<li><a id="noviZadatak" href="/doctor/createAssignment.php?user_id=<?php echo $patient['id']?>">Novi Zadatak</a></li>
+						<li><a id="zadaci" href="/doctor/patient/assignmentsPatient.php?user_id=<?php echo $patient['id']?>">Zadaci</a></li>
+						<li><a id="noviZadatak" href="/doctor/patient/createAssignment.php?user_id=<?php echo $patient['id']?>">Novi Zadatak</a></li>
 						<li><a id="podaci" href="#">Podaci</a></li>
 					</ul>
 				</td>

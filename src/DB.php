@@ -103,7 +103,24 @@ class DB {
 		return $stm->execute();
 	}
 	
-	//
+	
+	//=============================
+	// Assignments
+	//=============================
+	
+	public static function getParameters() {
+		$result = array();
+		$db = self::getDB();
+		$stm = $db->prepare('select * from parameter');
+		if ($stm->execute()) {
+			$params = $stm->fetchAll();
+			foreach ($params as $index => $param) {
+				$result[$param['id']] = $param;
+			}
+		}
+		return $result;
+	}
+	
 	public static function getAssignments($userId) {
 		$result = null;
 		$db = self::getDB();
@@ -178,23 +195,7 @@ class DB {
 		return $result;
 	}
 	
-	public static function getAssignmentId($assignment) {
-		$result = null;
-		$db = self::getDB();
-	
-		$stm = $db->prepare('
-			select id
-			from assignment
-		');
-		
-		if ($stm->execute()){
-			$result = $stm->fetchAll();
-		}
-		return $result;
-	}
-	
 	public static function createAssignment($assignment) {
-		$result = null;
 		$db = self::getDB();
 		$stm = $db->prepare('
 			insert into assignment (patient_id, doctor_id, name, description,  start_time, end_time, frequency, max_delay, comment)
@@ -209,54 +210,27 @@ class DB {
 		$stm->bindParam(':frequency', $assignment['frequency']);
 		$stm->bindParam(':max_delay', $assignment['max_delay']);
 		$stm->bindParam(':comment', $assignment['comment']);
-	
-		try {
-			if (!$stm->execute()) {
-				print_r($stm->errorInfo());
-			}
-			return $stm->errorInfo();
-		} catch(PDOException $Exception ) {
-		} catch (Exception $e) {
-		}
+		
+		if (!$stm->execute()) { throw new Exception($stm->errorInfo()); }
+		$assignmentId = $db->lastInsertId();
+		
+		return DB::attachParametersToAssignment($assignment['paramIds'], $assignmentId);
 	}
 	
-	public static function getParameters() {
-		$result = array();
+	public static function attachParametersToAssignment($parameters, $assignmentId) {
 		$db = self::getDB();
-		$stm = $db->prepare('select * from parameter');
-		if ($stm->execute()) {
-			$result = $stm->fetchAll();
-		}
-		return $result;
-	}
-	
-	public static function addParameter($parameters, $assignmentId) {
-		$result = null;
-		$db = self::getDB();
+		
 		$paramPlaceholders = implode(', ', array_fill(0, count($parameters), '(?, ?)'));
-		var_dump($paramPlaceholders);
 		$stm = $db->prepare('INSERT INTO assignment_parameter (assignment_id, parameter_id) VALUES ' . $paramPlaceholders);
+		
 		foreach ($parameters as $pak => $pav) {
 			$stm->bindValue(2 * ($pak-1) + 1, $assignmentId);
 			$stm->bindValue(2 * ($pak-1) + 2, $pav);
 		}
 		
-	try {
-			echo '123';
-			if (!$stm->execute()) {
-				print_r($stm->errorInfo());
-				echo 'majmun';
-			}
-			echo '46';
-			return $stm->errorInfo();
-		} catch(PDOException $Exception ) {
-			echo 'sldkjf';
-		} catch (Exception $e) {
-			echo 'pukla baza';
-			//TODO uradi...
-		}
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		
+		return true;
 	}
 	
-	//insert into assignment_parameter (assignment_id, parameter_id) values (1, 1),
-	//(1, 3), (3, 2), (3, 4);
 }

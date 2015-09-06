@@ -2,28 +2,33 @@ $(function() {
 	$('#addParameter').click(function() {
 		var templateRow = $('#templateParameter');
 		var newRow = templateRow.clone();
+		
 		var parameterList = $('#parameterList');
-		var selectedParameterText = parameterList.find(':selected').text();
-		var selectedParameterValue = parameterList.find(':selected').val();
-		newRow.find('.paramId').val(selectedParameterValue);
-		console.log(selectedParameterValue);
+		var selectedParameter = parameterList.find(':selected');
 		
+		if (selectedParameter.val() == 0) {
+			return false;
+		}
+		
+		selectedParameter.prop("disabled", true);
+		parameterList.val(0);
+		
+		newRow.find('.paramId').val(selectedParameter.val());
+		newRow.find('.parameterName').text(selectedParameter.text());
 		newRow.removeAttr('id');
-		newRow.find('.parameterName').text(selectedParameterText);
 		newRow.show();
-		
 		$('.parameterElem:last').after(newRow);
 		
 		return false;
 	});
 	
-	$('.removeParameter').click(function() {
-		
-	});
-	
 	$('#parameters').on('click', '.removeParameter', function() {
 		var parameter = $(this).closest('.parameterElem');
+		var parameterId = parameter.find('.paramId').val();
+		
+		$('#parameterList option[value="' + parameterId + '"]').prop('disabled', false);
 		parameter.remove();
+		return false;
 	});
 	
 	$('#editProfileInfo').click(function(){
