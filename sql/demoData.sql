@@ -1,6 +1,7 @@
 SET FOREIGN_KEY_CHECKS=0;
 truncate user;
 truncate assignment;
+truncate assignment_parameter;
 SET FOREIGN_KEY_CHECKS=1;
 
 insert into user (id, first_name, file_id, last_name, email, password, role, active) values
@@ -19,21 +20,21 @@ insert into user (id, first_name, file_id, last_name, email, password, role, act
 	(13, 'Jovan', 2121, 'Jovanovic', 'jj@gmail.com', '111', 1, 1),
 	(14, 'Ivan', 2222, 'Kokeric', 'ik@gmail.com', '111', 1, 1);
 
-insert into assignment (patient_id, doctor_id, start_time, end_time, name, description) values
-	(3, 1, '2015-09-12', '2015-09-19', 'lecenje gripa', 'terapija antibioticima'),
-	(4, 1, '2015-09-12', '2015-09-29', '', ''),
-	(5, 2, '2015-08-12', '2015-08-28', 'lecenje stomacnog virusa', ''),
-	(6, 2, '2015-07-12', '2015-07-19', 'lecenje gnojeve angine', 'terapija inekcijama'),
-	(7, 2, '2015-07-12', '2015-07-21', 'lecenje stomacnog virusa', ''),
-	(7, 1, '2015-09-12', '2015-09-30', 'lecenje upale uva', 'terapija inekcijama'),
-	(7, 2, '2015-09-01', '2015-09-22', 'lecenje gripa', 'terapija antibioticima'),
-	(8, 2, '2015-10-12', '2015-10-19', 'lecenje gnojeve angine', 'terapija inekcijama'),
-	(9, 1, '2015-08-12', '2015-09-19', '', ''),
-	(9, 2, '2015-09-07', '2015-09-21', 'lecenje upale uva', 'terapija inekcijama'),
-	(10, 2, '2015-11-12', '2015-11-19', '', ''),
-	(11, 1, '2015-11-01', '2015-11-21', '', ''),
-	(11, 2, '2015-11-01', '2015-11-15', 'lecenje stomacnog virusa', ''),
-	(12, 2, '2015-11-10', '2015-11-24', 'lecenje upale uva', 'terapija inekcijama');
+insert into assignment (id, patient_id, doctor_id, start_time, end_time, name, description) values
+	(1,3, 1, '2015-09-12', '2015-09-19', 'lecenje gripa', 'terapija antibioticima'),
+	(2, 4, 1, '2015-09-12', '2015-09-29', '', ''),
+	(3, 5, 2, '2015-08-12', '2015-08-28', 'lecenje stomacnog virusa', ''),
+	(4, 6, 2, '2015-07-12', '2015-07-19', 'lecenje gnojeve angine', 'terapija inekcijama'),
+	(5, 7, 2, '2015-07-12', '2015-07-21', 'lecenje stomacnog virusa', ''),
+	(6, 7, 1, '2015-09-12', '2015-09-30', 'lecenje upale uva', 'terapija inekcijama'),
+	(7, 7, 2, '2015-09-01', '2015-09-22', 'lecenje gripa', 'terapija antibioticima'),
+	(8, 8, 2, '2015-10-12', '2015-10-19', 'lecenje gnojeve angine', 'terapija inekcijama'),
+	(9, 9, 1, '2015-08-12', '2015-09-19', '', ''),
+	(10, 9, 2, '2015-09-07', '2015-09-21', 'lecenje upale uva', 'terapija inekcijama'),
+	(11, 10, 2, '2015-11-12', '2015-11-19', '', ''),
+	(12, 11, 1, '2015-11-01', '2015-11-21', '', ''),
+	(13, 11, 2, '2015-11-01', '2015-11-15', 'lecenje stomacnog virusa', ''),
+	(14, 12, 2, '2015-11-10', '2015-11-24', 'lecenje upale uva', 'terapija inekcijama');
 
 INSERT INTO assignment_parameter (assignment_id, parameter_id) values
 (1, 4), (1, 10),
