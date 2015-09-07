@@ -94,7 +94,13 @@ insert into parameter (id, name, data_type) values
 	(1, 'blood_pressure', 3),
 	(2, 'height', 2),
 	(3, 'weight', 2),
-	(4, 'temperature', 2);
+	(4, 'temperature', 2),
+	(5, 'numberOfHeartBeats', 1),
+	(6, 'bloodSugerLevel', 2),
+	(7, 'glucoseLevel', 2),
+	(8, 'sleepQuality', 3),
+	(9, 'functionalAbility', 3),
+	(10, 'appetite', 3);
 
 
 -- It must be at the end of the file

@@ -21,17 +21,33 @@ insert into user (id, first_name, file_id, last_name, email, password, role, act
 
 insert into assignment (patient_id, doctor_id, start_time, end_time, name, description) values
 	(3, 1, '2015-09-12', '2015-09-19', 'lecenje gripa', 'terapija antibioticima'),
-	(4, 1, '2015-09-12', '2015-09-29', 'lecenje gnojeve angine', 'terapija inekcijama'),
-	(5, 2, '2015-08-12', '2015-08-28', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+	(4, 1, '2015-09-12', '2015-09-29', '', ''),
+	(5, 2, '2015-08-12', '2015-08-28', 'lecenje stomacnog virusa', ''),
 	(6, 2, '2015-07-12', '2015-07-19', 'lecenje gnojeve angine', 'terapija inekcijama'),
-	(7, 2, '2015-07-12', '2015-07-21', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+	(7, 2, '2015-07-12', '2015-07-21', 'lecenje stomacnog virusa', ''),
 	(7, 1, '2015-09-12', '2015-09-30', 'lecenje upale uva', 'terapija inekcijama'),
 	(7, 2, '2015-09-01', '2015-09-22', 'lecenje gripa', 'terapija antibioticima'),
 	(8, 2, '2015-10-12', '2015-10-19', 'lecenje gnojeve angine', 'terapija inekcijama'),
-	(9, 1, '2015-08-12', '2015-09-19', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+	(9, 1, '2015-08-12', '2015-09-19', '', ''),
 	(9, 2, '2015-09-07', '2015-09-21', 'lecenje upale uva', 'terapija inekcijama'),
-	(10, 2, '2015-11-12', '2015-11-19', 'plasticna operacija', 'ugradjivanje silikona'),
-	(11, 1, '2015-11-01', '2015-11-21', 'lecenje gnojeve angine', 'terapija inekcijama'),
-	(11, 2, '2015-11-01', '2015-11-15', 'lecenje stomacnog virusa', 'terapija inekcijama'),
+	(10, 2, '2015-11-12', '2015-11-19', '', ''),
+	(11, 1, '2015-11-01', '2015-11-21', '', ''),
+	(11, 2, '2015-11-01', '2015-11-15', 'lecenje stomacnog virusa', ''),
 	(12, 2, '2015-11-10', '2015-11-24', 'lecenje upale uva', 'terapija inekcijama');
+
+INSERT INTO assignment_parameter (assignment_id, parameter_id) values
+(1, 4), (1, 10),
+(2, 1), (2, 5),
+(3, 2), (3, 10), (3, 3),
+(4, 2), (4, 10), (4, 8),
+(5, 2), (5, 10), (5, 3),
+(6, 4), (6, 3), (6, 8),
+(7, 4), (7, 10),
+(8, 4), (8, 10), (8, 8),
+(9, 1), (9, 5), (9, 9),
+(10, 4), (10, 3), (10, 8),
+(11, 6), (11, 7), (11, 9),
+(12, 2), (12, 3), (12, 7), (12, 9),
+(13, 2), (13, 10), (13, 3),
+(14, 4), (14, 3), (14, 8);
 
