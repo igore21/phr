@@ -82,7 +82,7 @@ if (isset($_GET['user_id'])) {
 	<div id="mainContent">
 		<?php if ($hasSubMenu) { ?>
 		<span class="subMenu">
-			<div class="patientNameSubMenu">Pacijent: <?php echo $reqUserFullName; ?></div>
+			<div class="patientNameSubMenu h4">Pacijent: <?php echo $reqUserFullName; ?></div>
 			<div>
 				<ul class="nav nav-pills nav-stacked">
 					<li role="presentation" class="<?php if ($pageName == 'assignmentsPatient.php') echo 'active'; ?>">
