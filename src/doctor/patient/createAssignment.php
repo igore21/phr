@@ -18,22 +18,23 @@ $assignment = array(
 	'description' => '',
 	'start_time' => '',
 	'end_time' => '',
-	'time_between' => '8',
-	'period' => PERIOD_HOURS,
-	'comment' => '',
-	'paramIds' => array(),
+	'params' => array(),
 );
 
-$allParameters = DB::getParameters();
-foreach ($allParameters as $id => $param) {
-	$allParameters[$id]['name'] = $TANSLATED_PARAMETERS_RS[$param['name']];
-}
-$assignment['parameters'] = $allParameters;
+$allParameters = getTranslatedParameters();
 
 if (isset($_SESSION['new_assignment'])) {
 	$assignment = array_replace($assignment, $_SESSION['new_assignment']);
 	unset($_SESSION['new_assignment']);
 }
+
+// Adding template param
+$assignment['params'][] = array(
+	'id' => 0,
+	'execute_after' => '',
+	'time_unit' => '',
+	'comment' => '',
+);
 
 $errorMsg = '';
 if (isset($_SESSION['createAssignmentError'])) {
@@ -89,26 +90,6 @@ $assignment['all_periods'] = array(
 					<input class="ass-choose-area" type="date" name="end_time" required value="<?php echo $assignment['end_time']?>">
 				</li>
 			</div>
-			<div class="form-group">
-				<div><h3 class="form-signin-heading">Nacin primene</h3></div>
-				<li>
-					<label class="assField">Primenjuje se 1 na svaka/svakih</label>
-					<input class="ass-choose-area" type="int" name="time_between" required value="<?php echo $assignment['time_between']?>"/>
-					<select name="period" class="ass-choose-area">
-						<?php foreach ($assignment['all_periods'] as $periodId => $periodName) {?>
-						<option value="<?php echo $periodId;?>" <?php if ($periodId == $assignment['period']) {echo 'selected="selected"';} ?>>
-							<?php echo $periodName; ?>
-						</option>
-						<?php }?>
-					</select>
-				</li>
-			</div>
-			<div class="form-group">
-				<li>
-					<label for="comment" class="assField">Komentar</label>
-					<textarea class="ass-text-area" type="text" name="comment" value="<?php echo $assignment['comment']?>"></textarea>
-				</li>
-			</div>
 			
 			<div class="form-group">
 				<div><h3 class="form-signin-heading">Parametri</h3></div>
@@ -116,7 +97,7 @@ $assignment['all_periods'] = array(
 					<label class="assField">Izaberite parametre</label>
 					<select class="ass-choose-area" id="parameterList" name="params">
 						<option selected="selected" value="0">Izbaerite parametar</option>
-						<?php foreach ($assignment['parameters'] as $index => $param) {?>
+						<?php foreach ($allParameters as $index => $param) {?>
 							<option value="<?php echo $param['id'];?>"><?php echo $param['name'];?></option>
 						<?php }?>
 					</select>
@@ -125,18 +106,43 @@ $assignment['all_periods'] = array(
 			</div>
 			
 			<div id="parameters">
-				<div id="templateParameter" class="parameterElem" style="display: none;">
-					<input type="hidden" class="paramId" name="paramIds[]" value="0"></input>
-					<a class="btn btn-default removeParameter" href="#">x</a>
-					<span class="parameterName"></span>
+				<div class="col-md-11">
+					<table class="table">
+						<thead>
+							<th class="param_col_name">Naziv</th>
+							<th class="param_col_execute">Izvrsavati na svakih</th>
+							<th class="param_col_unite">Vremenska jedinica</th>
+							<th class="param_col_comment">Komentar</th>
+							<th class="param_col_remove"></th>
+						</thead>
+						<?php foreach ($assignment['params'] as $param) { ?>
+						<tr class="parameterElem" <?php if ($param['id'] == 0) echo 'id="templateParameter" style="display: none;"'; ?>>
+							<input type="hidden" class="paramId" name="params[<?php echo $param['id']; ?>][id]" value="<?php echo $param['id']?>"></input>
+							<th>
+								<span class="paramName">
+									<?php if (isset($allParameters[$param['id']]['name'])) echo $allParameters[$param['id']]['name']; ?>
+								</span>
+							</th>
+							<th><input class="paramExecuteAfter" type="number" name="params[<?php echo $param['id']; ?>][execute_after]" value="<?php echo $param['execute_after']?>" style="width: 100px;"></th>
+							<th>
+								<select class="ass-choose-area paramTimeUnit" name="params[<?php echo $param['id']; ?>][time_unit]">
+									<?php foreach ($assignment['all_periods'] as $periodId => $periodName) {?>
+									<option value="<?php echo $periodId;?>" <?php if ($periodId == $param['time_unit']) {echo 'selected="selected"';} ?>>
+										<?php echo $periodName; ?>
+									</option>
+									<?php }?>
+								</select>
+							</th>
+							<th>
+								<textarea class="ass-text-area paramComment" type="text" name="params[<?php echo $param['id']; ?>][comment]"><?php echo $param['comment']?></textarea>
+							</th>
+							<th>
+								<a class="btn btn-default removeParameter" href="#">x</a>
+							</th>
+						</tr>
+						<?php } ?>
+					</table>
 				</div>
-				<?php foreach ($assignment['paramIds'] as $id) { ?>
-				<div class="parameterElem">
-					<input type="hidden" class="paramId" name="paramIds[]" value="<?php echo $id; ?>"></input>
-					<a class="btn btn-default removeParameter" href="#">x</a>
-					<span class="parameterName"><?php echo $assignment['parameters'][$id]['name'] ?></span>
-				</div>
-				<?php } ?>
 			</div>
 			
 			<div class="form-group">

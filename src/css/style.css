@@ -15,24 +15,21 @@
 	margin-left: 50px;
 }
 
-.ass_name {
-	width: 300px;
-}
-.ass_durration {
-	width: 700px;
-}
-.ass_description {
-	width: 300px;
-}
-.ass_gave {
-	width: 300px;
-}
-.ass_head {
-	
-}
-.table_name {
-	margin-left: 30px;
-}
+.ass_numb { width: 35px; }
+.ass_patient, .ass_doctor { width: 160px }
+.ass_name { width: 200px; }
+.ass_description { width: 250px; }
+.ass_durration { width: 200px; }
+.ass_action { width: 70px; }
+
+.assignment_patient .ass_doctor { width: 120px }
+.assignment_patient .ass_name { width: 150px; }
+.assignment_patient .ass_description { width: 200px; }
+.assignment_patient .ass_durration { width: 180px; }
+.linkList { margin-bottom: 0px; }
+
+
+.table_name { margin-left: 30px; }
 .login-login {
 	width: 400px;
 	display: block;
@@ -73,7 +70,9 @@
 }
 
 .assignmentTable {
-	
+	width: 90%;
+	margin-left: 40px;
+	margin-top: 30px;
 }
 
 .edit-btn {
@@ -164,9 +163,7 @@
 	margin-top: 20px;
 }
 
-.error-login {
-	text-align: center;
-}
+.error-login { text-align: center; }
 
 .change-success-alert {
 	width: 260px;
@@ -175,3 +172,8 @@
 	margin-left: 80px;
 	text-align: center;
 }
+
+.param_col_name { width: 150px; }
+.param_col_execute { width: 200px; }
+.param_col_unite { width: 200px; }
+.param_col_remove { width: 60px; }

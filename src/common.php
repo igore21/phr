@@ -1,5 +1,6 @@
 <?php
 require_once 'constants.php';
+require_once 'DB.php';
 
 function redirect($script, $params = null) {
 	$command = 'Location: ' . $script;
@@ -21,3 +22,13 @@ function getUserRole () {
 	return $role;
 }
 
+function getTranslatedParameters() {
+	$allParameters = DB::getAllParameters();
+	foreach ($allParameters as $id => $param) {
+		if (isset($TANSLATED_PARAMETERS_RS[$param['name']])) {
+			$allParameters[$id]['name'] = $TANSLATED_PARAMETERS_RS[$param['name']];
+		}
+	}
+	
+	return $allParameters;
+}

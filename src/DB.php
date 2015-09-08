@@ -114,7 +114,7 @@ class DB {
 	// Assignments
 	//=============================
 	
-	public static function getParameters() {
+	public static function getAllParameters() {
 		$result = array();
 		$db = self::getDB();
 		$stm = $db->prepare('select * from parameter');
@@ -127,115 +127,103 @@ class DB {
 		return $result;
 	}
 	
-	public static function getAssignments($userId) {
-		$result = null;
+	public static function getAssignments($userId, $isDoctor, $active) {
+		$db = self::getDB();
+		$currentTime = date('y-m-d h:i:s a', time());
+		
+		if ($isDoctor) $condition = 'ass.doctor_id = :user_id';
+		else $condition = 'ass.patient_id = :user_id';
+		
+		$condition .= ' and ';
+		if ($active) $condition .= 'end_time > :current_time';
+		else $condition .= 'end_time < :current_time';
+		
+		$query = '
+			select
+				ass.id,
+				ass.name,
+				ass.description,
+				ass.start_time,
+				ass.end_time,
+				doctor.first_name as doctor_first_name,
+				doctor.last_name as doctor_last_name,
+				patient.first_name as patient_first_name,
+				patient.last_name as patient_last_name,
+				patient.id as patient_id
+			from assignment as ass
+				inner join user as doctor on ass.doctor_id = doctor.id
+				inner join user as patient on ass.patient_id = patient.id
+			where :condition
+		';
+		$query = str_replace(':condition', $condition, $query);
+		
+		$stm = $db->prepare($query);
+		$stm->bindParam(':user_id', $userId);
+		$stm->bindParam(':current_time', $currentTime);
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		$assignments = $stm->fetchAll();
+		
+		foreach ($assignments as &$ass) {
+			$ass['params'] = DB::getParameters($ass['id']);
+		}
+		
+		return $assignments;
+	}
+	
+	public static function getParameters($assignmentId) {
 		$db = self::getDB();
 		$stm = $db->prepare('
-			select assignment.*, user.first_name as doctor_first_name, user.last_name as doctor_last_name 
-			from assignment
-			inner join user on assignment.doctor_id = user.id 
-			where patient_id = :patient_id
+			select *
+			from assignment_parameter
+			where assignment_id = :assignment_id
 		');
-		$stm->bindParam(':patient_id', $userId);
-		if ($stm->execute()){
-			$result = $stm->fetchAll();
-		}
-		return $result;
-	}
-	
-	public static function getDoctorAssignmentsTable($userId, $active) {
-		$result = array();
-		$db = self::getDB();
-		$currentTime = date('y-m-d h:i:s a', time());
+		$stm->bindParam(':assignment_id', $assignmentId);
 		
-		if ($active) {
-			$stm = $db->prepare('
-				select assignment.start_time, end_time, name, description, frequency, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
-				from assignment
-				inner join user on assignment.doctor_id = user.id
-				where start_time > :currentTime
-			');
-		}
-		else {
-			$stm = $db->prepare('
-				select assignment.start_time, end_time, name, description, frequency, comment, user.first_name as doctor_first_name, user.last_name as doctor_last_name
-				from assignment
-				inner join user on assignment.doctor_id = user.id
-				where start_time < :currentTime
-			');
-		}
-		$stm->bindParam(':currentTime', $currentTime);
-		if ($stm->execute()){
-			$result = $stm->fetchAll();
-		}
-		return $result;
-	}
-	
-	public static function getPatientAssignmentsTable($userId, $active) {
-		$result = null;
-		$db = self::getDB();
-		$currentTime = date('y-m-d h:i:s a', time());
-	
-		if ($active) {
-			$stm = $db->prepare('
-				select assignment.*, user.first_name as doctor_first_name, user.last_name as doctor_last_name 
-				from assignment
-				inner join user on assignment.doctor_id = user.id 
-				where start_time > :currentTime and patient_id = :userId
-			');
-		}
-		else {
-			$stm = $db->prepare('
-				select assignment.*, user.first_name as doctor_first_name, user.last_name as doctor_last_name 
-				from assignment
-				inner join user on assignment.doctor_id = user.id 
-				where start_time < :currentTime and patient_id = :userId
-			');
-		}
-		$stm->bindParam(':currentTime', $currentTime);
-		$stm->bindParam(':userId', $userId);
-		
-		if ($stm->execute()){
-			$result = $stm->fetchAll();
-		}
-		return $result;
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		return $stm->fetchAll();
 	}
 	
 	public static function createAssignment($assignment) {
 		$db = self::getDB();
 		$stm = $db->prepare('
-			insert into assignment (patient_id, doctor_id, name, description,  start_time, end_time, frequency, comment)
-			values (:patient_id, :doctor_id, :name, :description, :start_time, :end_time, :frequency, :comment)
+			insert into assignment (patient_id, doctor_id, name, description,  start_time, end_time)
+			values (:patient_id, :doctor_id, :name, :description, :start_time, :end_time)
 		');
 		$stm->bindParam(':patient_id', $assignment['patient_id']);
 		$stm->bindParam(':doctor_id', $assignment['doctor_id']);
 		$stm->bindParam(':name', $assignment['name']);
 		$stm->bindParam(':description', $assignment['description']);
 		$stm->bindValue(':start_time', date('Y-m-d H:i:s', strtotime($assignment['start_time'])));
- 		$stm->bindValue(':end_time', date('Y-m-d H:i:s', strtotime($assignment['end_time'])));
-		$stm->bindParam(':frequency', $assignment['frequency']);
-		$stm->bindParam(':comment', $assignment['comment']);
+		$stm->bindValue(':end_time', date('Y-m-d H:i:s', strtotime($assignment['end_time'])));
 		
 		if (!$stm->execute()) { throw new Exception($stm->errorInfo()); }
 		$assignmentId = $db->lastInsertId();
 		
-		return DB::attachParametersToAssignment($assignment['paramIds'], $assignmentId);
+		return DB::attachParametersToAssignment($assignment['params'], $assignmentId);
 	}
 	
 	public static function attachParametersToAssignment($parameters, $assignmentId) {
 		$db = self::getDB();
-		
-		$paramPlaceholders = implode(', ', array_fill(0, count($parameters), '(?, ?)'));
-		$stm = $db->prepare('INSERT INTO assignment_parameter (assignment_id, parameter_id) VALUES ' . $paramPlaceholders);
-		
-		foreach ($parameters as $pak => $pav) {
-			$stm->bindValue(2 * ($pak-1) + 1, $assignmentId);
-			$stm->bindValue(2 * ($pak-1) + 2, $pav);
+	
+		$paramPlaceholders = implode(', ', array_fill(0, count($parameters), '(?, ?, ?, ?, ?)'));
+		$stm = $db->prepare('
+			INSERT INTO assignment_parameter (assignment_id, parameter_id, execute_after, time_unit, comment)
+			VALUES ' . $paramPlaceholders
+		);
+	
+		$index = 0;
+		foreach ($parameters as $id => $param) {
+			$stm->bindValue(5 * $index + 1, $assignmentId);
+			$stm->bindValue(5 * $index + 2, $param['id']);
+			$stm->bindValue(5 * $index + 3, $param['execute_after']);
+			$stm->bindValue(5 * $index + 4, $param['execute_after']);
+			$stm->bindValue(5 * $index + 5, $param['comment']);
+			$index++;
 		}
-		
+	
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
-		
+	
 		return true;
 	}
-	
 }

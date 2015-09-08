@@ -5,16 +5,23 @@ $(function() {
 		
 		var parameterList = $('#parameterList');
 		var selectedParameter = parameterList.find(':selected');
+		var selectedParameterId = selectedParameter.val();
 		
-		if (selectedParameter.val() == 0) {
+		if (selectedParameterId == 0) {
 			return false;
 		}
 		
 		selectedParameter.prop("disabled", true);
 		parameterList.val(0);
 		
-		newRow.find('.paramId').val(selectedParameter.val());
-		newRow.find('.parameterName').text(selectedParameter.text());
+		newRow.find('.paramId').val(selectedParameterId);
+		newRow.find('.paramName').text(selectedParameter.text());
+		
+		newRow.find('.paramId').attr('name', 'params[' + selectedParameterId + '][id]').val(selectedParameterId);
+		newRow.find('.paramExecuteAfter').attr('name', 'params[' + selectedParameterId + '][execute_after]');
+		newRow.find('.paramTimeUnit').attr('name', 'params[' + selectedParameterId + '][time_unit]');
+		newRow.find('.paramComment').attr('name', 'params[' + selectedParameterId + '][comment]');
+		
 		newRow.removeAttr('id');
 		newRow.show();
 		$('.parameterElem:last').after(newRow);
