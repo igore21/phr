@@ -115,15 +115,28 @@ class DB {
 	//=============================
 	
 	public static function getAllParameters() {
-		$result = array();
 		$db = self::getDB();
 		$stm = $db->prepare('select * from parameter');
-		if ($stm->execute()) {
-			$params = $stm->fetchAll();
-			foreach ($params as $index => $param) {
-				$result[$param['id']] = $param;
-			}
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		
+		$result = array();
+		$params = $stm->fetchAll();
+		foreach ($params as $index => $param) {
+			$result[$param['id']] = $param;
 		}
+		return $result;
+	}
+	
+	public static function getAssignment($assignmentId) {
+		$db = self::getDB();
+		$stm = $db->prepare('select * from assignment where id = :assignment_id');
+		$stm->bindParam(':assignment_id', $assignmentId);
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		
+		$result = $stm->fetch();
+		$result['params'] = DB::getAssignmentParameters($assignmentId);
 		return $result;
 	}
 	
@@ -165,13 +178,13 @@ class DB {
 		$assignments = $stm->fetchAll();
 		
 		foreach ($assignments as &$ass) {
-			$ass['params'] = DB::getParameters($ass['id']);
+			$ass['params'] = DB::getAssignmentParameters($ass['id']);
 		}
 		
 		return $assignments;
 	}
 	
-	public static function getParameters($assignmentId) {
+	public static function getAssignmentParameters($assignmentId) {
 		$db = self::getDB();
 		$stm = $db->prepare('
 			select *
@@ -215,15 +228,47 @@ class DB {
 		$index = 0;
 		foreach ($parameters as $id => $param) {
 			$stm->bindValue(5 * $index + 1, $assignmentId);
-			$stm->bindValue(5 * $index + 2, $param['id']);
+			$stm->bindValue(5 * $index + 2, $param['parameter_id']);
 			$stm->bindValue(5 * $index + 3, $param['execute_after']);
-			$stm->bindValue(5 * $index + 4, $param['execute_after']);
+			$stm->bindValue(5 * $index + 4, $param['time_unit']);
 			$stm->bindValue(5 * $index + 5, $param['comment']);
 			$index++;
 		}
 	
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
 	
+		return true;
+	}
+	
+	public static function updateAssignment($assignment) {
+		$db = self::getDB();
+		$stm = $db->prepare('
+			update assignment set
+				doctor_id = :doctor_id,
+				name = :name,
+				description = :description,
+				start_time = :start_time,
+				end_time = :end_time
+			where id = :assignment_id
+		');
+		$stm->bindParam(':doctor_id', $assignment['doctor_id']);
+		$stm->bindParam(':name', $assignment['name']);
+		$stm->bindParam(':description', $assignment['description']);
+		$stm->bindValue(':start_time', date('Y-m-d H:i:s', strtotime($assignment['start_time'])));
+		$stm->bindValue(':end_time', date('Y-m-d H:i:s', strtotime($assignment['end_time'])));
+		$stm->bindParam(':assignment_id', $assignment['assignment_id']);
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		DB::deleteAssignmentParameters($assignment['assignment_id']);
+		return DB::attachParametersToAssignment($assignment['params'], $assignment['assignment_id']);
+	}
+	
+	public static function deleteAssignmentParameters($assignmentId) {
+		$db = self::getDB();
+		$stm = $db->prepare('delete from assignment_parameter where assignment_id = :assignment_id');
+		$stm->bindParam(':assignment_id', $assignmentId);
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
 		return true;
 	}
 }

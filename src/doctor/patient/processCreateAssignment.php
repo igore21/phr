@@ -15,6 +15,7 @@ $assignment = array(
 	'description' => '',
 );
 
+if (!empty($_POST['assignment_id'])) $assignment['assignment_id'] = $_POST['assignment_id'];
 if (!empty($_POST['patient_id'])) $assignment['patient_id'] = $_POST['patient_id'];
 if (!empty($_POST['name'])) $assignment['name'] = $_POST['name'];
 if (!empty($_POST['description'])) $assignment['description'] = $_POST['description'];
@@ -27,7 +28,8 @@ if (!empty($_POST['params'])) {
 
 $_SESSION['new_assignment'] = $assignment;
 
-$missingParam = empty($assignment['patient_id']) ||
+$missingParam = empty($assignment['assignment_id']) ||
+				empty($assignment['patient_id']) ||
 				empty($assignment['name']) ||
 				empty($assignment['start_time']) ||
 				empty($assignment['end_time']) ||
@@ -37,11 +39,19 @@ if ($missingParam) {
 	$_SESSION['createAssignmentError'] = 'Nisu svi parametri prosledjeni';
 	$params = array();
 	if (!empty($_POST['patient_id'])) { $params['user_id'] = $_POST['patient_id']; }
+	if (!empty($_POST['assignment_id'])) {
+		$params['assignment_id'] = $_POST['assignment_id'];
+		redirect('editAssignment.php', $params);
+	}
 	redirect('createAssignment.php', $params);
 }
 
 try {
-	$success = DB::createAssignment($assignment);
+	if ($assignment['assignment_id'] == 0) {
+		DB::createAssignment($assignment);
+	} else {
+		DB::updateAssignment($assignment);
+	}
 } catch (Exception $e) {
 	$_SESSION['createAssignmentError'] = 'Greska: ' . $e->getMessage();
 	redirect('/doctor/patient/createAssignment.php', array('user_id' => $assignment['patient_id']));

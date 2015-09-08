@@ -17,7 +17,7 @@ $(function() {
 		newRow.find('.paramId').val(selectedParameterId);
 		newRow.find('.paramName').text(selectedParameter.text());
 		
-		newRow.find('.paramId').attr('name', 'params[' + selectedParameterId + '][id]').val(selectedParameterId);
+		newRow.find('.paramId').attr('name', 'params[' + selectedParameterId + '][parameter_id]').val(selectedParameterId);
 		newRow.find('.paramExecuteAfter').attr('name', 'params[' + selectedParameterId + '][execute_after]');
 		newRow.find('.paramTimeUnit').attr('name', 'params[' + selectedParameterId + '][time_unit]');
 		newRow.find('.paramComment').attr('name', 'params[' + selectedParameterId + '][comment]');
