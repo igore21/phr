@@ -29,6 +29,17 @@
 .linkList { margin-bottom: 0px; }
 
 
+.task_numb { width: 35px; }
+.task_name { width: 200px; }
+.task_time { min-width: 160px; }
+.task_param { width: 150px; }
+.task_comment { width: 250px; }
+.task_value { min-width: 100px; }
+.task_action { width: 70px; }
+
+.valueComment { width: 270px; }
+.btnIgnore { margin-top: 5px; }
+
 .table_name { margin-left: 30px; }
 .login-login {
 	width: 400px;

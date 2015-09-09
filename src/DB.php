@@ -285,24 +285,31 @@ class DB {
 		
 		if (empty($data)) return true;
 		
-		$paramPlaceholders = implode(', ', array_fill(0, count($data), '(?, ?, ?, ?)'));
+		$paramPlaceholders = implode(', ', array_fill(0, count($data), '(?, ?, ?, ?, ?)'));
 		$stm = $db->prepare('
-			INSERT INTO data (patient_id, assignment_id, scheduled_time, data_type)
+			INSERT INTO data (
+				patient_id,
+				assignment_id,
+				parameter_id,
+				scheduled_time,
+				data_type
+			)
 			VALUES ' . $paramPlaceholders
 		);
 		
 		foreach ($data as $index => $dataRow) {
-			$stm->bindValue(4 * $index + 1, $dataRow['patient_id']);
-			$stm->bindValue(4 * $index + 2, $dataRow['assignment_id']);
-			$stm->bindValue(4 * $index + 3, $dataRow['scheduled_time']);
-			$stm->bindValue(4 * $index + 4, $dataRow['data_type']);
+			$stm->bindValue(5 * $index + 1, $dataRow['patient_id']);
+			$stm->bindValue(5 * $index + 2, $dataRow['assignment_id']);
+			$stm->bindValue(5 * $index + 3, $dataRow['parameter_id']);
+			$stm->bindValue(5 * $index + 4, $dataRow['scheduled_time']);
+			$stm->bindValue(5 * $index + 5, $dataRow['data_type']);
 		}
 		
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
 		return true;
 	}
 	
-	public static function deleteData($assignmentId, $date) {
+	public static function deleteData($assignmentId) {
 		$db = self::getDB();
 		$currentTime = date('y-m-d h:i:s a', time());
 		$stm = $db->prepare('
@@ -314,5 +321,52 @@ class DB {
 		
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
 		return true;
+	}
+	
+	public static function getData($search) {
+		$db = self::getDB();
+		
+		$conds = array();
+		if (!empty($search['patient_id'])) {
+			$conds [] = 'ass.patient_id = ' . $search['patient_id'];
+		}
+		if (!empty($search['doctor_id'])) {
+			$conds [] = 'ass.doctor_id = ' . $search['doctor_id'];
+		}
+		if (!empty($search['assignment_id'])) {
+			$conds [] = 'ass.id = ' . $search['assignment_id'];
+		}
+		if (!empty($search['from'])) {
+			$conds [] = 'data.scheduled_time > \'' . $search['from'] . '\'';
+		}
+		if (!empty($search['to'])) {
+			$conds [] = 'data.scheduled_time < \'' . $search['to'] . '\'';
+		}
+		if (!empty($search['completed'])) {
+			$conds [] = 'data.completed = ' . $search['completed'];
+		}
+		
+		$condition = implode(' AND ', $conds);
+// 		echo $condition . '<br>';
+		
+		$query = '
+			SELECT
+				ass.name,
+				data.*,
+				ap.comment
+			FROM assignment as ass
+				INNER JOIN data ON data.assignment_id = ass.id
+				INNER JOIN assignment_parameter as ap ON data.parameter_id = ap.parameter_id
+		';
+		
+		if (!empty($condition)) $query .= ' WHERE ' . $condition;
+		$query .= ' ORDER BY data.scheduled_time';
+		if (!empty($search['limit'])) $query .= ' LIMIT ' . $search['limit'];
+// 		echo $query . '<br>';
+		
+		$stm = $db->prepare($query);
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		return $stm->fetchAll();
 	}
 }

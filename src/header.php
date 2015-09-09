@@ -28,6 +28,8 @@ if (isset($_GET['user_id'])) {
 	$reqUserFullName = $reqUser['first_name'] . ' ' . $reqUser['last_name'];
 }
 
+$tasksSubMenu = count($pathParts) > 2 && $pathParts[0] == 'patient' && $pathParts[1] == 'tasks';
+
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +54,7 @@ if (isset($_GET['user_id'])) {
 					<ul class="nav navbar-nav">
 						<?php if ($pageName != 'login.php') {
 							if ($role == PATIENT_ROLE) {?>
-								<li class="<?php if ($pageName == 'home.php') echo 'active'?>"><a href="/patient/home.php">Pocetna</a></li>
+								<li class="<?php if ($pageName == 'today.php' || $tasksSubMenu) echo 'active'?>"><a href="/patient/tasks/today.php">Pocetna</a></li>
 								<li class="<?php if ($pageName == 'patientAssignments.php') echo 'active'?>"><a href="/patient/patientAssignments.php">Zadaci</a></li>
 								<li class="<?php if ($pageName == 'data.php') echo 'active'?>"><a href="/patient/data.php">Podaci</a></li>
 							<?php }?>
@@ -104,5 +106,22 @@ if (isset($_GET['user_id'])) {
 			</div>
 		</span>
 		<?php } ?>
-		<span class="<?php if ($hasSubMenu) echo 'rightContent'?>">
+		<?php if ($tasksSubMenu) { ?>
+			<span class="subMenu">
+				<div>
+					<ul class="nav nav-pills nav-stacked">
+					<li role="presentation" class="<?php if ($pageName == 'today.php') echo 'active'; ?>">
+						<a href="/patient/tasks/today.php">Danasnji Zadaci</a>
+					</li>
+					<li role="presentation" class="<?php if ($pageName == 'uncompleted.php') echo 'active'; ?>">
+						<a href="/patient/tasks/uncompleted.php">Nepopunjeni Zadaci</a>
+					</li>
+					<li role="presentation" class="<?php if ($pageName == 'following.php') echo 'active'; ?>">
+						<a href="/patient/tasks/following.php">Sledeci Zadaci</a>
+					</li>
+				</ul>
+				</div>
+			</span>
+		<?php } ?>
+		<span class="<?php if ($hasSubMenu || $tasksSubMenu) echo 'rightContent'?>">
 	

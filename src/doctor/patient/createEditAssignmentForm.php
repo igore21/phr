@@ -103,7 +103,7 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 									<?php if (isset($allParameters[$param['parameter_id']]['name'])) echo $allParameters[$param['parameter_id']]['name']; ?>
 								</span>
 							</th>
-							<th><input class="paramExecuteAfter" type="number" name="params[<?php echo $param['parameter_id']; ?>][execute_after]" value="<?php echo $param['execute_after']?>" style="width: 100px;"></th>
+							<th><input class="paramExecuteAfter" type="number" min="1" name="params[<?php echo $param['parameter_id']; ?>][execute_after]" value="<?php echo $param['execute_after']?>" style="width: 100px;"></th>
 							<th>
 								<select class="ass-choose-area paramTimeUnit" name="params[<?php echo $param['parameter_id']; ?>][time_unit]">
 									<?php foreach ($assignment['all_periods'] as $periodId => $periodName) {?>

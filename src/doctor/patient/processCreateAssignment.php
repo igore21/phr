@@ -64,6 +64,7 @@ $scheduledData = array();
 foreach ($assignment['params'] as $param) {
 	$dataRow = array(
 		'patient_id' => $assignment['patient_id'],
+		'parameter_id' => $param['parameter_id'],
 		'data_type' => $allParameters[$param['parameter_id']]['data_type'],
 	);
 	

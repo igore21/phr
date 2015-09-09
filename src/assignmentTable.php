@@ -10,20 +10,20 @@
 	<h3 class="table_name"><?php echo $render['tableName']; ?></h3>
 	<?php } ?>
 	<table class="table table-bordered">
-	<thead>
-		<th class="ass_numb">#</th>
-		<?php if ($showDoctor) { ?>
-			<th class="ass_doctor">Doktor</th>
-		<?php } ?>
-		<?php if ($showPatient) { ?>
-			<th class="ass_patient">Pacijent</th>
-		<?php } ?>
-		<th class="ass_name">Naziv zadatka</th>
-		<th class="ass_description">Opis zadatka</th>
-		<th class="ass_durration">Trajanje</th>
-		<th class="ass_params">Parametri</th>
-		<th class="ass_action">Akcije</th>
-	</thead>
+		<thead>
+			<th class="ass_numb">#</th>
+			<?php if ($showDoctor) { ?>
+				<th class="ass_doctor">Doktor</th>
+			<?php } ?>
+			<?php if ($showPatient) { ?>
+				<th class="ass_patient">Pacijent</th>
+			<?php } ?>
+			<th class="ass_name">Naziv zadatka</th>
+			<th class="ass_description">Opis zadatka</th>
+			<th class="ass_durration">Trajanje</th>
+			<th class="ass_params">Parametri</th>
+			<th class="ass_action">Akcije</th>
+		</thead>
 	<?php foreach ($assignments as $index => $ass) {?>
 		<tr>
 			<td><?php echo $index+1; ?>.</td>

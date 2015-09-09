@@ -70,6 +70,7 @@ CREATE TABLE `data` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`patient_id` INT NOT NULL,
 	`assignment_id` INT NOT NULL,
+	`parameter_id` INT NOT NULL,
 	`completed` TINYINT(1) NOT NULL DEFAULT 0,
 	`ignored` TINYINT(1) NOT NULL DEFAULT 0,
 	`scheduled_time` TIMESTAMP NOT NULL,
