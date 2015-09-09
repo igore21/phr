@@ -2,6 +2,10 @@
 	margin-top: 50px;
 }
 
+.invalidInput {
+	border: 2px solid red !important;
+}
+
 .subMenu {
 	float: left;
 	width: 170px;

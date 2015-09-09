@@ -163,4 +163,67 @@ $(function() {
 		return false;
 	});
 	
+	//=========
+	// Data
+	//=========
+	$('.saveDataButton').click(function() {
+		var taskRow = $(this).closest('tr');
+		
+		var dataType = taskRow.find('.taskDataType').val();
+		var valueInput = taskRow.find('.type' + dataType);
+		var value = valueInput.val();
+		
+		valueInput.removeClass('invalidInput');
+		if (!value || value == '') {
+			valueInput.addClass('invalidInput');
+			return;
+		}
+		console.log('val: ' + value);
+		var data = {
+			'id': taskRow.find('.taskId').val(),
+			'data_type': dataType,
+			'value': value,
+		}
+		
+		sendTaskData(data, taskRow);
+		return false;
+	});
+	
+	$('.btnIgnore').click(function() {
+		var taskRow = $(this).closest('tr');
+		
+		var data = {
+			'id': taskRow.find('.taskId').val(),
+			'ignored': true,
+		}
+		
+		sendTaskData(data, taskRow);
+		return false;
+	});
+	
+	function sendTaskData(data, taskRow) {
+		$.ajax({
+			type : 'POST',
+			url: '/patient/tasks/saveTaskData.php',
+			data: data,
+			dataType: 'json',
+			success: function(data, textStatus, jqXHR) {
+				console.log(data);
+				
+				if (data.error) {
+					// TODO
+				}
+				else {
+					taskRow.find('.saveDataButton').hide();
+					taskRow.find('.btnIgnore').hide();
+					taskRow.find('.actionOk').show();
+					taskRow.find('.dataValue').prop('disabled', true);
+				}
+				
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				console.log('error ajax');
+			}
+		});
+	}
 });

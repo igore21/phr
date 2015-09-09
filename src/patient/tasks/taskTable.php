@@ -26,6 +26,8 @@ foreach ($render['tasks'] as $task) {
 		</thead>
 		<?php foreach ($assTasks['tasks'] as $index => $task) { ?>
 		<tr>
+			<input type="hidden" class="taskId" value="<?php echo $task['id']; ?>"></input>
+			<input type="hidden" class="taskDataType" value="<?php echo $task['data_type']; ?>"></input>
 			<td><?php echo $index+1; ?>.</td>
 			<td><?php echo $task['scheduled_time']; ?></td>
 			<td>
@@ -35,17 +37,18 @@ foreach ($render['tasks'] as $task) {
 			<?php if ($showValuesAndActions) { ?>
 			<td>
 				<?php if ($task['data_type'] == 1) { ?>
-					<input class="value" type="number"/>
+					<input class="type1 dataValue" type="number"/>
 				<?php } else if ($task['data_type'] == 2) { ?>
-					<input class="value" type="number" step="0.01"/>
+					<input class="type2 dataValue" type="number" step="0.01"/>
 				<?php } else if ($task['data_type'] == 3) { ?>
-					<textarea class="valueComment" type="text"></textarea>
+					<textarea class="type3 dataValue" type="text"></textarea>
 				<?php } else if ($task['data_type'] == 4) { ?>
-					Uradjeno <input class="value" type="checkbox"/>
+					Uradjeno <input class="type4 dataValue" type="checkbox" value="1"/>
 				<?php }?>
 			</td>
 			<td>
-				<button type="button" class="btn btn-primary btn-sm">Sacuvaj</button>
+				<span class="actionOk glyphicon glyphicon-ok" aria-hidden="true" style="display: none; color: green;"></span>
+				<button type="button" class="saveDataButton btn btn-primary btn-sm">Sacuvaj</button>
 				<?php if ($showIgnoreButton) { ?>
 				<button type="button" class="btnIgnore btn btn-danger btn-sm">Ignorisi</button>
 				<?php } ?>

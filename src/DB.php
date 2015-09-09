@@ -372,6 +372,47 @@ class DB {
 		return $stm->fetchAll();
 	}
 	
+	public static function completeTaskData($dataRow) {
+		$db = self::getDB();
+		
+		$query = '
+			UPDATE data SET
+				{column} = :value,
+				completed = 1,
+				modified_time = :current_time
+			WHERE id = :id
+		';
+		
+		if ($dataRow['data_type'] == 1) $column = 'integer_value';
+		if ($dataRow['data_type'] == 2) $column = 'double_value';
+		if ($dataRow['data_type'] == 3) $column = 'string_value';
+		if ($dataRow['data_type'] == 4) $column = 'bool_value';
+		$query = str_replace('{column}', $column, $query);
+		
+		$stm = $db->prepare($query);
+		$stm->bindParam(':value', $dataRow['value']);
+		$stm->bindValue(':current_time', (new DateTime())->format('y-m-d h:i:s'));
+		$stm->bindParam(':id', $dataRow['id']);
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+	}
+	
+	public static function ignoreTaskData($dataRow) {
+		$db = self::getDB();
+		$stm = $db->prepare('
+			UPDATE data SET
+				completed = 1,
+				ignored = 1,
+				modified_time = :current_time
+			WHERE id = :id
+		');
+		$stm->bindValue(':current_time', (new DateTime())->format('y-m-d h:i:s'));
+		$stm->bindParam(':id', $dataRow['id']);
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+	}
+	
+	
 	public static function cleanEverything() {
 		$db = self::getDB();
 		$stm = $db->prepare('
