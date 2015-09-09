@@ -30,12 +30,11 @@
 
 
 .task_numb { width: 35px; }
-.task_name { width: 200px; }
 .task_time { min-width: 160px; }
-.task_param { width: 150px; }
-.task_comment { width: 250px; }
+.task_param { min-width: 150px; }
+.task_comment { min-width: 200px; }
 .task_value { min-width: 100px; }
-.task_action { width: 70px; }
+.task_action { width: 80px; }
 
 .valueComment { width: 270px; }
 .btnIgnore { margin-top: 5px; }

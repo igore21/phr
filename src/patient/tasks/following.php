@@ -6,10 +6,9 @@ $patientId = $_SESSION['user']['id'];
 $searchFollowingTasks = array(
 	'patient_id' => $patientId,
 	'from' => (new DateTime())->add(new DateInterval('P1D'))->format('y-m-d'),
-	'limit' => 3,
+	'limit' => 10,
 );
 $followingTasks = DB::getData($searchFollowingTasks);
-// var_dump($followingTasks);
 
 $render['tableName'] = 'Sledeci zadaci';
 $render['tasks'] = $followingTasks;

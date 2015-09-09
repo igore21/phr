@@ -9,10 +9,11 @@ $searchUncopletedTasks = array(
 	'completed' => 'false',
 );
 $uncompletedTasks = DB::getData($searchUncopletedTasks);
-// var_dump($uncompletedTasks);
 
 $render['tableName'] = 'Nepopunjeni zadaci';
 $render['tasks'] = $uncompletedTasks;
+$render['showValuesAndActions'] = true;
+$render['showIgnoreButton'] = true;
 
 include 'taskTable.php';
 

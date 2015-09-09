@@ -14,6 +14,7 @@ $tasksForToday = DB::getData($searchTodaysTasks);
 
 $render['tableName'] = 'Dananji zadaci';
 $render['tasks'] = $tasksForToday;
+$render['showValuesAndActions'] = true;
 
 include 'taskTable.php';
 
