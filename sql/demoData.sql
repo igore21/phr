@@ -2,6 +2,7 @@ SET FOREIGN_KEY_CHECKS=0;
 truncate user;
 truncate assignment;
 truncate assignment_parameter;
+truncate data;
 SET FOREIGN_KEY_CHECKS=1;
 
 insert into user (id, first_name, file_id, last_name, email, password, role, active) values

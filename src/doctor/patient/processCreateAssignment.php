@@ -15,7 +15,7 @@ $assignment = array(
 	'description' => '',
 );
 
-if (!empty($_POST['assignment_id'])) $assignment['assignment_id'] = $_POST['assignment_id'];
+if (isset($_POST['assignment_id'])) $assignment['assignment_id'] = $_POST['assignment_id'];
 if (!empty($_POST['patient_id'])) $assignment['patient_id'] = $_POST['patient_id'];
 if (!empty($_POST['name'])) $assignment['name'] = $_POST['name'];
 if (!empty($_POST['description'])) $assignment['description'] = $_POST['description'];
@@ -27,16 +27,26 @@ if (!empty($_POST['params'])) {
 }
 
 $_SESSION['new_assignment'] = $assignment;
+unset($_SESSION['createAssignmentError']);
 
-$missingParam = empty($assignment['assignment_id']) ||
-				empty($assignment['patient_id']) ||
-				empty($assignment['name']) ||
-				empty($assignment['start_time']) ||
-				empty($assignment['end_time']) ||
-				empty($assignment['params']);
+$requiredParams = array(
+	'assignment_id',
+	'patient_id',
+	'name',
+	'start_time',
+	'end_time',
+	'params',
+);
 
-if ($missingParam) {
-	$_SESSION['createAssignmentError'] = 'Nisu svi parametri prosledjeni';
+$missingParams = array_diff(array_values($requiredParams), array_keys($assignment));
+if (!empty($missingParams)) {
+	$_SESSION['createAssignmentError'] = 'Nedostaju obavezni parametri. Parametri: ' . implode(',', $missingParams);
+}
+if ($assignment['start_time'] >= $assignment['end_time']) {
+	$_SESSION['createAssignmentError'] = 'Vreme pocetka zadatka mora biti vece od vremena kraja';
+}
+
+if (!empty($_SESSION['createAssignmentError'])) {
 	$params = array();
 	if (!empty($_POST['patient_id'])) { $params['user_id'] = $_POST['patient_id']; }
 	if (!empty($_POST['assignment_id'])) {
@@ -46,12 +56,51 @@ if ($missingParam) {
 	redirect('createAssignment.php', $params);
 }
 
+$isNewAssignment = $assignment['assignment_id'] == 0;
+$allParameters = DB::getAllParameters();
+$currentTime = new DateTime();
+
+$scheduledData = array();
+foreach ($assignment['params'] as $param) {
+	$dataRow = array(
+		'patient_id' => $assignment['patient_id'],
+		'data_type' => $allParameters[$param['parameter_id']]['data_type'],
+	);
+	
+	$timeDiffHours = 0;
+	if ($param['time_unit'] == PERIOD_HOURS) $timeDiffHours = $param['execute_after'];
+	if ($param['time_unit'] == PERIOD_DAYS) $timeDiffHours = $param['execute_after'] * 24;
+	if ($param['time_unit'] == PERIOD_WEEKS) $timeDiffHours = $param['execute_after'] * 24*7;
+	if ($timeDiffHours <= 0) {
+		redirect('index.php', $params);
+	}
+	
+	$scheduledTime = new DateTime($assignment['start_time']);
+	if (!$isNewAssignment && $scheduledTime < $currentTime) {
+		$scheduledTime = $currentTime;
+	}
+	$endTime = new DateTime($assignment['end_time']);
+	$timeInterval = new DateInterval('P0DT' . $timeDiffHours . 'H');
+	while ($scheduledTime < $endTime) {
+		$dataRow['scheduled_time'] = $scheduledTime->format('Y-m-d H:i:s');
+		$scheduledTime->add($timeInterval);
+		$scheduledData[] = $dataRow;
+	}
+}
+
 try {
-	if ($assignment['assignment_id'] == 0) {
-		DB::createAssignment($assignment);
+	if ($isNewAssignment) {
+		$assignment['assignment_id'] = DB::createAssignment($assignment);
 	} else {
 		DB::updateAssignment($assignment);
+		DB::deleteData($assignment['assignment_id']);
 	}
+	
+	foreach ($scheduledData as $index => $dataRow) {
+		$scheduledData[$index]['assignment_id'] = $assignment['assignment_id'];
+	}
+	
+	DB::insertAssignmentData($scheduledData);
 } catch (Exception $e) {
 	$_SESSION['createAssignmentError'] = 'Greska: ' . $e->getMessage();
 	redirect('/doctor/patient/createAssignment.php', array('user_id' => $assignment['patient_id']));

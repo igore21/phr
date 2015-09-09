@@ -214,7 +214,9 @@ class DB {
 		if (!$stm->execute()) { throw new Exception($stm->errorInfo()); }
 		$assignmentId = $db->lastInsertId();
 		
-		return DB::attachParametersToAssignment($assignment['params'], $assignmentId);
+		DB::attachParametersToAssignment($assignment['params'], $assignmentId);
+		
+		return $assignmentId;
 	}
 	
 	public static function attachParametersToAssignment($parameters, $assignmentId) {
@@ -268,6 +270,47 @@ class DB {
 		$db = self::getDB();
 		$stm = $db->prepare('delete from assignment_parameter where assignment_id = :assignment_id');
 		$stm->bindParam(':assignment_id', $assignmentId);
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		return true;
+	}
+	
+	
+	//=============================
+	// Data
+	//=============================
+	
+	public static function insertAssignmentData($data) {
+		$db = self::getDB();
+		
+		if (empty($data)) return true;
+		
+		$paramPlaceholders = implode(', ', array_fill(0, count($data), '(?, ?, ?, ?)'));
+		$stm = $db->prepare('
+			INSERT INTO data (patient_id, assignment_id, scheduled_time, data_type)
+			VALUES ' . $paramPlaceholders
+		);
+		
+		foreach ($data as $index => $dataRow) {
+			$stm->bindValue(4 * $index + 1, $dataRow['patient_id']);
+			$stm->bindValue(4 * $index + 2, $dataRow['assignment_id']);
+			$stm->bindValue(4 * $index + 3, $dataRow['scheduled_time']);
+			$stm->bindValue(4 * $index + 4, $dataRow['data_type']);
+		}
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		return true;
+	}
+	
+	public static function deleteData($assignmentId, $date) {
+		$db = self::getDB();
+		$currentTime = date('y-m-d h:i:s a', time());
+		$stm = $db->prepare('
+			DELETE FROM data
+			WHERE assignment_id = :assignment_id AND scheduled_time > :current_time
+		');
+		$stm->bindParam(':assignment_id', $assignmentId);
+		$stm->bindParam(':current_time', $currentTime);
 		
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
 		return true;
