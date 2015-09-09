@@ -1,6 +1,7 @@
 <?php 
 	$showDoctor = !isset($render['skipDoctor']) || $render['skipDoctor'] == false;
 	$showPatient = !isset($render['skipPatient']) || $render['skipPatient'] == false;
+	$showDetailsLink = !isset($render['skipDetailsLink']) || $render['skipDetailsLink'] == false;
 	$assignments = $render['assignments'];
 	$allParameters = $render['allParameters'];
 ?>
@@ -54,7 +55,9 @@
 			</td>
 			<td>
 				<ul class="list-unstyled linkList">
+					<?php if ($showDetailsLink) { ?>
 					<li><a id="zadaci" href="/doctor/patient/editAssignment.php?user_id=<?php echo $ass['patient_id']; ?>&assignment_id=<?php echo $ass['id']?>">Detalji</a></li>
+					<?php } ?>
 					<li><a id="noviZadatak" href="/doctor/patient/dataPatient.php">Podaci</a></li>
 				</ul>
 			</td>
