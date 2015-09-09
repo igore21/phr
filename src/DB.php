@@ -337,7 +337,7 @@ class DB {
 			$conds [] = 'ass.id = ' . $search['assignment_id'];
 		}
 		if (!empty($search['from'])) {
-			$conds [] = 'data.scheduled_time > \'' . $search['from'] . '\'';
+			$conds [] = 'data.scheduled_time >= \'' . $search['from'] . '\'';
 		}
 		if (!empty($search['to'])) {
 			$conds [] = 'data.scheduled_time < \'' . $search['to'] . '\'';
@@ -352,11 +352,13 @@ class DB {
 		$query = '
 			SELECT
 				ass.name,
+				ass.id as assignment_id,
 				data.*,
 				ap.comment
 			FROM assignment as ass
 				INNER JOIN data ON data.assignment_id = ass.id
-				INNER JOIN assignment_parameter as ap ON data.parameter_id = ap.parameter_id
+				INNER JOIN assignment_parameter as ap ON ap.assignment_id = ass.id
+					AND data.parameter_id = ap.parameter_id
 		';
 		
 		if (!empty($condition)) $query .= ' WHERE ' . $condition;
@@ -368,5 +370,20 @@ class DB {
 		
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
 		return $stm->fetchAll();
+	}
+	
+	public static function cleanEverything() {
+		$db = self::getDB();
+		$stm = $db->prepare('
+			SET FOREIGN_KEY_CHECKS=0;
+			truncate assignment;
+			truncate assignment_parameter;
+			truncate data;
+			SET FOREIGN_KEY_CHECKS=1;
+		');
+		$stm->bindParam(':assignment_id', $assignmentId);
+		
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		return true;
 	}
 }

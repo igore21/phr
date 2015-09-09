@@ -1,23 +1,28 @@
 <?php 
 $allParameters = getTranslatedParameters();
+
+$assignmentTasks = array();
+foreach ($render['tasks'] as $task) {
+	$assignmentTasks[$task['assignment_id']]['tasks'][] = $task;
+	$assignmentTasks[$task['assignment_id']]['name'] = $task['name'];
+}
 ?>
 
+<?php foreach ($assignmentTasks as $id => $assTasks) { ?>
 <div class="col-md-11 assignmentTable">
-	<h3 class="table_name"><?php echo $render['tableName']; ?></h3>
+	<h3 class="table_name">Zadatak: <?php echo $assTasks['name']; ?></h3>
 	<table class="table">
 		<thead>
 			<th class="task_numb">#</th>
-			<th class="task_name">Naziv zadatka</th>
 			<th class="task_time">Zakazano vreme</th>
 			<th class="task_param">Parametar</th>
 			<th class="task_comment">Komentar</th>
 			<th class="task_value">Vrednost</th>
 			<th class="task_action">Akcija</th>
 		</thead>
-		<?php foreach ($render['tasks'] as $index => $task) { ?>
+		<?php foreach ($assTasks['tasks'] as $index => $task) { ?>
 		<tr>
 			<td><?php echo $index+1; ?>.</td>
-			<td><?php echo $task['name']; ?>.</td>
 			<td><?php echo $task['scheduled_time']; ?></td>
 			<td>
 				<?php echo $allParameters[$task['parameter_id']]['name']; ?>
@@ -42,3 +47,4 @@ $allParameters = getTranslatedParameters();
 		<?php } ?>
 	</table>
 </div>
+<?php } ?>

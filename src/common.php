@@ -32,3 +32,38 @@ function getTranslatedParameters() {
 	
 	return $allParameters;
 }
+
+function getScheduledTasks($assignment, $allParameters, $isNewAssignment = true) {
+	$currentTime = new DateTime();
+	$scheduledData = array();
+	foreach ($assignment['params'] as $param) {
+		$dataRow = array(
+			'assignment_id' => $assignment['assignment_id'],
+			'patient_id' => $assignment['patient_id'],
+			'parameter_id' => $param['parameter_id'],
+			'data_type' => $allParameters[$param['parameter_id']]['data_type'],
+		);
+		
+		$timeDiffHours = 0;
+		if ($param['time_unit'] == PERIOD_HOURS) $timeDiffHours = $param['execute_after'];
+		if ($param['time_unit'] == PERIOD_DAYS) $timeDiffHours = $param['execute_after'] * 24;
+		if ($param['time_unit'] == PERIOD_WEEKS) $timeDiffHours = $param['execute_after'] * 24*7;
+		if ($timeDiffHours <= 0) {
+			return null;
+		}
+		
+		$scheduledTime = new DateTime($assignment['start_time']);
+		if (!$isNewAssignment && $scheduledTime < $currentTime) {
+			$scheduledTime = $currentTime;
+		}
+		$endTime = new DateTime($assignment['end_time']);
+		$timeInterval = new DateInterval('P0DT' . $timeDiffHours . 'H');
+		
+		while ($scheduledTime < $endTime) {
+			$dataRow['scheduled_time'] = $scheduledTime->format('Y-m-d H:i:s');
+			$scheduledTime->add($timeInterval);
+			$scheduledData[] = $dataRow;
+		}
+	}
+	return $scheduledData;
+}
