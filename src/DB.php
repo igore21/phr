@@ -136,6 +136,7 @@ class DB {
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
 		
 		$result = $stm->fetch();
+		if (empty($result)) return $result;
 		$result['params'] = DB::getAssignmentParameters($assignmentId);
 		return $result;
 	}
