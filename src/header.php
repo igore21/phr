@@ -9,7 +9,13 @@ $pathParts = explode("/", $_SERVER['PHP_SELF']);
 array_shift($pathParts);
 $pageName = end($pathParts);
 
-if (($pathParts[0] == 'doctor' && $role != DOCTOR_ROLE) || ($pathParts[0] == 'patient' && $role == PATIENT_ROLE)) {
+$autorized = false;
+$autorized = $autorized || ($pathParts[0] == 'doctor' && $role == DOCTOR_ROLE);
+$autorized = $autorized || ($pathParts[0] == 'patient' && $role == PATIENT_ROLE);
+$autorized = $autorized || ($pathParts[0] == 'common' && ($role == PATIENT_ROLE || $role == DOCTOR_ROLE));
+$autorized = $autorized || $pageName == 'login.php';
+
+if (!$autorized) {
 	redirect('/login.php');
 }
 
@@ -47,7 +53,7 @@ if (isset($_GET['user_id'])) {
 						<?php if ($pageName != 'login.php') {
 							if ($role == PATIENT_ROLE) {?>
 								<li class="<?php if ($pageName == 'home.php') echo 'active'?>"><a href="/patient/home.php">Pocetna</a></li>
-								<li class="<?php if ($pageName == 'assignments.php') echo 'active'?>"><a href="/patient/assignments.php">Zadaci</a></li>
+								<li class="<?php if ($pageName == 'patientAssignments.php') echo 'active'?>"><a href="/patient/patientAssignments.php">Zadaci</a></li>
 								<li class="<?php if ($pageName == 'data.php') echo 'active'?>"><a href="/patient/data.php">Podaci</a></li>
 							<?php }?>
 							<?php if ($role == DOCTOR_ROLE) {?>
