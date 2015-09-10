@@ -345,6 +345,9 @@ class DB {
 		if (!empty($search['completed'])) {
 			$conds [] = 'data.completed = ' . $search['completed'];
 		}
+		if (!empty($search['parameter_id'])) {
+			$conds [] = 'data.parameter_id = ' . $search['parameter_id'];
+		}
 		
 		$condition = implode(' AND ', $conds);
 // 		echo $condition . '<br>';

@@ -4,6 +4,12 @@
 	$showDetailsLink = !isset($render['skipDetailsLink']) || $render['skipDetailsLink'] == false;
 	$assignments = $render['assignments'];
 	$allParameters = $render['allParameters'];
+	
+	$isDoctor = getUserRole() == DOCTOR_ROLE;
+	
+	$dataLink = '';
+	if ($isDoctor) $dataLink = '/doctor/patient/dataPatient.php';
+	else $dataLink = '/patient/patientData.php';
 ?>
 <div class="col-md-11 assignmentTable">
 	<?php if (!empty($render['tableName'])) { ?>
@@ -56,12 +62,17 @@
 			<td>
 				<ul class="list-unstyled linkList">
 					<?php if ($showDetailsLink) { ?>
-					<li><a id="zadaci" href="/doctor/patient/editAssignment.php?user_id=<?php echo $ass['patient_id']; ?>&assignment_id=<?php echo $ass['id']?>">Detalji</a></li>
+					<li><a href="/doctor/patient/editAssignment.php?user_id=<?php echo $ass['patient_id']; ?>&assignment_id=<?php echo $ass['id']?>">Detalji</a></li>
 					<?php } ?>
-					<li><a id="noviZadatak" href="/doctor/patient/dataPatient.php">Podaci</a></li>
+					<?php 
+						$link = $dataLink;
+						if ($isDoctor) $link .= '?user_id=' . $ass['patient_id'] . '&';
+						else $link .= '?';
+						$link .= 'assignment_id=' . $ass['id'];
+					?>
+					<li><a href="<?php echo $link; ?>">Podaci</a></li>
 				</ul>
 			</td>
-			<!-- <td><?php echo $ass['doctor_first_name'].' '; echo $ass['doctor_last_name']?></td> -->
 		</tr>
 	<?php }?>
 	</table>

@@ -40,6 +40,12 @@
 .task_value { min-width: 100px; }
 .task_action { width: 80px; }
 
+.data_param { min-width: 200px; }
+.data_time { min-width: 180px; }
+.data_value { min-width: 160px; }
+.data_done { width: 20px; }
+
+.dataResult { margin-left: 50px; }
 .valueComment { width: 270px; }
 .btnIgnore { margin-top: 5px; }
 
@@ -51,6 +57,9 @@
 	padding-top: 20px;
 	padding-botom: 20px;
 }
+
+.searchDataLabel { width: 170px; }
+.searchDataBtn { margin-left: 10px; }
 
 .distance {
 	padding-top: 10px;

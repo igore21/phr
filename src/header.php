@@ -56,7 +56,7 @@ $tasksSubMenu = count($pathParts) > 2 && $pathParts[0] == 'patient' && $pathPart
 							if ($role == PATIENT_ROLE) {?>
 								<li class="<?php if ($pageName == 'today.php' || $tasksSubMenu) echo 'active'?>"><a href="/patient/tasks/today.php">Pocetna</a></li>
 								<li class="<?php if ($pageName == 'patientAssignments.php') echo 'active'?>"><a href="/patient/patientAssignments.php">Zadaci</a></li>
-								<li class="<?php if ($pageName == 'data.php') echo 'active'?>"><a href="/patient/data.php">Podaci</a></li>
+								<li class="<?php if ($pageName == 'patientData.php') echo 'active'?>"><a href="/patient/patientData.php">Podaci</a></li>
 							<?php }?>
 							<?php if ($role == DOCTOR_ROLE) {?>
 								<li class="<?php if ($pageName == 'search.php' || (count($pathParts) > 2 && $pathParts[1] == 'patient')) echo 'active'?>">
