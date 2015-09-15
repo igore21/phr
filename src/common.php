@@ -23,6 +23,19 @@ function getUserRole () {
 }
 
 function getTranslatedParameters() {
+	$TANSLATED_PARAMETERS_RS = array(
+		'antibiotic' => 'antibiotik',
+		'height' => 'visina',
+		'weight' => 'tezina',
+		'temperature' => 'telesna temperatura',
+		'numberOfHeartBeats' => 'puls',
+		'bloodGlucoseLevel' => 'nivo secera u krvi',
+		'sleepQuality' => 'kvalitet sna',
+		'appetite' => 'apetit',
+		'blood_pressure' => 'krvni pritisak',
+		'nausea' => 'osecaj mucnine',
+		'open_ended' => 'proizvoljno',
+	);
 	$allParameters = DB::getAllParameters();
 	foreach ($allParameters as $id => $param) {
 		if (isset($TANSLATED_PARAMETERS_RS[$param['name']])) {

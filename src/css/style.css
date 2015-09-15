@@ -45,6 +45,12 @@
 .data_value { min-width: 160px; }
 .data_done { width: 20px; }
 
+.param_col_name { width: 150px; }
+.param_col_execute { width: 200px; }
+.param_col_mesure_unite { width: 100px; }
+.param_col_unite { width: 200px; }
+.param_col_remove { width: 60px; }
+
 .dataResult { margin-left: 50px; }
 .valueComment { width: 270px; }
 .btnIgnore { margin-top: 5px; }
@@ -196,7 +202,3 @@
 	text-align: center;
 }
 
-.param_col_name { width: 150px; }
-.param_col_execute { width: 200px; }
-.param_col_unite { width: 200px; }
-.param_col_remove { width: 60px; }

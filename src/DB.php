@@ -7,9 +7,9 @@ define('DB_PASS', '');
 
 class DB {
 	
-	private static function getDB() {
+	public static function getDB() {
 		static $db = null;
-		if($db == null) {
+		if ($db == null) {
 			$db = new PDO(DB_CONN_STRING, DB_USER, DB_PASS);
 		}
 		return $db;
@@ -357,11 +357,13 @@ class DB {
 				ass.name,
 				ass.id as assignment_id,
 				data.*,
-				ap.comment
+				ap.comment,
+				p.measure_unit
 			FROM assignment as ass
 				INNER JOIN data ON data.assignment_id = ass.id
 				INNER JOIN assignment_parameter as ap ON ap.assignment_id = ass.id
 					AND data.parameter_id = ap.parameter_id
+				INNER JOIN parameter p ON p.id = ap.parameter_id
 		';
 		
 		if (!empty($condition)) $query .= ' WHERE ' . $condition;

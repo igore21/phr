@@ -38,6 +38,7 @@ $tasksSubMenu = count($pathParts) > 2 && $pathParts[0] == 'patient' && $pathPart
 	<link type="text/css" rel="stylesheet" href="/css/bootstrap.css"/>
 	<link type="text/css" rel="stylesheet" href="/css/bootstrap-theme.css"/>
 	<link type="text/css" rel="stylesheet" href= "/css/style.css" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 	<div>
@@ -97,7 +98,7 @@ $tasksSubMenu = count($pathParts) > 2 && $pathParts[0] == 'patient' && $pathPart
 						<a href="/doctor/patient/assignmentsPatient.php?user_id=<?php echo $reqUserId; ?>">Zadaci</a>
 					</li>
 					<li role="presentation" class="<?php if ($pageName == 'createAssignment.php') echo 'active'; ?>">
-						<a href="/doctor/patient/createAssignment.php?user_id=<?php echo $reqUserId; ?>">Novi Zadatak</a>
+						<a href="/doctor/patient/createAssignment.php?user_id=<?php echo $reqUserId; ?>">Novi zadatak</a>
 					</li>
 					<li role="presentation" class="<?php if ($pageName == 'dataPatient.php') echo 'active'; ?>">
 						<a href="/doctor/patient/dataPatient.php?user_id=<?php echo $reqUserId; ?>">Podaci</a>
@@ -111,13 +112,13 @@ $tasksSubMenu = count($pathParts) > 2 && $pathParts[0] == 'patient' && $pathPart
 				<div>
 					<ul class="nav nav-pills nav-stacked">
 					<li role="presentation" class="<?php if ($pageName == 'today.php') echo 'active'; ?>">
-						<a href="/patient/tasks/today.php">Danasnji Zadaci</a>
+						<a href="/patient/tasks/today.php">Danasnji zadaci</a>
 					</li>
 					<li role="presentation" class="<?php if ($pageName == 'uncompleted.php') echo 'active'; ?>">
-						<a href="/patient/tasks/uncompleted.php">Nepopunjeni Zadaci</a>
+						<a href="/patient/tasks/uncompleted.php">Nepopunjeni zadaci</a>
 					</li>
 					<li role="presentation" class="<?php if ($pageName == 'following.php') echo 'active'; ?>">
-						<a href="/patient/tasks/following.php">Sledeci Zadaci</a>
+						<a href="/patient/tasks/following.php">Sledeci zadaci</a>
 					</li>
 				</ul>
 				</div>

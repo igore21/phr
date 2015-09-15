@@ -12,6 +12,7 @@ $assignment['params'][] = array(
 	'parameter_id' => 0,
 	'execute_after' => '',
 	'time_unit' => '',
+	'measure_unit' => '',
 	'comment' => '',
 );
 
@@ -76,9 +77,11 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 				<li>
 					<label class="assField">Izaberite parametre</label>
 					<select class="ass-choose-area" id="parameterList" name="params">
-						<option selected="selected" value="0">Izbaerite parametar</option>
+						<option selected="selected" value="0">Izaberite parametar</option>
 						<?php foreach ($allParameters as $index => $param) {?>
-							<option value="<?php echo $param['id'];?>"><?php echo $param['name'];?></option>
+							<option value="<?php echo $param['id'];?>" data-measure-unit="<?php echo (!empty($param['measure_unit']) ? $param['measure_unit'] : '/'); ?>">
+								<?php echo $param['name'];?>
+							</option>
 						<?php }?>
 					</select>
 					<a class="btn btn-default btn-sm add-param" id="addParameter" href="#">Dodaj parametar</a>
@@ -92,6 +95,7 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 							<th class="param_col_name">Naziv</th>
 							<th class="param_col_execute">Izvrsavati na svakih</th>
 							<th class="param_col_unite">Vremenska jedinica</th>
+							<th class="param_col_mesure_unite">Merna jedinica</th>
 							<th class="param_col_comment">Komentar</th>
 							<th class="param_col_remove"></th>
 						</thead>
@@ -112,6 +116,10 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 									</option>
 									<?php }?>
 								</select>
+							</th>
+							<th>
+								<?php $measureUnit = isset($allParameters[$param['parameter_id']]) ? $allParameters[$param['parameter_id']]['measure_unit'] : ''; ?>
+								<span class="paramMeasureUnit"><?php echo (!empty($measureUnit) ? $measureUnit : '/'); ?></span>
 							</th>
 							<th>
 								<textarea class="ass-text-area paramComment" type="text" name="params[<?php echo $param['parameter_id']; ?>][comment]"><?php echo $param['comment']?></textarea>

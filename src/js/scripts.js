@@ -16,6 +16,7 @@ $(function() {
 		
 		newRow.find('.paramId').val(selectedParameterId);
 		newRow.find('.paramName').text(selectedParameter.text());
+		newRow.find('.paramMeasureUnit').text(selectedParameter.data('measureUnit'));
 		
 		newRow.find('.paramId').attr('name', 'params[' + selectedParameterId + '][parameter_id]').val(selectedParameterId);
 		newRow.find('.paramExecuteAfter').attr('name', 'params[' + selectedParameterId + '][execute_after]');

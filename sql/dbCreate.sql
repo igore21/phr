@@ -18,6 +18,7 @@ CREATE TABLE `parameter` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(45) NOT NULL,
 	`data_type` INT NOT NULL,
+	`measure_unit` TEXT NULL,
 PRIMARY KEY (`id`));
 
 DROP TABLE IF EXISTS `assignment`;
@@ -96,18 +97,18 @@ CONSTRAINT `fk_data_assignment_id`
 );
 
 -- data_type: int=1; double=2; string=3; bool=4;
-insert into parameter (id, name, data_type) values
-	(1, 'antibiotic', 4),
-	(2, 'height', 2),
-	(3, 'weight', 2),
-	(4, 'temperature', 2),
-	(5, 'numberOfHeartBeats', 1),
-	(6, 'bloodSugerLevel', 2),
-	(7, 'glucoseLevel', 2),
-	(8, 'sleepQuality', 3),
-	(9, 'appetite', 3),
-	(10, 'blood_pressure', 3),
-	(11, 'open_ended', 3);
+insert into parameter (id, data_type, name, measure_unit) values
+	(1, 3, 'open_ended', null),
+	(2, 4, 'antibiotic', null),
+	(3, 2, 'height', 'cm'),
+	(4, 2, 'weight', 'kg'),
+	(5, 2, 'temperature', '°C'),
+	(6, 2, 'bloodGlucoseLevel', 'mg/dL'),
+	(7, 3, 'sleepQuality', null),
+	(8, 3, 'appetite', null),
+	(9, 3, 'blood_pressure', null),
+	(10, 3, 'nausea', null),
+	(11, 1, 'numberOfHeartBeats', null);
 
 
 -- It must be at the end of the file

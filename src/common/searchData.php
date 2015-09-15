@@ -82,10 +82,13 @@ $isDoctor = getUserRole() == DOCTOR_ROLE;
 			<td>
 				<?php
 					if ($param['data_type'] == 1) echo $param['integer_value'];
-					else  if ($param['data_type'] == 2) echo $param['double_value'];
-					else  if ($param['data_type'] == 3) echo $param['string_value'];
-					else  if ($param['data_type'] == 4) echo $param['bool_value'] ? 'Uradjeno' : '';
+					else if ($param['data_type'] == 2) echo $param['double_value'];
+					else if ($param['data_type'] == 3) echo $param['string_value'];
+					else if ($param['data_type'] == 4) echo $param['bool_value'] ? 'Uradjeno' : '';
 				?>
+				<?php if (!empty($param['measure_unit']) && (!empty($param['integer_value']) || !empty($param['double_value']))) { ?>
+					<span class="paramMeasureUnit"><?php echo $param['measure_unit']; ?></span>
+				<?php } ?>
 			</td>
 			<td>
 				<?php if ($param['completed'] && !$param['ignored']) { ?>
