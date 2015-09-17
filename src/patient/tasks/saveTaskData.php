@@ -8,25 +8,14 @@ try {
 	session_start();
 	$user = $_SESSION['user'];
 	
-	if (empty($_POST['id'])) {
+	if (empty($_POST['data'])) {
 		throw new Exception('Greska u prosledjenim parametrima.');
 	}
-	$dataRow = array(
-		'id' => $_POST['id'],
-		'ignored' => (isset($_POST['ignored']) && $_POST['ignored'] == true),
-	);
 
-	if (!$dataRow['ignored']) {
-		if (empty($_POST['data_type']) || empty($_POST['value'])) {
-			throw new Exception('Greska u prosledjenim parametrima.');
-		}
-		$dataRow['data_type'] = $_POST['data_type'];
-		$dataRow['value'] = $_POST['value'];
-		DB::completeTaskData($dataRow);
-	} else {
-		DB::ignoreTaskData($dataRow);
+	$output = array();
+	foreach ($_POST['data'] as $dataRow) {
+		DB::updateTask($dataRow);
 	}
-	
 } catch (Exception $e) {
 	$output['error'] = $e->getMessage();
 }

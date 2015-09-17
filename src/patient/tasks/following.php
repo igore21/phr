@@ -9,7 +9,6 @@ $searchFollowingTasks = array(
 	'limit' => 10,
 );
 $followingTasks = DB::getData($searchFollowingTasks);
-
 $render['tableName'] = 'Sledeci zadaci';
 $render['tasks'] = $followingTasks;
 

@@ -167,42 +167,36 @@ $(function() {
 	//=========
 	// Data
 	//=========
-	$('.saveDataButton').click(function() {
-		var taskRow = $(this).closest('tr');
-		
-		var dataType = taskRow.find('.taskDataType').val();
-		var valueInput = taskRow.find('.type' + dataType);
-		var value = valueInput.val();
-		
-		valueInput.removeClass('invalidInput');
-		if (!value || value == '') {
-			valueInput.addClass('invalidInput');
-			return;
-		}
-		console.log('val: ' + value);
-		var data = {
-			'id': taskRow.find('.taskId').val(),
-			'data_type': dataType,
-			'value': value,
-		}
-		
-		sendTaskData(data, taskRow);
+	$('.saveAsDraftButton').click(function() {
+		var taskRow = $(this).closest('.dataRow');
+		sendTaskData(taskRow, 2);
+		return false;
+	});
+	$('.saveAsCompleteButton').click(function() {
+		var taskRow = $(this).closest('.dataRow');
+		sendTaskData(taskRow, 3);
 		return false;
 	});
 	
-	$('.btnIgnore').click(function() {
-		var taskRow = $(this).closest('tr');
+	function sendTaskData(taskRow, state) {
+		var data = {data: []};
+		taskRow.find('table tbody tr').each(function() {
+			var row = $(this);
+			var dataType = row.find('.taskDataType').val();
+			var valueInput = row.find('.type' + dataType);
+			var value = valueInput.val();
+			if (dataType == 4) value = valueInput.prop('checked');
+			
+			rowData = {
+				'id': row.find('.taskId').val(),
+				'data_type': dataType,
+				'value': value,
+				'state': state,
+			}
+			data.data.push(rowData);
+		});
+		console.log(data);
 		
-		var data = {
-			'id': taskRow.find('.taskId').val(),
-			'ignored': true,
-		}
-		
-		sendTaskData(data, taskRow);
-		return false;
-	});
-	
-	function sendTaskData(data, taskRow) {
 		$.ajax({
 			type : 'POST',
 			url: '/patient/tasks/saveTaskData.php',
@@ -215,10 +209,9 @@ $(function() {
 					// TODO
 				}
 				else {
-					taskRow.find('.saveDataButton').hide();
-					taskRow.find('.btnIgnore').hide();
-					taskRow.find('.actionOk').show();
-					taskRow.find('.dataValue').prop('disabled', true);
+					taskRow.find('.dataStatusSucess').show();
+					if (state == 3) taskRow.fadeOut(1000);
+					console.log("success");
 				}
 				
 			},

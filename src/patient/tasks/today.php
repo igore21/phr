@@ -7,7 +7,7 @@ $searchTodaysTasks = array(
 	'patient_id' => $patientId,
 	'from' => (new DateTime())->format('y-m-d'),
 	'to' => (new DateTime())->add(new DateInterval('P1D'))->format('y-m-d'),
-	'completed' => 'false',
+	'state' => array(DataState::PENDING, DataState::DRAFT),
 );
 $tasksForToday = DB::getData($searchTodaysTasks);
 // var_dump($tasksForToday);

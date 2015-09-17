@@ -285,24 +285,26 @@ class DB {
 		
 		if (empty($data)) return true;
 		
-		$paramPlaceholders = implode(', ', array_fill(0, count($data), '(?, ?, ?, ?, ?)'));
+		$paramPlaceholders = implode(', ', array_fill(0, count($data), '(?, ?, ?, ?, ?, ?)'));
 		$stm = $db->prepare('
 			INSERT INTO data (
 				patient_id,
 				assignment_id,
 				parameter_id,
 				scheduled_time,
-				data_type
+				data_type,
+				state
 			)
 			VALUES ' . $paramPlaceholders
 		);
 		
 		foreach ($data as $index => $dataRow) {
-			$stm->bindValue(5 * $index + 1, $dataRow['patient_id']);
-			$stm->bindValue(5 * $index + 2, $dataRow['assignment_id']);
-			$stm->bindValue(5 * $index + 3, $dataRow['parameter_id']);
-			$stm->bindValue(5 * $index + 4, $dataRow['scheduled_time']);
-			$stm->bindValue(5 * $index + 5, $dataRow['data_type']);
+			$stm->bindValue(6 * $index + 1, $dataRow['patient_id']);
+			$stm->bindValue(6 * $index + 2, $dataRow['assignment_id']);
+			$stm->bindValue(6 * $index + 3, $dataRow['parameter_id']);
+			$stm->bindValue(6 * $index + 4, $dataRow['scheduled_time']);
+			$stm->bindValue(6 * $index + 5, $dataRow['data_type']);
+			$stm->bindValue(6 * $index + 6, $dataRow['state']);
 		}
 		
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
@@ -342,8 +344,8 @@ class DB {
 		if (!empty($search['to'])) {
 			$conds [] = 'data.scheduled_time < \'' . $search['to'] . '\'';
 		}
-		if (!empty($search['completed'])) {
-			$conds [] = 'data.completed = ' . $search['completed'];
+		if (!empty($search['state'])) {
+			$conds [] = 'data.state in (' . implode(',', $search['state']) . ')';
 		}
 		if (!empty($search['parameter_id'])) {
 			$conds [] = 'data.parameter_id = ' . $search['parameter_id'];
@@ -354,8 +356,9 @@ class DB {
 		
 		$query = '
 			SELECT
-				ass.name,
 				ass.id as assignment_id,
+				ass.name,
+				ass.description,
 				data.*,
 				ap.comment,
 				p.measure_unit
@@ -377,46 +380,32 @@ class DB {
 		return $stm->fetchAll();
 	}
 	
-	public static function completeTaskData($dataRow) {
+	public static function updateTask($dataRow) {
 		$db = self::getDB();
 		
-		$query = '
-			UPDATE data SET
-				{column} = :value,
-				completed = 1,
-				modified_time = :current_time
-			WHERE id = :id
-		';
+		$query = 'UPDATE data SET {to_be_updated} WHERE id = :id';
+		$data[] = 'modified_time = :current_time';
 		
-		if ($dataRow['data_type'] == 1) $column = 'integer_value';
-		if ($dataRow['data_type'] == 2) $column = 'double_value';
-		if ($dataRow['data_type'] == 3) $column = 'string_value';
-		if ($dataRow['data_type'] == 4) $column = 'bool_value';
-		$query = str_replace('{column}', $column, $query);
+		if (!empty($dataRow['data_type']) && !empty($dataRow['value'])) {
+			if ($dataRow['data_type'] == 1) $column = 'integer_value';
+			if ($dataRow['data_type'] == 2) $column = 'double_value';
+			if ($dataRow['data_type'] == 3) $column = 'string_value';
+			if ($dataRow['data_type'] == 4) $column = 'bool_value';
+			$data[] = $column . ' = ' . $dataRow['value'];
+		}
+		
+		if (!empty($dataRow['state'])) {
+			$data[] = 'state = ' . $dataRow['state'];
+		}
+		
+		$dataStr = implode(', ', $data);
+		$query = str_replace('{to_be_updated}', $dataStr, $query);
 		
 		$stm = $db->prepare($query);
-		$stm->bindParam(':value', $dataRow['value']);
 		$stm->bindValue(':current_time', (new DateTime())->format('y-m-d h:i:s'));
 		$stm->bindParam(':id', $dataRow['id']);
-		
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
 	}
-	
-	public static function ignoreTaskData($dataRow) {
-		$db = self::getDB();
-		$stm = $db->prepare('
-			UPDATE data SET
-				completed = 1,
-				ignored = 1,
-				modified_time = :current_time
-			WHERE id = :id
-		');
-		$stm->bindValue(':current_time', (new DateTime())->format('y-m-d h:i:s'));
-		$stm->bindParam(':id', $dataRow['id']);
-		
-		if (!$stm->execute()) throw new Exception($stm->errorInfo());
-	}
-	
 	
 	public static function cleanEverything() {
 		$db = self::getDB();

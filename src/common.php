@@ -55,6 +55,7 @@ function getScheduledTasks($assignment, $allParameters, $isNewAssignment = true)
 			'patient_id' => $assignment['patient_id'],
 			'parameter_id' => $param['parameter_id'],
 			'data_type' => $allParameters[$param['parameter_id']]['data_type'],
+			'state' => DataState::PENDING,
 		);
 		
 		$timeDiffHours = 0;

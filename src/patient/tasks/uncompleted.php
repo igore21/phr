@@ -6,14 +6,13 @@ $patientId = $_SESSION['user']['id'];
 $searchUncopletedTasks = array(
 	'patient_id' => $patientId,
 	'to' => (new DateTime())->format('y-m-d'),
-	'completed' => 'false',
+	'state' => array(DataState::PENDING, DataState::DRAFT),
 );
 $uncompletedTasks = DB::getData($searchUncopletedTasks);
 
 $render['tableName'] = 'Nepopunjeni zadaci';
 $render['tasks'] = $uncompletedTasks;
 $render['showValuesAndActions'] = true;
-$render['showIgnoreButton'] = true;
 
 include 'taskTable.php';
 

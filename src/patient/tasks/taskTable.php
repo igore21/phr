@@ -1,18 +1,39 @@
 <?php 
 $allParameters = getTranslatedParameters();
-$showIgnoreButton = isset($render['showIgnoreButton']) && $render['showIgnoreButton'] == true;
 $showValuesAndActions = isset($render['showValuesAndActions']) && $render['showValuesAndActions'] == true;
 
-$assignmentTasks = array();
+$allAssignmentTasks = array();
 foreach ($render['tasks'] as $task) {
-	$assignmentTasks[$task['assignment_id']]['tasks'][] = $task;
-	$assignmentTasks[$task['assignment_id']]['name'] = $task['name'];
+	$dateStr = substr($task['scheduled_time'], 0, 10);
+	if (!isset($allAssignmentTasks[$dateStr][$task['assignment_id']])) {
+		$allAssignmentTasks[$dateStr][$task['assignment_id']] = array(
+			'name' => $task['name'],
+			'description' => $task['description'],
+			'date' => $dateStr,
+			'tasks' => array(),
+		);
+	}
+	$allAssignmentTasks[$dateStr][$task['assignment_id']]['tasks'][] = $task;
 }
+// var_dump($assignmentTasks);
+
+foreach ($allAssignmentTasks as $dayAssignments) {
+	foreach ($dayAssignments as $id => $dayTasks) {
+// 		var_dump($dayTasks);
 ?>
 
-<?php foreach ($assignmentTasks as $id => $assTasks) { ?>
-<div class="col-md-11 assignmentTable">
-	<h3 class="table_name">Zadatak: <?php echo $assTasks['name']; ?></h3>
+<div class="col-md-11 dataRow">
+	<div>
+		<span class="dataStatusSucess" style="display: none;">
+			<span class="actionOk glyphicon glyphicon-ok" aria-hidden="true" style="color: green;"></span>
+			<span>Sacuvano</span>
+		</span>
+		<span>
+			<div class="dataAssName">Zadatak: <?php echo $dayTasks['name']; ?></div>
+			<div class="dataAssDescr">Opis: <?php echo $dayTasks['description']; ?></div>
+			<div class="dataAssDescr">Za dan: <?php echo $dayTasks['date']; ?></div>
+		</span>
+	</div>
 	<table class="table">
 		<thead>
 			<th class="task_numb">#</th>
@@ -21,15 +42,14 @@ foreach ($render['tasks'] as $task) {
 			<th class="task_comment">Komentar</th>
 			<?php if ($showValuesAndActions) { ?>
 			<th class="task_value">Vrednost</th>
-			<th class="task_action">Akcija</th>
 			<?php } ?>
 		</thead>
-		<?php foreach ($assTasks['tasks'] as $index => $task) { ?>
+		<?php foreach ($dayTasks['tasks'] as $index => $task) { //var_dump($task); ?>
 		<tr>
 			<input type="hidden" class="taskId" value="<?php echo $task['id']; ?>"></input>
 			<input type="hidden" class="taskDataType" value="<?php echo $task['data_type']; ?>"></input>
 			<td><?php echo $index+1; ?>.</td>
-			<td><?php echo $task['scheduled_time']; ?></td>
+			<td><?php echo substr($task['scheduled_time'], 11); ?></td>
 			<td>
 				<?php echo $allParameters[$task['parameter_id']]['name']; ?>
 			</td>
@@ -37,25 +57,30 @@ foreach ($render['tasks'] as $task) {
 			<?php if ($showValuesAndActions) { ?>
 			<td>
 				<?php if ($task['data_type'] == 1) { ?>
-					<input class="type1 dataValue" type="number"/>
+					<input class="type1 dataValue" type="number" value="<?php echo $task['integer_value']; ?>"/>
 				<?php } else if ($task['data_type'] == 2) { ?>
-					<input class="type2 dataValue" type="number" step="0.01"/>
+					<input class="type2 dataValue" type="number" step="0.01" value="<?php echo $task['double_value']; ?>"/>
 				<?php } else if ($task['data_type'] == 3) { ?>
-					<textarea class="type3 dataValue" type="text"></textarea>
+					<textarea class="type3 dataValue" type="text"><?php echo $task['string_value']; ?></textarea>
 				<?php } else if ($task['data_type'] == 4) { ?>
-					Uradjeno <input class="type4 dataValue" type="checkbox" value="1"/>
+					Uradjeno <input class="type4 dataValue" type="checkbox" <?php if ($task['bool_value']) echo 'checked'; ?>/>
 				<?php }?>
-			</td>
-			<td>
-				<span class="actionOk glyphicon glyphicon-ok" aria-hidden="true" style="display: none; color: green;"></span>
-				<button type="button" class="saveDataButton btn btn-primary btn-sm">Sacuvaj</button>
-				<?php if ($showIgnoreButton) { ?>
-				<button type="button" class="btnIgnore btn btn-danger btn-sm">Ignorisi</button>
+				<?php if (!empty($task['measure_unit'])) { ?>
+					<span class="paramMeasureUnit"><?php echo $task['measure_unit']; ?></span>
 				<?php } ?>
 			</td>
 			<?php } ?>
 		</tr>
-		<?php } ?>
+		<?php }?>
 	</table>
+	<div class="dataActionButtons">
+		<?php if ($showValuesAndActions) { ?>
+			<button type="button" class="saveAsDraftButton btn btn-default btn-md">Sacuvaj i nastavi</button>
+			<button type="button" class="saveAsCompleteButton btn btn-primary btn-md">Sacuvaj i zatvori</button>
+		<?php } ?>
+	</div>
 </div>
-<?php } ?>
+
+<?php 
+	}
+}
