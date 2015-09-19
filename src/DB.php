@@ -386,12 +386,17 @@ class DB {
 		$query = 'UPDATE data SET {to_be_updated} WHERE id = :id';
 		$data[] = 'modified_time = :current_time';
 		
-		if (!empty($dataRow['data_type']) && !empty($dataRow['value'])) {
-			if ($dataRow['data_type'] == 1) $column = 'integer_value';
-			if ($dataRow['data_type'] == 2) $column = 'double_value';
-			if ($dataRow['data_type'] == 3) $column = 'string_value';
-			if ($dataRow['data_type'] == 4) $column = 'bool_value';
-			$data[] = $column . ' = ' . $dataRow['value'];
+		if (!empty($dataRow['data_type']) && isset($dataRow['value'])) {
+			if ($dataRow['data_type'] == 1) {
+				$value = $dataRow['value'] == '' ? 'null' : $dataRow['value'];
+				$data[] = 'integer_value = ' . $value;
+			}
+			if ($dataRow['data_type'] == 2) {
+				$value = $dataRow['value'] == '' ? 'null' : $dataRow['value'];
+				$data[] = 'double_value = ' . $value;
+			}
+			if ($dataRow['data_type'] == 3) $data[] = 'string_value = \'' . $dataRow['value'] . '\'';
+			if ($dataRow['data_type'] == 4) $data[] = 'bool_value = ' . $dataRow['value'];
 		}
 		
 		if (!empty($dataRow['state'])) {
@@ -400,11 +405,11 @@ class DB {
 		
 		$dataStr = implode(', ', $data);
 		$query = str_replace('{to_be_updated}', $dataStr, $query);
-		
 		$stm = $db->prepare($query);
 		$stm->bindValue(':current_time', (new DateTime())->format('y-m-d h:i:s'));
 		$stm->bindParam(':id', $dataRow['id']);
 		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		return true;
 	}
 	
 	public static function cleanEverything() {

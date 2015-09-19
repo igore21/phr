@@ -14,7 +14,10 @@ try {
 
 	$output = array();
 	foreach ($_POST['data'] as $dataRow) {
-		DB::updateTask($dataRow);
+		if (empty($dataRow['value']) && $dataRow['state'] == DataState::COMPLETED) {
+			$dataRow['state'] = DataState::IGNORED;
+		}
+		$output[$dataRow['id']] = DB::updateTask($dataRow);
 	}
 } catch (Exception $e) {
 	$output['error'] = $e->getMessage();

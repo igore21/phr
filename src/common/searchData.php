@@ -91,9 +91,9 @@ $isDoctor = getUserRole() == DOCTOR_ROLE;
 				<?php } ?>
 			</td>
 			<td>
-				<?php if ($param['completed'] && !$param['ignored']) { ?>
+				<?php if ($param['state'] == DataState::COMPLETED) { ?>
 					<span class="actionOk glyphicon glyphicon-ok" aria-hidden="true" style="color: green;"></span>
-				<?php } else if ($param['ignored']) { ?>
+				<?php } else if ($param['state'] == DataState::IGNORED) { ?>
 					<span class="actionOk glyphicon glyphicon-remove" aria-hidden="true" style="color: red;"></span>
 				<?php } ?>
 			</td>

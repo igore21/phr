@@ -11,4 +11,5 @@ class DataState {
 	const PENDING = 1;
 	const DRAFT = 2;
 	const COMPLETED = 3;
+	const IGNORED = 4;
 }
