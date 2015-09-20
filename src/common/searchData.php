@@ -71,7 +71,7 @@ $isDoctor = getUserRole() == DOCTOR_ROLE;
 			<th class="data_param"><?php echo $isAss ? 'Parametar' : 'Zadatak'; ?></th>
 			<th class="data_time">Zakazano vreme</th>
 			<th class="data_value">Vrednost</th>
-			<th class="data_done">Popunjen</th>
+			<th class="data_status">Status</th>
 		</thead>
 		<?php foreach ($params as $param) { ?>
 		<tr>
@@ -81,20 +81,40 @@ $isDoctor = getUserRole() == DOCTOR_ROLE;
 			<td><?php echo $param['scheduled_time']?></td>
 			<td>
 				<?php
-					if ($param['data_type'] == 1) echo $param['integer_value'];
-					else if ($param['data_type'] == 2) echo $param['double_value'];
-					else if ($param['data_type'] == 3) echo $param['string_value'];
-					else if ($param['data_type'] == 4) echo $param['bool_value'] ? 'Uradjeno' : '';
+					$value = '';
+					if ($param['data_type'] == 1) $value = $param['integer_value'];
+					else if ($param['data_type'] == 2) $value = $param['double_value'];
+					else if ($param['data_type'] == 3) $value = $param['string_value'];
+					else if ($param['data_type'] == 4) $value = $param['bool_value'] ? 'Uradjeno' : '';
+					echo $value;
 				?>
 				<?php if (!empty($param['measure_unit']) && (!empty($param['integer_value']) || !empty($param['double_value']))) { ?>
 					<span class="paramMeasureUnit"><?php echo $param['measure_unit']; ?></span>
 				<?php } ?>
 			</td>
 			<td>
-				<?php if ($param['state'] == DataState::COMPLETED) { ?>
-					<span class="actionOk glyphicon glyphicon-ok" aria-hidden="true" style="color: green;"></span>
-				<?php } else if ($param['state'] == DataState::IGNORED) { ?>
-					<span class="actionOk glyphicon glyphicon-remove" aria-hidden="true" style="color: red;"></span>
+				<?php if ($param['state'] == DataState::COMPLETED) { 
+					$validLow = !empty($param['valid_range_low']) ? $param['valid_range_low'] : '/';
+					$validHigh = !empty($param['valid_range_high']) ? $param['valid_range_high'] : '/';
+					$refLow = !empty($param['ref_range_low']) ? $param['ref_range_low'] : '/';
+					$refHigh = !empty($param['ref_range_high']) ? $param['ref_range_high'] : '/';
+				?>
+					<?php if ((!empty($param['valid_range_low']) && $value <= $validLow) || (!empty($param['valid_range_high']) && $value >= $validHigh)) { ?>
+						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color: red;"></span>
+						<span><?php echo $validLow . ' - ' . $validHigh; ?></span>
+					<?php } else if ((!empty($param['ref_range_low']) && $value <= $refLow) || (!empty($param['ref_range_high']) && $value >= $refHigh)) {?>
+						<span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color: orange;"></span>
+						<span><?php echo $refLow . ' - ' . $refHigh; ?></span>
+					<?php } else { ?>
+						<span class="actionOk glyphicon glyphicon-ok" aria-hidden="true" style="color: green;"></span>
+					<?php } ?>
+				<?php } else if ($param['state'] == DataState::IGNORED && $param['mandatory']) { ?>
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color: red;"></span>
+					<span>Obavezan</span>
+				<?php } else if ($param['state'] == DataState::DRAFT) { ?>
+					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				<?php } else if ($param['state'] == DataState::PENDING) { ?>
+					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
 				<?php } ?>
 			</td>
 		</tr>

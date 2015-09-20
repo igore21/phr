@@ -43,7 +43,7 @@
 .data_param { min-width: 200px; }
 .data_time { min-width: 180px; }
 .data_value { min-width: 160px; }
-.data_done { width: 20px; }
+.data_status { min-width: 100px; }
 
 .param_col_name { width: 150px; }
 .param_col_mand { width: 50px; }
