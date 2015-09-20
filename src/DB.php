@@ -435,6 +435,35 @@ class DB {
 		return true;
 	}
 	
+	public static function getTempalteNames() {
+		$db = self::getDB();
+		$stm = $db->prepare('
+			select
+				template_id,
+				max(name) as name
+			from template_parameter
+			group by template_id
+			order by template_id
+		');
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		return $stm->fetchAll();
+		
+	}
+	public static function getTemplates() {
+		$db = self::getDB();
+		$stm = $db->prepare('
+			select
+				tp.*,
+				p.name as parameter_name,
+				p.data_type,
+				p.measure_unit
+			from template_parameter tp
+				inner join parameter p on p.id = tp.parameter_id
+		');
+		if (!$stm->execute()) throw new Exception($stm->errorInfo());
+		return $stm->fetchAll();
+	}
+	
 	public static function cleanEverything() {
 		$db = self::getDB();
 		$stm = $db->prepare('

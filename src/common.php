@@ -35,6 +35,7 @@ function getTranslatedParameters() {
 		'blood_pressure' => 'krvni pritisak',
 		'nausea' => 'osecaj mucnine',
 		'open_ended' => 'proizvoljno',
+		'cough' => 'kasalj',
 	);
 	$allParameters = DB::getAllParameters();
 	foreach ($allParameters as $id => $param) {

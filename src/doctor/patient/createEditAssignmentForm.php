@@ -1,6 +1,8 @@
 <?php 
 
 $allParameters = getTranslatedParameters();
+$templateNames = DB::getTempalteNames();
+$allTemplates = DB::getTemplates();
 
 if (isset($_SESSION['new_assignment'])) {
 	$assignment = array_replace($assignment, $_SESSION['new_assignment']);
@@ -76,9 +78,9 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 			
 			<div class="form-group">
 				<div><h3 class="form-signin-heading">Parametri</h3></div>
-				<li>
+				<div>
 					<label class="assField">Izaberite parametre</label>
-					<select class="ass-choose-area" id="parameterList" name="params">
+					<select class="ass-choose-area" id="parameterList">
 						<option selected="selected" value="0">Izaberite parametar</option>
 						<?php foreach ($allParameters as $index => $param) {?>
 							<option value="<?php echo $param['id'];?>"
@@ -89,7 +91,39 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 						<?php }?>
 					</select>
 					<a class="btn btn-default btn-sm add-param" id="addParameter" href="#">Dodaj parametar</a>
-				</li>
+				</div>
+				<div style="margin-top: 10px;">
+					<label class="assField">Izaberite sablon</label>
+					<select class="ass-choose-area" id="templateList">
+						<option selected="selected" value="0">Izaberite sablon</option>
+						<?php foreach ($templateNames as $index => $temp) { //var_dump($temp); ?>
+							<option value="<?php echo $temp['template_id'];?>">
+								<?php echo $temp['name'];?>
+							</option>
+						<?php }?>
+					</select>
+					<a class="btn btn-default btn-sm add-param" id="addTemplate" href="#">Dodaj sablon</a>
+					<div id="tempParams" style="display: none;">
+					<?php foreach ($allTemplates as $index => $param) { //var_dump($param); ?>
+						<div>
+							<input type="hidden" class="tempParam<?php echo $param['template_id']?>"
+								data-name="<?php echo $allParameters[$param['parameter_id']]['name']; ?>"
+								data-parameter-id="<?php echo $param['parameter_id']; ?>"
+								data-measure-unit="<?php echo $param['measure_unit']; ?>"
+								data-data-type="<?php echo $param['data_type']; ?>"
+								data-mandatory="<?php echo $param['mandatory']; ?>"
+								data-execute-after="<?php echo $param['execute_after']; ?>"
+								data-time-unit="<?php echo $param['time_unit']; ?>"
+								data-valid-low="<?php echo $param['valid_range_low']; ?>"
+								data-valid-high="<?php echo $param['valid_range_high']; ?>"
+								data-ref-low="<?php echo $param['ref_range_low']; ?>"
+								data-ref-high="<?php echo $param['ref_range_high']; ?>"
+								data-comment="<?php echo $param['comment']; ?>"
+								></input>
+						</div>
+					<?php } ?>
+					</div>
+				</div>
 			</div>
 			
 			<div id="parameters">
@@ -107,7 +141,6 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 							<th class="param_col_remove"></th>
 						</thead>
 						<?php foreach ($assignment['params'] as $param) { //var_dump($param); ?>
-						<?php $param['show_validRef'] = (true ? true : false);?>
 						<tr class="parameterElem" <?php if ($param['parameter_id'] == 0) echo 'id="templateParameter" style="display: none;"'; ?>>
 							<input type="hidden" class="paramId" name="params[<?php echo $param['parameter_id']; ?>][parameter_id]" value="<?php echo $param['parameter_id']?>"></input>
 							<td>

@@ -18,6 +18,20 @@ $(function() {
 		newRow.find('.paramName').text(selectedParameter.text());
 		newRow.find('.paramMeasureUnit').text(selectedParameter.data('measureUnit'));
 		
+		setParamNames(newRow, selectedParameterId);
+		
+		if (dataType != 1 && dataType != 2) {
+			newRow.find('.validRef').hide();
+		}
+		
+		newRow.removeAttr('id');
+		newRow.show();
+		$('.parameterElem:last').after(newRow);
+		
+		return false;
+	});
+	
+	function setParamNames(newRow, selectedParameterId) {
 		newRow.find('.paramId').attr('name', 'params[' + selectedParameterId + '][parameter_id]').val(selectedParameterId);
 		newRow.find('.paramExecuteAfter').attr('name', 'params[' + selectedParameterId + '][execute_after]');
 		newRow.find('.paramTimeUnit').attr('name', 'params[' + selectedParameterId + '][time_unit]');
@@ -27,14 +41,47 @@ $(function() {
 		newRow.find('.paramValidHigh').attr('name', 'params[' + selectedParameterId + '][valid_range_high]');
 		newRow.find('.paramRefLow').attr('name', 'params[' + selectedParameterId + '][ref_range_low]');
 		newRow.find('.paramRefHigh').attr('name', 'params[' + selectedParameterId + '][ref_range_high]');
-		
-		if (dataType != 1 && dataType != 2) {
-			newRow.find('.validRef').hide();
+	}
+	
+	$('#addTemplate').click(function() {
+		var templateList = $('#templateList');
+		var selectedTemplate = templateList.find(':selected');
+		var selectedTemplateId = selectedTemplate.val();
+		if (selectedTemplateId == 0) {
+			return false;
 		}
+		templateList.val(0);
+		var templateRow = $('#templateParameter');
 		
-		newRow.removeAttr('id');
-		newRow.show();
-		$('.parameterElem:last').after(newRow);
+		$('#tempParams').find('.tempParam' + selectedTemplateId).each(function() {
+			var param = $(this);
+			var paramId = param.data('parameterId');
+			var newRow = templateRow.clone();
+			var dataType = param.data('dataType');
+			
+			newRow.find('.paramId').val(paramId);
+			newRow.find('.paramName').text(param.data('name'));
+			newRow.find('.paramMeasureUnit').text(param.data('measureUnit'));
+			
+			setParamNames(newRow, paramId);
+			
+			newRow.find('.paramMandatory').prop('checked', param.data('mandatory') == 1);
+			newRow.find('.paramExecuteAfter').val(param.data('executeAfter'));
+			newRow.find('.paramTimeUnit option[value="' + param.data('timeUnit') + '"]').prop('selected', true);
+			newRow.find('.paramValidHigh').val(param.data('validHigh'));
+			newRow.find('.paramValidLow').val(param.data('validLow'));
+			newRow.find('.paramRefHigh').val(param.data('refHigh'));
+			newRow.find('.paramRefLow').val(param.data('refLow'));
+			newRow.find('.paramComment').text(param.data('comment'));
+			
+			if (dataType != 1 && dataType != 2) {
+				newRow.find('.validRef').hide();
+			}
+			
+			newRow.removeAttr('id');
+			newRow.show();
+			$('.parameterElem:last').after(newRow);
+		});
 		
 		return false;
 	});

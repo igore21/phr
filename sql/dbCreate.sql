@@ -100,6 +100,28 @@ CONSTRAINT `fk_data_assignment_id`
 	ON UPDATE NO ACTION
 );
 
+DROP TABLE IF EXISTS `template_parameter`;
+CREATE TABLE `template_parameter` (
+	`template_id` INT NOT NULL,
+	`parameter_id` INT NOT NULL,
+	`name` TEXT NOT NULL,
+	`execute_after` INT NOT NULL,
+	`time_unit` INT NOT NULL,
+	`comment` TEXT,
+	`mandatory` TINYINT(1) NOT NULL,
+	`valid_range_low` DOUBLE NULL,
+	`valid_range_high` DOUBLE NULL,
+	`ref_range_low` DOUBLE NULL,
+	`ref_range_high` DOUBLE NULL,
+PRIMARY KEY (`template_id`, `parameter_id`),
+INDEX `fk_template_id_idx` (`template_id` ASC),
+CONSTRAINT `fk_template_parameter_id`
+	FOREIGN KEY (`parameter_id`)
+	REFERENCES `parameter` (`id`)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION
+);
+	
 -- data_type: int=1; double=2; string=3; bool=4;
 insert into parameter (id, data_type, name, measure_unit) values
 	(1, 3, 'open_ended', null),
@@ -112,8 +134,19 @@ insert into parameter (id, data_type, name, measure_unit) values
 	(8, 3, 'appetite', null),
 	(9, 3, 'blood_pressure', null),
 	(10, 3, 'nausea', null),
-	(11, 1, 'numberOfHeartBeats', null);
+	(11, 1, 'numberOfHeartBeats', null),
+	(12, 3, 'cough', null);
 
+insert into template_parameter
+	(template_id, name, parameter_id, execute_after, time_unit, mandatory,
+	valid_range_low, valid_range_high, ref_range_low, ref_range_high, comment)
+values
+	(1, 'bronhitis', 5, 12, 1, 1, 35, 45, null, 37, 'Meriti ujutru i uvece pre spavanja.'),
+	(1, 'bronhitis', 12, 1, 2, 1, null, null, null, null, 'Jacina kaslja pre spavanja.'),
+	(1, 'bronhitis', 8, 12, 1, 0, null, null, null, null, ''),
+	(2, 'stomacni virus', 5, 12, 1, 1, 35, 45, null, 37, 'Meriti ujutru i uvece pre spavanja.'),
+	(2, 'stomacni virus', 8, 12, 1, 0, null, null, null, null, ''),
+	(2, 'stomacni virus', 10, 8, 1, 0, null, null, null, null, 'Osecaj mucnine nakon obroka');
 
 -- It must be at the end of the file
 SET FOREIGN_KEY_CHECKS=1;
