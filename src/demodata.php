@@ -27,14 +27,17 @@ DB::cleanEverything();
 $temp = array(
 	'parameter_id' => 5, 'execute_after' => 12, 'time_unit' => 1,
 	'comment' => 'Meriti temperaturu ujutru i uvece.',
+	'mandatory' => 1,
 );
 $antib = array(
 	'parameter_id' => 2, 'execute_after' => 8, 'time_unit' => 1,
 	'comment' => 'Piti cefaleksin na 8 sati.',
+	'mandatory' => 1,
 );
 $mucnina = array(
 	'parameter_id' => 10, 'execute_after' => 8, 'time_unit' => 1,
 	'comment' => 'Upisati osecaj mucnine posle svakog obroka',
+	'mandatory' => 0,
 );
 
 

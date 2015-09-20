@@ -52,6 +52,7 @@ CREATE TABLE `assignment_parameter` (
 	`execute_after` INT NOT NULL,
 	`time_unit` INT NOT NULL,
 	`comment` TEXT,
+	`mandatory` TINYINT(1) NOT NULL,
 PRIMARY KEY (`assignment_id`, `parameter_id`),
 INDEX `fk_assignmentd_id_idx` (`assignment_id` ASC),
 CONSTRAINT `fk_assignmentd_id`

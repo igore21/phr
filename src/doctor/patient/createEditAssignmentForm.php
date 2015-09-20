@@ -14,6 +14,7 @@ $assignment['params'][] = array(
 	'time_unit' => '',
 	'measure_unit' => '',
 	'comment' => '',
+	'mandatory' => 0,
 );
 
 $errorMsg = '';
@@ -93,6 +94,7 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 					<table class="table">
 						<thead>
 							<th class="param_col_name">Naziv</th>
+							<th class="param_col_mand">Obavezan</th>
 							<th class="param_col_execute">Izvrsavati na svakih</th>
 							<th class="param_col_unite">Vremenska jedinica</th>
 							<th class="param_col_mesure_unite">Merna jedinica</th>
@@ -106,6 +108,9 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 								<span class="paramName">
 									<?php if (isset($allParameters[$param['parameter_id']]['name'])) echo $allParameters[$param['parameter_id']]['name']; ?>
 								</span>
+							</th>
+							<th class="paramMandatoryCol">
+								<input class="paramMandatory" value="1" name="params[<?php echo $param['parameter_id']; ?>][mandatory]" type="checkbox" <?php if ($param['mandatory'] == 1) echo 'checked'; ?>/>
 							</th>
 							<th><input class="paramExecuteAfter" type="number" min="1" name="params[<?php echo $param['parameter_id']; ?>][execute_after]" value="<?php echo $param['execute_after']?>" style="width: 100px;"></th>
 							<th>

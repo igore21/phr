@@ -38,7 +38,7 @@
 .task_param { min-width: 150px; }
 .task_comment { min-width: 200px; }
 .task_value { min-width: 100px; }
-.task_action { width: 80px; }
+.task_check { width: 150px; display: none; }
 
 .data_param { min-width: 200px; }
 .data_time { min-width: 180px; }
@@ -46,10 +46,13 @@
 .data_done { width: 20px; }
 
 .param_col_name { width: 150px; }
+.param_col_mand { width: 50px; }
 .param_col_execute { width: 200px; }
 .param_col_mesure_unite { width: 100px; }
 .param_col_unite { width: 200px; }
 .param_col_remove { width: 60px; }
+
+.paramMandatoryCol { text-align: center; }
 
 .dataResult { margin-left: 50px; }
 .valueComment { width: 270px; }
@@ -89,6 +92,11 @@
 .dataActionButtons {
 	margin: auto;
 	width: 300px;
+}
+
+.dataActionConfButtons {
+	margin: auto;
+	width: 350px;
 }
 
 .login-login {

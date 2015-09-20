@@ -24,6 +24,8 @@ if (!empty($_POST['end_time'])) $assignment['end_time'] = $_POST['end_time'];
 if (!empty($_POST['params'])) {
 	$assignment['params'] = $_POST['params'];
 	unset($assignment['params'][0]);
+	foreach ($assignment['params'] as $index => $param)
+		$assignment['params'][$index]['mandatory'] = isset($param['mandatory']) ? $param['mandatory'] : '0';
 }
 
 $_SESSION['new_assignment'] = $assignment;

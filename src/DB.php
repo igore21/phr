@@ -222,19 +222,28 @@ class DB {
 	public static function attachParametersToAssignment($parameters, $assignmentId) {
 		$db = self::getDB();
 	
-		$paramPlaceholders = implode(', ', array_fill(0, count($parameters), '(?, ?, ?, ?, ?)'));
+		$paramPlaceholders = implode(', ', array_fill(0, count($parameters), '(?, ?, ?, ?, ?, ?)'));
 		$stm = $db->prepare('
-			INSERT INTO assignment_parameter (assignment_id, parameter_id, execute_after, time_unit, comment)
+			INSERT INTO assignment_parameter (
+				assignment_id,
+				parameter_id,
+				execute_after,
+				time_unit,
+				comment,
+				mandatory
+			)
 			VALUES ' . $paramPlaceholders
 		);
 	
+		$numOfCol = 6;
 		$index = 0;
 		foreach ($parameters as $id => $param) {
-			$stm->bindValue(5 * $index + 1, $assignmentId);
-			$stm->bindValue(5 * $index + 2, $param['parameter_id']);
-			$stm->bindValue(5 * $index + 3, $param['execute_after']);
-			$stm->bindValue(5 * $index + 4, $param['time_unit']);
-			$stm->bindValue(5 * $index + 5, $param['comment']);
+			$stm->bindValue($numOfCol * $index + 1, $assignmentId);
+			$stm->bindValue($numOfCol * $index + 2, $param['parameter_id']);
+			$stm->bindValue($numOfCol * $index + 3, $param['execute_after']);
+			$stm->bindValue($numOfCol * $index + 4, $param['time_unit']);
+			$stm->bindValue($numOfCol * $index + 5, $param['comment']);
+			$stm->bindValue($numOfCol * $index + 6, $param['mandatory']);
 			$index++;
 		}
 	
@@ -361,6 +370,7 @@ class DB {
 				ass.description,
 				data.*,
 				ap.comment,
+				ap.mandatory,
 				p.measure_unit
 			FROM assignment as ass
 				INNER JOIN data ON data.assignment_id = ass.id

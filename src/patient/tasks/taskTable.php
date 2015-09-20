@@ -25,7 +25,7 @@ foreach ($allAssignmentTasks as $dayAssignments) {
 <div class="col-md-11 dataRow">
 	<div>
 		<span class="dataStatusSucess" style="display: none;">
-			<span class="actionOk glyphicon glyphicon-ok" aria-hidden="true" style="color: green;"></span>
+			<span class="actionOk glyphicon glyphicon-saved" aria-hidden="true" style="color: green;"></span>
 			<span>Sacuvano</span>
 		</span>
 		<span>
@@ -42,20 +42,23 @@ foreach ($allAssignmentTasks as $dayAssignments) {
 			<th class="task_comment">Komentar</th>
 			<?php if ($showValuesAndActions) { ?>
 			<th class="task_value">Vrednost</th>
+			<th class="tcheck task_check">Provera Vrednosti</th>
 			<?php } ?>
 		</thead>
 		<?php foreach ($dayTasks['tasks'] as $index => $task) { //var_dump($task); ?>
 		<tr>
-			<input type="hidden" class="taskId" value="<?php echo $task['id']; ?>"></input>
+			<input type="hidden" class="taskId" value="<?php echo $task['id']; ?>"
+				data-mandatory="<?php echo $task['mandatory']; ?>"></input>
 			<input type="hidden" class="taskDataType" value="<?php echo $task['data_type']; ?>"></input>
 			<td><?php echo $index+1; ?>.</td>
 			<td><?php echo substr($task['scheduled_time'], 11); ?></td>
 			<td>
 				<?php echo $allParameters[$task['parameter_id']]['name']; ?>
 			</td>
-			<td><?php echo $task['comment']; ?>.</td>
+			<td><?php echo $task['comment']; ?></td>
 			<?php if ($showValuesAndActions) { ?>
 			<td>
+				<?php if ($task['mandatory']) echo '*'; ?>
 				<?php if ($task['data_type'] == 1) { ?>
 					<input class="type1 dataValue" type="number" value="<?php echo $task['integer_value']; ?>"/>
 				<?php } else if ($task['data_type'] == 2) { ?>
@@ -69,16 +72,27 @@ foreach ($allAssignmentTasks as $dayAssignments) {
 					<span class="paramMeasureUnit"><?php echo $task['measure_unit']; ?></span>
 				<?php } ?>
 			</td>
+			<td class="tcheck task_check">
+				<span class="tcheck task_ok_row glyphicon glyphicon-check" aria-hidden="true" style="color: green; display: none;"></span>
+				<div class="tcheck task_warn_row" style="display: none;">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color: red;"></span>
+					<span>Parametar je obavezan</span>
+				</div>
+			</td>
 			<?php } ?>
 		</tr>
 		<?php }?>
 	</table>
-	<div class="dataActionButtons">
-		<?php if ($showValuesAndActions) { ?>
+	<?php if ($showValuesAndActions) { ?>
+		<div class="dataActionButtons">
 			<button type="button" class="saveAsDraftButton btn btn-default btn-md">Sacuvaj i nastavi</button>
 			<button type="button" class="saveAsCompleteButton btn btn-primary btn-md">Sacuvaj i zatvori</button>
-		<?php } ?>
-	</div>
+		</div>
+		<div class="dataActionConfButtons" style="display: none;">
+			<button type="button" class="returnForCorrectionButton btn btn-default btn-md">Varti se i ispravi</button>
+			<button type="button" class="saveAnywayButton btn btn-primary btn-md">Sacuvaj i zatvori bez ispravki</button>
+		</div>
+	<?php } ?>
 </div>
 
 <?php 
