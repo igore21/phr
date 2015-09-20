@@ -25,19 +25,18 @@ $allParameters = DB::getAllParameters();
 DB::cleanEverything();
 
 $temp = array(
-	'parameter_id' => 5, 'execute_after' => 12, 'time_unit' => 1,
+	'parameter_id' => 5, 'mandatory' => 1, 'execute_after' => 12, 'time_unit' => 1,
 	'comment' => 'Meriti temperaturu ujutru i uvece.',
-	'mandatory' => 1,
+	'valid_range_low' => 34, 'valid_range_high' => 45,
+	'ref_range_low' => 37, 'ref_range_high' => 45,
 );
 $antib = array(
-	'parameter_id' => 2, 'execute_after' => 8, 'time_unit' => 1,
+	'parameter_id' => 2, 'mandatory' => 1, 'execute_after' => 8, 'time_unit' => 1,
 	'comment' => 'Piti cefaleksin na 8 sati.',
-	'mandatory' => 1,
 );
 $mucnina = array(
-	'parameter_id' => 10, 'execute_after' => 8, 'time_unit' => 1,
+	'parameter_id' => 10, 'mandatory' => 0, 'execute_after' => 8, 'time_unit' => 1,
 	'comment' => 'Upisati osecaj mucnine posle svakog obroka',
-	'mandatory' => 0,
 );
 
 

@@ -53,6 +53,10 @@ CREATE TABLE `assignment_parameter` (
 	`time_unit` INT NOT NULL,
 	`comment` TEXT,
 	`mandatory` TINYINT(1) NOT NULL,
+	`valid_range_low` DOUBLE NULL,
+	`valid_range_high` DOUBLE NULL,
+	`ref_range_low` DOUBLE NULL,
+	`ref_range_high` DOUBLE NULL,
 PRIMARY KEY (`assignment_id`, `parameter_id`),
 INDEX `fk_assignmentd_id_idx` (`assignment_id` ASC),
 CONSTRAINT `fk_assignmentd_id`

@@ -15,11 +15,9 @@ foreach ($render['tasks'] as $task) {
 	}
 	$allAssignmentTasks[$dateStr][$task['assignment_id']]['tasks'][] = $task;
 }
-// var_dump($assignmentTasks);
 
 foreach ($allAssignmentTasks as $dayAssignments) {
 	foreach ($dayAssignments as $id => $dayTasks) {
-// 		var_dump($dayTasks);
 ?>
 
 <div class="col-md-11 dataRow">
@@ -48,6 +46,8 @@ foreach ($allAssignmentTasks as $dayAssignments) {
 		<?php foreach ($dayTasks['tasks'] as $index => $task) { //var_dump($task); ?>
 		<tr>
 			<input type="hidden" class="taskId" value="<?php echo $task['id']; ?>"
+				data-valid-low="<?php echo $task['valid_range_low']; ?>"
+				data-valid-high="<?php echo $task['valid_range_high']?>"
 				data-mandatory="<?php echo $task['mandatory']; ?>"></input>
 			<input type="hidden" class="taskDataType" value="<?php echo $task['data_type']; ?>"></input>
 			<td><?php echo $index+1; ?>.</td>
@@ -74,9 +74,13 @@ foreach ($allAssignmentTasks as $dayAssignments) {
 			</td>
 			<td class="tcheck task_check">
 				<span class="tcheck task_ok_row glyphicon glyphicon-check" aria-hidden="true" style="color: green; display: none;"></span>
-				<div class="tcheck task_warn_row" style="display: none;">
+				<div class="tcheck task_warn_row_mand" style="display: none;">
 					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color: red;"></span>
 					<span>Parametar je obavezan</span>
+				</div>
+				<div class="tcheck task_warn_row_valid" style="display: none;">
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true" style="color: orange;"></span>
+					<span>Vrednost nije u opsegu normalnih vrednosti</span>
 				</div>
 			</td>
 			<?php } ?>

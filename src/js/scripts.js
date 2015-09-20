@@ -5,8 +5,8 @@ $(function() {
 		
 		var parameterList = $('#parameterList');
 		var selectedParameter = parameterList.find(':selected');
+		var dataType = selectedParameter.data('type');
 		var selectedParameterId = selectedParameter.val();
-		
 		if (selectedParameterId == 0) {
 			return false;
 		}
@@ -23,6 +23,14 @@ $(function() {
 		newRow.find('.paramTimeUnit').attr('name', 'params[' + selectedParameterId + '][time_unit]');
 		newRow.find('.paramComment').attr('name', 'params[' + selectedParameterId + '][comment]');
 		newRow.find('.paramMandatory').attr('name', 'params[' + selectedParameterId + '][mandatory]');
+		newRow.find('.paramValidLow').attr('name', 'params[' + selectedParameterId + '][valid_range_low]');
+		newRow.find('.paramValidHigh').attr('name', 'params[' + selectedParameterId + '][valid_range_high]');
+		newRow.find('.paramRefLow').attr('name', 'params[' + selectedParameterId + '][ref_range_low]');
+		newRow.find('.paramRefHigh').attr('name', 'params[' + selectedParameterId + '][ref_range_high]');
+		
+		if (dataType != 1 && dataType != 2) {
+			newRow.find('.validRef').hide();
+		}
 		
 		newRow.removeAttr('id');
 		newRow.show();
@@ -239,7 +247,13 @@ $(function() {
 			var mandatory = idInput.data('mandatory');
 			if (mandatory == 1 && value == '') {
 				validRow = false;
-				row.find('.task_warn_row').show();
+				row.find('.task_warn_row_mand').show();
+			}
+			var validLow = idInput.data('validLow');
+			var validHigh = idInput.data('validHigh');
+			if (validLow && value != '' && (value < validLow || value > validHigh)) {
+				validRow = false;
+				row.find('.task_warn_row_valid').show();
 			}
 			
 			if (validRow) {

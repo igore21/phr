@@ -189,7 +189,8 @@ class DB {
 		$db = self::getDB();
 		$stm = $db->prepare('
 			select *
-			from assignment_parameter
+			from assignment_parameter ap
+				inner join parameter p on p.id = ap.parameter_id
 			where assignment_id = :assignment_id
 		');
 		$stm->bindParam(':assignment_id', $assignmentId);
@@ -222,7 +223,7 @@ class DB {
 	public static function attachParametersToAssignment($parameters, $assignmentId) {
 		$db = self::getDB();
 	
-		$paramPlaceholders = implode(', ', array_fill(0, count($parameters), '(?, ?, ?, ?, ?, ?)'));
+		$paramPlaceholders = implode(', ', array_fill(0, count($parameters), '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'));
 		$stm = $db->prepare('
 			INSERT INTO assignment_parameter (
 				assignment_id,
@@ -230,12 +231,16 @@ class DB {
 				execute_after,
 				time_unit,
 				comment,
-				mandatory
+				mandatory,
+				valid_range_low,
+				valid_range_high,
+				ref_range_low,
+				ref_range_high
 			)
 			VALUES ' . $paramPlaceholders
 		);
 	
-		$numOfCol = 6;
+		$numOfCol = 10;
 		$index = 0;
 		foreach ($parameters as $id => $param) {
 			$stm->bindValue($numOfCol * $index + 1, $assignmentId);
@@ -244,6 +249,10 @@ class DB {
 			$stm->bindValue($numOfCol * $index + 4, $param['time_unit']);
 			$stm->bindValue($numOfCol * $index + 5, $param['comment']);
 			$stm->bindValue($numOfCol * $index + 6, $param['mandatory']);
+			$stm->bindValue($numOfCol * $index + 7, (!empty($param['valid_range_low']) ? $param['valid_range_low'] : null));
+			$stm->bindValue($numOfCol * $index + 8, (!empty($param['valid_range_high']) ? $param['valid_range_high'] : null));
+			$stm->bindValue($numOfCol * $index + 9, (!empty($param['ref_range_low']) ? $param['ref_range_low'] : null));
+			$stm->bindValue($numOfCol * $index + 10, (!empty($param['ref_range_high']) ? $param['ref_range_high'] : null));
 			$index++;
 		}
 	
@@ -371,6 +380,10 @@ class DB {
 				data.*,
 				ap.comment,
 				ap.mandatory,
+				ap.valid_range_low,
+				ap.valid_range_high,
+				ap.ref_range_low,
+				ap.ref_range_high,
 				p.measure_unit
 			FROM assignment as ass
 				INNER JOIN data ON data.assignment_id = ass.id

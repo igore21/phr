@@ -62,7 +62,7 @@ $isNewAssignment = $assignment['assignment_id'] == 0;
 $allParameters = DB::getAllParameters();
 
 $scheduledData = getScheduledTasks($assignment, $allParameters, $isNewAssignment);
-if ($scheduledData == null) redirect('index.php');
+if ($scheduledData == null) redirect('/index.php');
 
 try {
 	if ($isNewAssignment) {

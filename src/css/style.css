@@ -47,15 +47,19 @@
 
 .param_col_name { width: 150px; }
 .param_col_mand { width: 50px; }
-.param_col_execute { width: 200px; }
-.param_col_mesure_unite { width: 100px; }
-.param_col_unite { width: 200px; }
+.param_col_execute { width: 150px; }
+.param_col_mesure_unit { width: 100px; }
+.param_col_unit { width: 100px; }
+.param_col_valid { min-width: 150px; }
+.param_col_ref { min-width: 150px; }
+.param_col_comment { min-width: 100px; }
 .param_col_remove { width: 60px; }
 
 .paramMandatoryCol { text-align: center; }
+.paramInput { width: 70px; }
 
 .dataResult { margin-left: 50px; }
-.valueComment { width: 270px; }
+.valueComment { min-width: 270px; }
 
 .dataRow {
 	width: 90%;

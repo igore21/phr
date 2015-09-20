@@ -15,6 +15,7 @@ $assignment['params'][] = array(
 	'measure_unit' => '',
 	'comment' => '',
 	'mandatory' => 0,
+	'data_type' => 0,
 );
 
 $errorMsg = '';
@@ -80,7 +81,9 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 					<select class="ass-choose-area" id="parameterList" name="params">
 						<option selected="selected" value="0">Izaberite parametar</option>
 						<?php foreach ($allParameters as $index => $param) {?>
-							<option value="<?php echo $param['id'];?>" data-measure-unit="<?php echo (!empty($param['measure_unit']) ? $param['measure_unit'] : '/'); ?>">
+							<option value="<?php echo $param['id'];?>"
+								data-type="<?php echo $param['data_type']; ?>"
+								data-measure-unit="<?php echo (!empty($param['measure_unit']) ? $param['measure_unit'] : '/'); ?>">
 								<?php echo $param['name'];?>
 							</option>
 						<?php }?>
@@ -94,44 +97,91 @@ $assignment['end_time'] = substr($assignment['end_time'], 0, 10);
 					<table class="table">
 						<thead>
 							<th class="param_col_name">Naziv</th>
-							<th class="param_col_mand">Obavezan</th>
+							<th class="param_col_mand">Obav.</th>
 							<th class="param_col_execute">Izvrsavati na svakih</th>
-							<th class="param_col_unite">Vremenska jedinica</th>
-							<th class="param_col_mesure_unite">Merna jedinica</th>
+							<th class="param_col_unit">Vremenska jedinica</th>
+							<th class="param_col_mesure_unit">Merna jedinica</th>
+							<th class="param_col_valid">Opseg validnih vrednosti</th>
+							<th class="param_col_ref">Opseg referentnih vrednosti</th>
 							<th class="param_col_comment">Komentar</th>
 							<th class="param_col_remove"></th>
 						</thead>
-						<?php foreach ($assignment['params'] as $param) { ?>
+						<?php foreach ($assignment['params'] as $param) { //var_dump($param); ?>
+						<?php $param['show_validRef'] = (true ? true : false);?>
 						<tr class="parameterElem" <?php if ($param['parameter_id'] == 0) echo 'id="templateParameter" style="display: none;"'; ?>>
 							<input type="hidden" class="paramId" name="params[<?php echo $param['parameter_id']; ?>][parameter_id]" value="<?php echo $param['parameter_id']?>"></input>
-							<th>
+							<td>
 								<span class="paramName">
 									<?php if (isset($allParameters[$param['parameter_id']]['name'])) echo $allParameters[$param['parameter_id']]['name']; ?>
 								</span>
-							</th>
-							<th class="paramMandatoryCol">
+							</td>
+							<td class="paramMandatoryCol">
 								<input class="paramMandatory" value="1" name="params[<?php echo $param['parameter_id']; ?>][mandatory]" type="checkbox" <?php if ($param['mandatory'] == 1) echo 'checked'; ?>/>
-							</th>
-							<th><input class="paramExecuteAfter" type="number" min="1" name="params[<?php echo $param['parameter_id']; ?>][execute_after]" value="<?php echo $param['execute_after']?>" style="width: 100px;"></th>
-							<th>
-								<select class="ass-choose-area paramTimeUnit" name="params[<?php echo $param['parameter_id']; ?>][time_unit]">
+							</td>
+							<td><input class="paramInput paramExecuteAfter" type="number" min="1" name="params[<?php echo $param['parameter_id']; ?>][execute_after]" value="<?php echo $param['execute_after']?>"></th>
+							<td>
+								<select class="paramTimeUnit ass-choose-area" name="params[<?php echo $param['parameter_id']; ?>][time_unit]" style="width: 100px;">
 									<?php foreach ($assignment['all_periods'] as $periodId => $periodName) {?>
 									<option value="<?php echo $periodId;?>" <?php if ($periodId == $param['time_unit']) {echo 'selected="selected"';} ?>>
 										<?php echo $periodName; ?>
 									</option>
 									<?php }?>
 								</select>
-							</th>
-							<th>
+							</td>
+							<td style="text-align: center;">
 								<?php $measureUnit = isset($allParameters[$param['parameter_id']]) ? $allParameters[$param['parameter_id']]['measure_unit'] : ''; ?>
 								<span class="paramMeasureUnit"><?php echo (!empty($measureUnit) ? $measureUnit : '/'); ?></span>
-							</th>
-							<th>
-								<textarea class="ass-text-area paramComment" type="text" name="params[<?php echo $param['parameter_id']; ?>][comment]"><?php echo $param['comment']?></textarea>
-							</th>
-							<th>
+							</td>
+							<td>
+								<?php if ($param['data_type'] == 0 || $param['data_type'] == 1 || $param['data_type'] == 2) { ?>
+								<div class="validRef">
+								<div>
+									<span>Gornja: </span>
+									<span>
+										<input class="paramInput paramValidHigh" type="number" step="0.01"
+										name="params[<?php echo $param['parameter_id']; ?>][valid_range_high]"
+										value="<?php echo $param['valid_range_high']?>">
+									</span>
+								</div>
+								<div>
+									<span>Donja: </span>
+									<span>
+										<input class="paramInput paramValidLow" type="number" step="0.01"
+										name="params[<?php echo $param['parameter_id']; ?>][valid_range_low]"
+										value="<?php echo $param['valid_range_low']?>">
+									</span>
+								</div>
+								</div>
+								<?php } ?>
+							</td>
+							<td>
+								<?php if ($param['data_type'] == 0 || $param['data_type'] == 1 || $param['data_type'] == 2) { ?>
+								<div class="validRef">
+								<div>
+									<span>Gornja: </span>
+									<span>
+										<input class="paramInput paramRefHigh" type="number" step="0.01"
+										name="params[<?php echo $param['parameter_id']; ?>][ref_range_high]"
+										value="<?php echo $param['ref_range_high']?>">
+									</span>
+								</div>
+								<div>
+									<span>Donja: </span>
+									<span>
+										<input class="paramInput paramRefLow" type="number" step="0.01"
+										name="params[<?php echo $param['parameter_id']; ?>][ref_range_low]"
+										value="<?php echo $param['ref_range_low']?>">
+									</span>
+								</div>
+								</div>
+								<?php } ?>
+							</td>
+							<td>
+								<textarea class="ass-text-area paramComment" type="text" style="width: 300px;" name="params[<?php echo $param['parameter_id']; ?>][comment]"><?php echo $param['comment']?></textarea>
+							</td>
+							<td>
 								<a class="btn btn-default removeParameter" href="#">x</a>
-							</th>
+							</td>
 						</tr>
 						<?php } ?>
 					</table>
