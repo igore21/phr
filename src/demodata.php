@@ -27,16 +27,15 @@ DB::cleanEverything();
 $temp = array(
 	'parameter_id' => 5, 'mandatory' => 1, 'execute_after' => 12, 'time_unit' => 1,
 	'comment' => 'Meriti temperaturu ujutru i uvece.',
-	'valid_range_low' => 34, 'valid_range_high' => 45,
-	'ref_range_low' => 37, 'ref_range_high' => 45,
+	'valid_range_low' => 35, 'valid_range_high' => 45, 'ref_range_high' => 37,
 );
 $antib = array(
 	'parameter_id' => 2, 'mandatory' => 1, 'execute_after' => 8, 'time_unit' => 1,
-	'comment' => 'Piti cefaleksin na 8 sati.',
+	'comment' => 'Piti cefaleksin posle obroka.',
 );
 $mucnina = array(
-	'parameter_id' => 10, 'mandatory' => 0, 'execute_after' => 8, 'time_unit' => 1,
-	'comment' => 'Upisati osecaj mucnine posle svakog obroka',
+	'parameter_id' => 10, 'mandatory' => 0, 'execute_after' => 1, 'time_unit' => 2,
+	'comment' => 'Upisati osecaj mucnine pre spavanja',
 );
 
 
@@ -65,7 +64,7 @@ $ass = array(
 	'name' => 'Stomacni virus', 'description' => 'Uobicajeni simptomi stomacnog virusa',
 	'start_time' => (new DateTime())->sub(new DateInterval('P20D'))->format('y-m-d'),
 	'end_time' => (new DateTime())->sub(new DateInterval('P15D'))->format('y-m-d'),
-	'params' => array($mucnina),
+	'params' => array($mucnina, $temp),
 );
 $ass['assignment_id'] = DB::createAssignment($ass);
 DB::insertAssignmentData(getScheduledTasks($ass, $allParameters));
